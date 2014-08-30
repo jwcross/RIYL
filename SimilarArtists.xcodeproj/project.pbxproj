@@ -16,6 +16,7 @@
 		AB44F27119B123560094722E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB44F26F19B123560094722E /* Main.storyboard */; };
 		AB44F27319B123560094722E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB44F27219B123560094722E /* Images.xcassets */; };
 		AB44F27F19B123560094722E /* SimilarArtistsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F27E19B123560094722E /* SimilarArtistsTests.m */; };
+		AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F29119B17CF40094722E /* LastfmAPIClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,8 @@
 		AB44F27819B123560094722E /* SimilarArtistsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimilarArtistsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB44F27D19B123560094722E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB44F27E19B123560094722E /* SimilarArtistsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimilarArtistsTests.m; sourceTree = "<group>"; };
+		AB44F29019B17CF40094722E /* LastfmAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastfmAPIClient.h; sourceTree = "<group>"; };
+		AB44F29119B17CF40094722E /* LastfmAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastfmAPIClient.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,8 @@
 				AB44F28D19B123FB0094722E /* Library */,
 				AB44F28A19B123C90094722E /* Support */,
 				AB44F25F19B123560094722E /* Supporting Files */,
+				AB44F29019B17CF40094722E /* LastfmAPIClient.h */,
+				AB44F29119B17CF40094722E /* LastfmAPIClient.m */,
 			);
 			path = SimilarArtists;
 			sourceTree = "<group>";
@@ -330,6 +335,7 @@
 			files = (
 				AB44F26E19B123560094722E /* DetailViewController.m in Sources */,
 				AB44F26B19B123560094722E /* MasterViewController.m in Sources */,
+				AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */,
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "MasterViewController.h"
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 @interface AppDelegate ()
 
@@ -22,6 +23,8 @@
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     MasterViewController *controller = (MasterViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
+    
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     return YES;
 }
 

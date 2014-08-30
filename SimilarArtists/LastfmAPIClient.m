@@ -25,12 +25,10 @@ NSString * const kLastfmBaseURL = @"http://ws.audioscrobbler.com/2.0/";
 - (instancetype)initWithBaseURL:(NSURL *)url {
     
     self = [super initWithBaseURL:url];
-    if (!self) {
-        return nil;
+    if (self) {
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        self.requestSerializer = [AFJSONRequestSerializer serializer];
     }
-    
-    self.responseSerializer = [AFJSONResponseSerializer serializer];
-    self.requestSerializer = [AFJSONRequestSerializer serializer];
     return self;
 }
 
@@ -39,8 +37,21 @@ NSString * const kLastfmBaseURL = @"http://ws.audioscrobbler.com/2.0/";
                        autocorrect:(BOOL)autocorrect
                            success:(void (^)(NSURLSessionDataTask *, id))success
                            failure:(void (^)(NSURLSessionDataTask *, NSError *))failure {
-    NSLog(@"getSimilarArtistsForArtist");
     
+    [self GET:kLastfmBaseURL
+   parameters:@{ @"method":@"artist.getSimilar",
+                 @"format":@"json",
+                 @"api_key":kLastfmAPIKey,
+                 @"artist":artistString,
+                 @"autocorrect":(autocorrect? @1 : @0),
+                 @"limit":@(limit)}
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          NSLog(@"Success -- %@", responseObject);
+          
+      } failure:^(NSURLSessionDataTask *task, NSError *error) {
+          NSLog(@"Failure -- %@", error);
+          
+      }];
 }
 
 @end

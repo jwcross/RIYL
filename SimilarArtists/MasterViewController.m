@@ -19,10 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // edit button
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
-    self.navigationItem.rightBarButtonItem = addButton;
+    
+    // add button
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                              target:self action:nil];
     
     LastfmAPIClient *client = [LastfmAPIClient sharedClient];
     [client getSimilarArtistsForArtist:@"Nujabes" limit:20 autocorrect:YES

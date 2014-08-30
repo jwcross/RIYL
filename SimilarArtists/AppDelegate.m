@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "MasterViewController.h"
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 @interface AppDelegate ()
@@ -25,6 +26,10 @@
     controller.managedObjectContext = self.managedObjectContext;
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    // Setup CoreData with MagicalRecord
+    [MagicalRecord setupCoreDataStack];
+    
     return YES;
 }
 

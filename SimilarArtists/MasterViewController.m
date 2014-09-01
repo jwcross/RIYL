@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "LastfmAPIClient.h"
 
 @interface MasterViewController ()
 
@@ -17,11 +18,22 @@
             
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    // edit button
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:nil];
-    self.navigationItem.rightBarButtonItem = addButton;
+    
+    // add button
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                              target:self action:nil];
+    
+    LastfmAPIClient *client = [LastfmAPIClient sharedClient];
+    [client getSimilarArtistsForArtist:@"Nujabes" limit:20 autocorrect:YES
+                               success:^(NSURLSessionDataTask *task, id responseObject) {
+                                   NSLog(@"Success -- %@", responseObject);
+                               } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                   NSLog(@"Failure -- %@", error);
+                               }];
 }
 
 @end

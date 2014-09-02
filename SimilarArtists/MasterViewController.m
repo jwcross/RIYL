@@ -63,14 +63,40 @@
     
     return cell;
 }
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
 
 #pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Artist *artistToRemove = self.artists[indexPath.row];
+        /* todo! Remove Image from local documents
+        if (artistToRemove.artistDetails.image) {
+            [ImageSaver deleteImageAtPath:artistToRemove.artistDetails.image];
+        } */
+        // Deleting an Entity with MagicalRecord
+        [artistToRemove deleteEntity];
+        [self saveContext];
+        [self.artists removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                              withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
 
 #pragma mark - Private helper methods
 
 -(void)fetchAllArtists {
     // Fetch entities with MagicalRecord, sorted by ascending name
     self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+}
+
+-(void)saveContext {
+    [[NSManagedObjectContext defaultContext] saveToPersistentStoreAndWait];
 }
 
 @end

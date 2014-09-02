@@ -16,11 +16,22 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * mbid;
 @property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSSet *images;
+@property (nonatomic, retain) NSString * bio;
+@property (nonatomic, retain) NSOrderedSet *images;
 
-- (void)addImage:(Image *)value;
-- (void)removeImage:(Image *)value;
-- (void)addImages:(NSSet *)values;
-- (void)removeImages:(NSSet *)values;
+@end
+
+@interface Artist (CoreDataGeneratedAccessors)
+
+- (void)insertObject:(NSManagedObject *)value inImagesAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromImageAtIndex:(NSUInteger)idx;
+- (void)insertImages:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removeImagesAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInImagesAtIndex:(NSUInteger)idx withObject:(NSManagedObject *)value;
+- (void)replaceImagesAtIndexes:(NSIndexSet *)indexes withImages:(NSArray *)values;
+- (void)addImagesObject:(NSManagedObject *)value;
+- (void)removeImagesObject:(NSManagedObject *)value;
+- (void)addImages:(NSOrderedSet *)values;
+- (void)removeImages:(NSOrderedSet *)values;
 
 @end

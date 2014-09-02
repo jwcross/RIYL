@@ -14,12 +14,14 @@
 @dynamic name;
 @dynamic mbid;
 @dynamic url;
+@dynamic bio;
 @dynamic images;
 
-//+(instancetype)createArtistWithName:(NSString *)name {
-//    Artist *artist = [Artist createEntity];
-//    artist.name = name;
-//    return artist;
-//}
+-(void)addImagesObject:(NSManagedObject *)value {
+    // Create a mutable set with the existing objects, add the new object, update relationship
+    NSMutableOrderedSet *images = [[NSMutableOrderedSet alloc] initWithOrderedSet:self.images];
+    [images addObject:value];
+    self.images = images;
+}
 
 @end

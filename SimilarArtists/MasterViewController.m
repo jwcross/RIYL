@@ -58,13 +58,8 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
  forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Artist *artistToRemove = self.artists[indexPath.row];
-        /* todo! Remove Images from local documents
-        if (artistToRemove.artistDetails.image) {
-            [ImageSaver deleteImageAtPath:artistToRemove.artistDetails.image];
-        } */
         // Deleting an Entity with MagicalRecord
-        [artistToRemove deleteEntity];
+        [self.artists[indexPath.row] deleteEntity];
         [self saveContext];
         [self.artists removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath]

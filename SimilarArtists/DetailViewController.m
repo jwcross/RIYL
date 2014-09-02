@@ -7,8 +7,12 @@
 //
 
 #import "DetailViewController.h"
+#import "LastfmAPIClient.h"
+#import "Image.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
-@interface DetailViewController ()
+@interface DetailViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 
 @end
 
@@ -19,19 +23,29 @@
 -(void)viewDidLoad {
     // 1. If there is no artist, create new Artist
     if (!self.artist) {
-        self.artist = [Artist createEntity];
-        [self.artistNameField becomeFirstResponder];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Artist" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert textFieldAtIndex:0].delegate = self;
+        [alert show];
     }
-    // 2. If there are no artist details, create new ArtistDetails
-    // todo!
+    // 2. If we have an artist, but no details, fetch from API
+    else if (!self.artist.mbid) {
+        [self getArtist:self.artist.name];
+    }
     
     // View setup
     // 3. Set the title, name, details field of the Artist
     self.title = self.artist.name ? self.artist.name : @"New Artist";
-    self.artistNameField.text = self.artist.name;
+    self.artistDetailsView.text = self.artist.bio;
     
-    // 4. Set delegates
-    self.artistNameField.delegate = self;
+    // 4. If there is an image url, show it
+    if (self.artist.images.count > 0) {
+        // Image setup
+        NSString *urlString = [[self.artist.images lastObject] text];
+        [self.artistImage setImageWithURL:[NSURL URLWithString:urlString]];
+    }
+    
+    // 5. Set delegates
     self.artistDetailsView.delegate = self;
 }
 
@@ -52,6 +66,27 @@
 
 #pragma mark - Private methods
 
+-(void)saveArtistForResponse:(NSDictionary*)artistDict {
+    if (!self.artist) {
+        self.artist = [Artist createEntity];
+    }
+    
+    self.artist.name = artistDict[@"name"];
+    self.artist.mbid = artistDict[@"mbid"];
+    self.artist.bio = artistDict[@"bio"][@"content"];
+    
+    if ([artistDict[@"image"] count] > 0) {
+        Image *image = [Image createEntity];
+        image.text = [artistDict[@"image"] lastObject][@"#text"];
+        image.size = [artistDict[@"image"] lastObject][@"size"];
+        image.artist = self.artist;
+        
+        [self.artist addImagesObject:image];
+    }
+    
+    [self refreshView];
+}
+
 -(void)saveContext {
     [[NSManagedObjectContext defaultContext]
      saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
@@ -63,14 +98,54 @@
     }];
 }
 
--(IBAction)didFinishEditingArtist:(id)sender {
-    [self.artistNameField resignFirstResponder];
-}
+#pragma mark - UITextFieldDelegate
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField.text.length > 0) {
         self.title = textField.text;
         self.artist.name = textField.text;
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    // cancel?
+    if (buttonIndex == 0) {
+        [self cancelAdd];
+    // ok
+    } else if (buttonIndex == 1) {
+        UITextField *field = [alertView textFieldAtIndex:0];
+        [self getArtist:field.text];
+    }
+}
+
+#pragma - Private helper methods
+
+-(void)getArtist:(NSString*)artistName {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading artist";
+    
+    // get artist details
+    LastfmAPIClient *api = [LastfmAPIClient sharedClient];
+    [api getInfoForArtist:artistName autocorrect:YES
+                  success:^(NSURLSessionDataTask *task, id responseObject) {
+                      NSLog(@"Success -- %@", responseObject);
+                      [hud hide:YES];
+                      [self saveArtistForResponse:responseObject[@"artist"]];
+                      
+                  } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                      NSLog(@"Failure -- %@", error.description);
+                      [hud hide:YES];
+                  }];
+}
+
+-(void)refreshView {
+    self.title = self.artist.name;
+    self.artistDetailsView.text = self.artist.bio;
+    
+    if (self.artist.images.count > 0) {
+        NSString *url = [[self.artist.images lastObject] text];
+        [self.artistImage setImageWithURL:[NSURL URLWithString:url]];
     }
 }
 

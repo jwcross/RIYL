@@ -14,6 +14,7 @@
 @dynamic name;
 @dynamic mbid;
 @dynamic url;
+@dynamic bio;
 @dynamic images;
 
 -(void)addImagesObject:(NSManagedObject *)value {

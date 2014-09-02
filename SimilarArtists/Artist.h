@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * mbid;
 @property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSString * bio;
 @property (nonatomic, retain) NSOrderedSet *images;
 
 @end

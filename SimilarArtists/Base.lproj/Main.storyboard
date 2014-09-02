@@ -82,40 +82,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Artist Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tHl-3l-ZRS">
-                                <rect key="frame" x="16" y="72" width="568" height="24"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="didFinishEditingArtist:" destination="Ah7-4n-0Wa" eventType="editingDidEndOnExit" id="gUp-cJ-29e"/>
-                                </connections>
-                            </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3QN-Q7-wvh">
-                                <rect key="frame" x="16" y="104" width="568" height="192"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="192" id="qQ8-Cb-Pvs"/>
-                                </constraints>
-                            </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CGb-qT-aaP">
-                                <rect key="frame" x="16" y="304" width="568" height="186"/>
+                                <rect key="frame" x="16" y="272" width="568" height="320"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="186" id="EV7-Tk-cw0"/>
-                                </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3QN-Q7-wvh">
+                                <rect key="frame" x="16" y="72" width="568" height="192"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="192" id="qQ8-Cb-Pvs"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3QN-Q7-wvh" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="6hl-Ws-fe5"/>
                             <constraint firstItem="CGb-qT-aaP" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="FS9-YG-6W3"/>
-                            <constraint firstItem="tHl-3l-ZRS" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="FeC-1V-MXF"/>
-                            <constraint firstItem="3QN-Q7-wvh" firstAttribute="top" secondItem="tHl-3l-ZRS" secondAttribute="bottom" constant="8" id="JKt-7Z-ols"/>
-                            <constraint firstItem="tHl-3l-ZRS" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="aW5-7p-T4d"/>
+                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="CGb-qT-aaP" secondAttribute="bottom" constant="8" id="Jwx-Br-OOI"/>
+                            <constraint firstItem="3QN-Q7-wvh" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" symbolic="YES" id="f8b-um-V5n"/>
                             <constraint firstItem="CGb-qT-aaP" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="kT7-yU-wsx"/>
-                            <constraint firstItem="tHl-3l-ZRS" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" id="sjF-Ot-Tg7"/>
                             <constraint firstItem="CGb-qT-aaP" firstAttribute="top" secondItem="3QN-Q7-wvh" secondAttribute="bottom" constant="8" id="xPe-ad-u0l"/>
                             <constraint firstItem="3QN-Q7-wvh" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="xYF-W2-XZa"/>
                         </constraints>
@@ -124,7 +111,6 @@
                     <connections>
                         <outlet property="artistDetailsView" destination="CGb-qT-aaP" id="SGJ-VW-jte"/>
                         <outlet property="artistImage" destination="3QN-Q7-wvh" id="8fD-AS-wxd"/>
-                        <outlet property="artistNameField" destination="tHl-3l-ZRS" id="Vo4-nd-vpR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>

@@ -13,7 +13,6 @@
 
 @property (strong, nonatomic) Artist *artist;
 @property (weak, nonatomic) IBOutlet UIImageView *artistImage;
-@property (weak, nonatomic) IBOutlet UITextField *artistNameField;
 @property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 
 -(void)cancelAdd;

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SimilarArtists-MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SimilarArtists-MagicalRecord.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>11DB1EF7A32B434183B2109E</key>
+		<key>00B9B3C44B884065BC4A0AF3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A109FA9B7CF642E89F9C4506</key>
+		<key>2ABD12E696E04B279A82C779</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EE14BF043B054EE6AF043486</key>
+		<key>85631149B009417C911CF312</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C38122488544457CA6A19D6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

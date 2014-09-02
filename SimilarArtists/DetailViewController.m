@@ -20,6 +20,7 @@
     // 1. If there is no artist, create new Artist
     if (!self.artist) {
         self.artist = [Artist createEntity];
+        [self.artistNameField becomeFirstResponder];
     }
     // 2. If there are no artist details, create new ArtistDetails
     // todo!
@@ -27,6 +28,11 @@
     // View setup
     // 3. Set the title, name, details field of the Artist
     self.title = self.artist.name ? self.artist.name : @"New Artist";
+    self.artistNameField.text = self.artist.name;
+    
+    // 4. Set delegates
+    self.artistNameField.delegate = self;
+    self.artistDetailsView.delegate = self;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -55,6 +61,17 @@
              NSLog(@"Error saving artist: %@", error.description);
          }
     }];
+}
+
+-(IBAction)didFinishEditingArtist:(id)sender {
+    [self.artistNameField resignFirstResponder];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField.text.length > 0) {
+        self.title = textField.text;
+        self.artist.name = textField.text;
+    }
 }
 
 @end

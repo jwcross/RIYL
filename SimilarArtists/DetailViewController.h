@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Artist.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) Artist *artist;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *artistImage;
+@property (weak, nonatomic) IBOutlet UITextField *artistNameField;
+@property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 
 -(void)cancelAdd;
 -(void)addNewArtist;

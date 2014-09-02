@@ -46,11 +46,36 @@ NSString * const kLastfmBaseURL = @"http://ws.audioscrobbler.com/2.0/";
                  @"autocorrect":(autocorrect? @1 : @0),
                  @"limit":@(limit)}
       success:^(NSURLSessionDataTask *task, id responseObject) {
-          NSLog(@"Success -- %@", responseObject);
-          
+          if (success) {
+              success(task, responseObject);
+          }
       } failure:^(NSURLSessionDataTask *task, NSError *error) {
-          NSLog(@"Failure -- %@", error);
-          
+          if (failure) {
+              failure(task, error);
+          }
+      }];
+}
+
+-(void)getInfoForArtist:(NSString *)artistString
+            autocorrect:(BOOL)autocorrect
+                success:(void (^)(NSURLSessionDataTask *, id))success
+                failure:(void (^)(NSURLSessionDataTask *, NSError *))failure {
+    
+    [self GET:kLastfmBaseURL
+   parameters:@{ @"method":@"artist.getInfo",
+                 @"format":@"json",
+                 @"api_key":kLastfmAPIKey,
+                 @"artist":artistString,
+                 @"autocorrect":(autocorrect? @1: @0)}
+      success:^(NSURLSessionDataTask *task, id responseObject) {
+          if (success) {
+              success(task, responseObject);
+          }
+      }
+      failure:^(NSURLSessionDataTask *task, NSError *error) {
+          if (failure) {
+              failure(task, error);
+          }
       }];
 }
 

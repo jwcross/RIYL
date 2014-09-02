@@ -13,8 +13,8 @@
 
 @interface Image : NSManagedObject
 
-@property (nonatomic, retain) NSString * text;
-@property (nonatomic, retain) NSString * size;
+@property (nonatomic, retain) NSString *text;
+@property (nonatomic, retain) NSString *size;
 @property (nonatomic, retain) Artist *artist;
 
 @end

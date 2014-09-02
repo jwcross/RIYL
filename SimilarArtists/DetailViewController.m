@@ -7,6 +7,10 @@
 //
 
 #import "DetailViewController.h"
+#import "LastfmAPIClient.h"
+#import "Image.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 @interface DetailViewController ()
 
@@ -19,8 +23,20 @@
 -(void)viewDidLoad {
     // 1. If there is no artist, create new Artist
     if (!self.artist) {
-        self.artist = [Artist createEntity];
-        [self.artistNameField becomeFirstResponder];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.labelText = @"Loading artist";
+        
+        // get artist details
+        [[LastfmAPIClient sharedClient] getInfoForArtist:@"Nujabes" autocorrect:YES
+             success:^(NSURLSessionDataTask *task, id responseObject) {
+                 NSLog(@"Success -- %@", responseObject);
+                 [hud hide:YES];
+                 [self saveArtistForResponse:responseObject[@"artist"]];
+                 
+             } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                 NSLog(@"Failure -- %@", error.description);
+                 [hud hide:YES];
+             }];
     }
     // 2. If there are no artist details, create new ArtistDetails
     // todo!
@@ -52,6 +68,24 @@
 
 #pragma mark - Private methods
 
+-(void)saveArtistForResponse:(NSDictionary*)artistDict {
+    Artist *newArtist = [Artist createEntity];
+    newArtist.name = artistDict[@"name"];
+    newArtist.mbid = artistDict[@"mbid"];
+    
+    if ([artistDict[@"image"] count] > 0) {
+        Image *image = [Image createEntity];
+        image.text = [artistDict[@"image"] lastObject][@"#text"];
+        image.size = [artistDict[@"image"] lastObject][@"size"];
+        image.artist = newArtist;
+        
+        [newArtist addImagesObject:image];
+    }
+    self.artist = newArtist;
+    
+    [self refreshView];
+}
+
 -(void)saveContext {
     [[NSManagedObjectContext defaultContext]
      saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
@@ -71,6 +105,18 @@
     if (textField.text.length > 0) {
         self.title = textField.text;
         self.artist.name = textField.text;
+    }
+}
+
+#pragma - Private helper methods
+
+-(void)refreshView {
+    self.title = self.artist.name;
+    self.artistNameField.text = self.artist.name;
+    
+    if (self.artist.images.count > 0) {
+        NSString *url = [[self.artist.images lastObject] text];
+        [self.artistImage setImageWithURL:[NSURL URLWithString:url]];
     }
 }
 

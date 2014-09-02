@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Artist.h"
 
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) Artist *artist;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+
+-(void)cancelAdd;
+-(void)addNewArtist;
 
 @end
 

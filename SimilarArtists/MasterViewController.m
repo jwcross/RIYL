@@ -28,22 +28,6 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
-    // edit button
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    
-    // add button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                              target:self action:nil];
-    
-//    LastfmAPIClient *client = [LastfmAPIClient sharedClient];
-//    [client getSimilarArtistsForArtist:@"Nujabes" limit:20 autocorrect:YES
-//                               success:^(NSURLSessionDataTask *task, id responseObject) {
-//                                   NSLog(@"Success -- %@", responseObject);
-//                               } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//                                   NSLog(@"Failure -- %@", error);
-//                               }];
 }
 
 #pragma mark - UITableViewDatasource
@@ -69,13 +53,13 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView
+-(void)  tableView:(UITableView *)tableView
 commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-forRowAtIndexPath:(NSIndexPath *)indexPath
+ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Artist *artistToRemove = self.artists[indexPath.row];
-        /* todo! Remove Image from local documents
+        /* todo! Remove Images from local documents
         if (artistToRemove.artistDetails.image) {
             [ImageSaver deleteImageAtPath:artistToRemove.artistDetails.image];
         } */
@@ -85,6 +69,31 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         [self.artists removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                               withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+#pragma mark - Navigation methods
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailViewController *upcoming = segue.destinationViewController;
+    if ([segue.identifier isEqualToString:@"viewArtist"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        Artist *artist = self.artists[indexPath.row];
+        upcoming.artist = artist;
+    } else if ([segue.identifier isEqualToString:@"addArtist"]) {
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
+        cancel.title = @"Cancel";
+        cancel.style = UIBarButtonItemStyleBordered;
+        cancel.target = upcoming;
+        cancel.action = @selector(cancelAdd);
+        upcoming.navigationItem.leftBarButtonItem = cancel;
+        
+        UIBarButtonItem *done = [[UIBarButtonItem alloc] init];
+        done.title = @"Done";
+        done.style = UIBarButtonItemStyleBordered;
+        done.target = upcoming;
+        done.action = @selector(addNewArtist);
+        upcoming.navigationItem.rightBarButtonItem = done;
     }
 }
 

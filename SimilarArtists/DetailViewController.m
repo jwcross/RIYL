@@ -16,31 +16,45 @@
             
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(id)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-            
-        // Update the view.
-        [self configureView];
+-(void)viewDidLoad {
+    // 1. If there is no artist, create new Artist
+    if (!self.artist) {
+        self.artist = [Artist createEntity];
     }
+    // 2. If there are no artist details, create new ArtistDetails
+    // todo!
+    
+    // View setup
+    // 3. Set the title, name, details field of the Artist
+    self.title = self.artist.name ? self.artist.name : @"New Artist";
 }
 
-- (void)configureView {
-    // Update the user interface for the detail item.
-    if (self.detailItem) {
-        self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
-    }
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    // Save context as view disappears.
+    [self saveContext];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
+-(void)cancelAdd {
+    [self.artist deleteEntity];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)addNewArtist {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Private methods
+
+-(void)saveContext {
+    [[NSManagedObjectContext defaultContext]
+     saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+         if (success) {
+             NSLog(@"Artist successfully saved.");
+         } else if (error) {
+             NSLog(@"Error saving artist: %@", error.description);
+         }
+    }];
 }
 
 @end

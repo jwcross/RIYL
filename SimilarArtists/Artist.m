@@ -9,12 +9,17 @@
 #import "Artist.h"
 #import "Image.h"
 
-
 @implementation Artist
 
 @dynamic name;
 @dynamic mbid;
 @dynamic url;
 @dynamic images;
+
+//+(instancetype)createArtistWithName:(NSString *)name {
+//    Artist *artist = [Artist createEntity];
+//    artist.name = name;
+//    return artist;
+//}
 
 @end

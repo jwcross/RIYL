@@ -17,9 +17,6 @@
 @property (nonatomic, retain) NSString * mbid;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSSet *images;
-@end
-
-@interface Artist (CoreDataGeneratedAccessors)
 
 - (void)addImage:(Image *)value;
 - (void)removeImage:(Image *)value;

@@ -1,0 +1,76 @@
+//
+//  ArtistCell.m
+//  SimilarArtists
+//
+//  Created by Jonathan Crossley on 9/2/14.
+//  Copyright (c) 2014 CCS. All rights reserved.
+//
+
+#import <AFNetworking/UIImageView+AFNetworking.h>
+#import "ArtistCell.h"
+
+@implementation ArtistCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        // create a label that renders the artist name
+        _label = [[UITextField alloc] initWithFrame:CGRectNull];
+        _label.textColor = [UIColor whiteColor];
+        _label.font = [UIFont boldSystemFontOfSize:16.0f];
+        _label.backgroundColor = [UIColor clearColor];
+        _label.delegate = self;
+        _label.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+        [self addSubview:_label];
+        
+        // create background image view
+        self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectNull];
+        [self.backgroundView setContentMode:UIViewContentModeScaleAspectFill];
+        
+        // clip to bounds for the image view
+        self.clipsToBounds = YES;
+        
+        // remove the default highlight for selected cells
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    return self;
+}
+
+-(UILabel*)createCueLabel {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectNull];
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont boldSystemFontOfSize:20.0];
+    label.backgroundColor = [UIColor clearColor];
+    return label;
+}
+
+const float LABEL_MARGIN = 12.0f;
+
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    _label.frame = CGRectMake(LABEL_MARGIN, 0, self.bounds.size.width - LABEL_MARGIN,
+                              self.bounds.size.height - LABEL_MARGIN);
+}
+
+#pragma mark - setter
+-(void)setArtist:(Artist *)artist {
+    _artist = artist;
+    _label.text = artist.name;
+    // set background image
+    if (artist.images.count > 0) {
+        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
+        UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
+        [backgroundImage setImageWithURL:imageUrl];
+    }
+}
+
+#pragma mark - UITextFieldDelegate
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    return NO; //todo!
+}
+
+@end

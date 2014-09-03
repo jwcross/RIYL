@@ -12,6 +12,7 @@
 #import "LastfmAPIClient.h"
 #import "Artist.h"
 #import "Image.h"
+#import "ArtistCell.h"
 
 @interface ArtistsTableViewController ()
 @property NSMutableArray *artists;
@@ -30,30 +31,14 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 #pragma mark - UITableViewDatasource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+    ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
                                                             forIndexPath:indexPath];
-    // configure cell
-    Artist *artist = self.artists[indexPath.row];
-    cell.textLabel.text = artist.name;
-    cell.clipsToBounds = YES;
-    
-    // set background image
-    if (artist.images.count > 0) {
-        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.frame];
-        [imageView setContentMode:UIViewContentModeScaleAspectFill];
-        [imageView setImageWithURL:imageUrl];
-        
-        cell.backgroundView = imageView;
-    }
-    
-    // clear text label
-    [cell.textLabel setBackgroundColor:[UIColor clearColor]];
-    
+    cell.artist = self.artists[indexPath.row];
     return cell;
 }
 

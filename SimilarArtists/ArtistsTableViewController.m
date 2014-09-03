@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 CCS. All rights reserved.
 //
 
+#import <AFNetworking/UIImageView+AFNetworking.h>
 #import "ArtistsTableViewController.h"
 #import "DetailViewController.h"
 #import "LastfmAPIClient.h"
 #import "Artist.h"
+#import "Image.h"
 
 @interface ArtistsTableViewController ()
 @property NSMutableArray *artists;
@@ -37,6 +39,20 @@
     // configure cell
     Artist *artist = self.artists[indexPath.row];
     cell.textLabel.text = artist.name;
+    cell.clipsToBounds = YES;
+    
+    // set background image
+    if (artist.images.count > 0) {
+        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.frame];
+        [imageView setContentMode:UIViewContentModeScaleAspectFill];
+        [imageView setImageWithURL:imageUrl];
+        
+        cell.backgroundView = imageView;
+    }
+    
+    // clear text label
+    [cell.textLabel setBackgroundColor:[UIColor clearColor]];
     
     return cell;
 }
@@ -70,7 +86,7 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.0f;
+    return 80.0f;
 }
 
 #pragma mark - Navigation methods

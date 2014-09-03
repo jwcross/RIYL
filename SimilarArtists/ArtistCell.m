@@ -30,6 +30,9 @@
         self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectNull];
         [self.backgroundView setContentMode:UIViewContentModeScaleAspectFill];
         
+        // clear background
+        self.backgroundColor = [UIColor clearColor];
+        
         // clip to bounds for the image view
         self.clipsToBounds = YES;
         

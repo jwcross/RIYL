@@ -31,6 +31,7 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.backgroundColor = [UIColor blackColor];
     [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"Cell"];
 }
 

@@ -1,21 +1,24 @@
 //
-//  MasterViewController.m
+//  ArtistsTableViewController.m
 //  SimilarArtists
 //
 //  Created by Jonathan Crossley on 8/29/14.
 //  Copyright (c) 2014 CCS. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
+#import "ArtistsTableViewController.h"
 #import "DetailViewController.h"
 #import "LastfmAPIClient.h"
 #import "Artist.h"
+#import "Image.h"
+#import "ArtistCell.h"
 
-@interface MasterViewController ()
+@interface ArtistsTableViewController ()
 @property NSMutableArray *artists;
 @end
 
-@implementation MasterViewController
+@implementation ArtistsTableViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -28,27 +31,29 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.backgroundColor = [UIColor blackColor];
+    [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 #pragma mark - UITableViewDatasource
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+                                                            forIndexPath:indexPath];
+    cell.artist = self.artists[indexPath.row];
+    [cell.label setUserInteractionEnabled:NO];
+    return cell;
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.artists.count;
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
-                                                            forIndexPath:indexPath];
-    // configure cell
-    Artist *artist = self.artists[indexPath.row];
-    cell.textLabel.text = artist.name;
-    
-    return cell;
-}
+
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
 
 #pragma mark - UITableViewDelegate
@@ -65,6 +70,14 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
         [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                               withRowAnimation:UITableViewRowAnimationFade];
     }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80.0f;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"viewArtist" sender:nil];
 }
 
 #pragma mark - Navigation methods

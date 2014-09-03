@@ -36,7 +36,8 @@
     // View setup
     // 3. Set the title, name, details field of the Artist
     self.title = self.artist.name ? self.artist.name : @"New Artist";
-    self.artistDetailsView.text = self.artist.bio;
+    self.artistDetailsView.text = self.artist.bio ? [self formatBio:self.artist.bio] : @"";
+    self.artistDetailsView.editable = NO;
     
     // 4. If there is an image url, show it
     if (self.artist.images.count > 0) {
@@ -141,12 +142,39 @@
 
 -(void)refreshView {
     self.title = self.artist.name;
-    self.artistDetailsView.text = self.artist.bio;
+    self.artistDetailsView.text = [self formatBio:self.artist.bio];
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images lastObject] text];
         [self.artistImage setImageWithURL:[NSURL URLWithString:url]];
     }
+}
+
+-(NSString*)formatBio:(NSString*)htmlString {
+    if (!htmlString) {
+        return nil;
+    }
+    
+    // strip html
+    NSRange r;
+    NSString *s = [htmlString copy];
+    while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
+        s = [s stringByReplacingCharactersInRange:r withString:@""];
+    }
+    
+    // trim Creative Commons
+    NSString *creativeCommons = @"User-contributed text is available under the Creative Commons By-SA License "
+                                  "and may also be available under the GNU FDL.";
+    s = [s stringByReplacingOccurrencesOfString:creativeCommons withString:@""];
+    
+    // replace occurances of &quot;
+    s = [s stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
+    
+    // remove "read more on last.fm"
+    NSString *readMore = [NSString stringWithFormat:@"Read more about %@ on Last.fm.", self.artist.name];
+    s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
+    
+    return [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 @end

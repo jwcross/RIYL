@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		28287F628602409F9BD74726 /* libPods-SimilarArtists.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */; };
+		AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2D956A19B6C83900955CF2 /* ArtistCell.m */; };
 		AB44F26219B123560094722E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26119B123560094722E /* main.m */; };
 		AB44F26519B123560094722E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26419B123560094722E /* AppDelegate.m */; };
 		AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */; };
-		AB44F26B19B123560094722E /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26A19B123560094722E /* MasterViewController.m */; };
+		AB44F26B19B123560094722E /* ArtistsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26A19B123560094722E /* ArtistsTableViewController.m */; };
 		AB44F26E19B123560094722E /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26D19B123560094722E /* DetailViewController.m */; };
 		AB44F27119B123560094722E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB44F26F19B123560094722E /* Main.storyboard */; };
 		AB44F27319B123560094722E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB44F27219B123560094722E /* Images.xcassets */; };
@@ -34,14 +35,16 @@
 /* Begin PBXFileReference section */
 		0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimilarArtists.xcconfig"; path = "Pods/Pods-SimilarArtists.xcconfig"; sourceTree = "<group>"; };
 		47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimilarArtists.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB2D956919B6C83900955CF2 /* ArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCell.h; sourceTree = "<group>"; };
+		AB2D956A19B6C83900955CF2 /* ArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCell.m; sourceTree = "<group>"; };
 		AB44F25C19B123560094722E /* SimilarArtists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimilarArtists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB44F26019B123560094722E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB44F26119B123560094722E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AB44F26319B123560094722E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AB44F26419B123560094722E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AB44F26719B123560094722E /* SimilarArtists.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SimilarArtists.xcdatamodel; sourceTree = "<group>"; };
-		AB44F26919B123560094722E /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		AB44F26A19B123560094722E /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		AB44F26919B123560094722E /* ArtistsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtistsTableViewController.h; sourceTree = "<group>"; };
+		AB44F26A19B123560094722E /* ArtistsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArtistsTableViewController.m; sourceTree = "<group>"; };
 		AB44F26C19B123560094722E /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		AB44F26D19B123560094722E /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		AB44F27019B123560094722E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				AB44F26F19B123560094722E /* Main.storyboard */,
+				AB2D956919B6C83900955CF2 /* ArtistCell.h */,
+				AB2D956A19B6C83900955CF2 /* ArtistCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -188,8 +193,8 @@
 		AB44F28C19B123E90094722E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AB44F26919B123560094722E /* MasterViewController.h */,
-				AB44F26A19B123560094722E /* MasterViewController.m */,
+				AB44F26919B123560094722E /* ArtistsTableViewController.h */,
+				AB44F26A19B123560094722E /* ArtistsTableViewController.m */,
 				AB44F26C19B123560094722E /* DetailViewController.h */,
 				AB44F26D19B123560094722E /* DetailViewController.m */,
 			);
@@ -346,11 +351,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB44F26E19B123560094722E /* DetailViewController.m in Sources */,
-				AB44F26B19B123560094722E /* MasterViewController.m in Sources */,
+				AB44F26B19B123560094722E /* ArtistsTableViewController.m in Sources */,
 				AB44F2A919B25F060094722E /* Artist.m in Sources */,
 				AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */,
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
+				AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,
 				AB44F2A619B25F050094722E /* Image.m in Sources */,
 			);

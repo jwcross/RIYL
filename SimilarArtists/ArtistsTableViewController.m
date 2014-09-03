@@ -40,6 +40,7 @@
     ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
                                                             forIndexPath:indexPath];
     cell.artist = self.artists[indexPath.row];
+    [cell.label setUserInteractionEnabled:NO];
     return cell;
 }
 
@@ -73,6 +74,10 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 80.0f;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"viewArtist" sender:nil];
 }
 
 #pragma mark - Navigation methods

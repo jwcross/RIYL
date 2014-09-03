@@ -1,21 +1,21 @@
 //
-//  MasterViewController.m
+//  ArtistsTableViewController.m
 //  SimilarArtists
 //
 //  Created by Jonathan Crossley on 8/29/14.
 //  Copyright (c) 2014 CCS. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "ArtistsTableViewController.h"
 #import "DetailViewController.h"
 #import "LastfmAPIClient.h"
 #import "Artist.h"
 
-@interface MasterViewController ()
+@interface ArtistsTableViewController ()
 @property NSMutableArray *artists;
 @end
 
-@implementation MasterViewController
+@implementation ArtistsTableViewController
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -31,13 +31,6 @@
 }
 
 #pragma mark - UITableViewDatasource
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.artists.count;
-}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
                                                             forIndexPath:indexPath];
@@ -47,8 +40,17 @@
     
     return cell;
 }
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.artists.count;
+}
+
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
 
 #pragma mark - UITableViewDelegate

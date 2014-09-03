@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DetailViewController.h"
-#import "MasterViewController.h"
+#import "ArtistsTableViewController.h"
 #import "Artist.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 

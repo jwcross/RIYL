@@ -69,6 +69,10 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0f;
+}
+
 #pragma mark - Navigation methods
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

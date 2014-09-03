@@ -37,6 +37,7 @@
     // 3. Set the title, name, details field of the Artist
     self.title = self.artist.name ? self.artist.name : @"New Artist";
     self.artistDetailsView.text = self.artist.bio;
+    self.artistDetailsView.editable = NO;
     
     // 4. If there is an image url, show it
     if (self.artist.images.count > 0) {

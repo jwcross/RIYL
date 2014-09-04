@@ -21,6 +21,7 @@
 		AB44F2A619B25F050094722E /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A519B25F050094722E /* Image.m */; };
 		AB44F2A919B25F060094722E /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A819B25F060094722E /* Artist.m */; };
 		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
+		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		AB44F2AC19B26A6A0094722E /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		ABFAE83119B7EE550029CCCB /* SimilarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimilarViewController.h; sourceTree = "<group>"; };
 		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
+		ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
+		ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 				AB44F26F19B123560094722E /* Main.storyboard */,
 				AB2D956919B6C83900955CF2 /* ArtistCell.h */,
 				AB2D956A19B6C83900955CF2 /* ArtistCell.m */,
+				ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */,
+				ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
 				AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */,
+				ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,
 				AB44F2A619B25F050094722E /* Image.m in Sources */,
 			);

@@ -8,6 +8,7 @@
 
 #import "SimilarViewController.h"
 #import "Artist.h"
+#import "ArtistCollectionViewCell.h"
 
 @interface SimilarViewController ()
 @property NSMutableArray *artists;
@@ -28,13 +29,9 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.title = @"Similar Artists";
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
     // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
+    [self.collectionView registerClass:[ArtistCollectionViewCell class]
+            forCellWithReuseIdentifier:reuseIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,9 +55,10 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
+    ArtistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
+                                                                               forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
+    cell.label.text = [self.artists[indexPath.row] name];
     return cell;
 }
 

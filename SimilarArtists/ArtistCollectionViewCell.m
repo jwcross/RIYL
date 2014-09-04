@@ -35,6 +35,9 @@
     _label.textColor = [UIColor whiteColor];
     _label.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.8];
     [_label sizeToFit];
+    
+    // remove placeholder from nib
+    [_image setImage:nil];
 }
 
 #pragma mark - setter

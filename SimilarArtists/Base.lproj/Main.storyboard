@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rS3-R9-Ivy">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
         <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
     </dependencies>
@@ -75,7 +76,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CGb-qT-aaP">
-                                <rect key="frame" x="16" y="208" width="568" height="320"/>
+                                <rect key="frame" x="16" y="208" width="568" height="270"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -87,17 +88,36 @@
                                     <constraint firstAttribute="height" constant="192" id="qQ8-Cb-Pvs"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User-contributed text is available under the Creative Commons By-SA License and may also be available under the GNU FDL." textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yte-Ty-e2P">
+                                <rect key="frame" x="16" y="501" width="568" height="29"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Yte-Ty-e2P" secondAttribute="trailing" id="6J2-LY-OYi"/>
                             <constraint firstItem="3QN-Q7-wvh" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="6hl-Ws-fe5"/>
                             <constraint firstItem="CGb-qT-aaP" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="FS9-YG-6W3"/>
-                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="CGb-qT-aaP" secondAttribute="bottom" constant="8" id="Jwx-Br-OOI"/>
+                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="Yte-Ty-e2P" secondAttribute="bottom" constant="6" id="FuY-WE-xPz"/>
+                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="CGb-qT-aaP" secondAttribute="bottom" constant="58" id="Jwx-Br-OOI"/>
+                            <constraint firstItem="Yte-Ty-e2P" firstAttribute="trailing" secondItem="a0L-h9-sNL" secondAttribute="trailing" id="Myw-a0-28u"/>
                             <constraint firstItem="3QN-Q7-wvh" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" symbolic="YES" id="f8b-um-V5n"/>
+                            <constraint firstItem="Yte-Ty-e2P" firstAttribute="leading" secondItem="a0L-h9-sNL" secondAttribute="leading" id="gJk-8z-zNc"/>
                             <constraint firstItem="CGb-qT-aaP" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="kT7-yU-wsx"/>
+                            <constraint firstItem="Yte-Ty-e2P" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="vjE-WT-Bxw"/>
+                            <constraint firstItem="Yte-Ty-e2P" firstAttribute="width" secondItem="MMQ-IT-qOo" secondAttribute="width" id="wNd-Uk-Uyi"/>
                             <constraint firstItem="CGb-qT-aaP" firstAttribute="top" secondItem="3QN-Q7-wvh" secondAttribute="bottom" constant="8" id="xPe-ad-u0l"/>
                             <constraint firstItem="3QN-Q7-wvh" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="xYF-W2-XZa"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Myw-a0-28u"/>
+                                <exclude reference="gJk-8z-zNc"/>
+                                <exclude reference="wNd-Uk-Uyi"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="cra-N8-TIN">
                         <barButtonItem key="rightBarButtonItem" title="Similar" id="pgd-kS-f6c">
@@ -114,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1289" y="64"/>
+            <point key="canvasLocation" x="1289" y="-35"/>
         </scene>
         <!--Similar View Controller-->
         <scene sceneID="oNe-FJ-l9Y">

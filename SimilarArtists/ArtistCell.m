@@ -67,6 +67,9 @@ const float LABEL_MARGIN = 12.0f;
         NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
         UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
         [backgroundImage setImageWithURL:imageUrl];
+    } else {
+        UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
+        [backgroundImage setImage:nil];
     }
 }
 

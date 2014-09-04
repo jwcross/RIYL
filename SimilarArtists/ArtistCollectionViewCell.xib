@@ -14,10 +14,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="9qR-3l-m8d">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SampleImage" translatesAutoresizingMaskIntoConstraints="NO" id="9qR-3l-m8d">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modest Mouse" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hev-q5-nHw">
+                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modest Mouse" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hev-q5-nHw">
                         <rect key="frame" x="0.0" y="152" width="200" height="47.5"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -33,9 +33,13 @@
                 <nil key="simulatedBottomBarMetrics"/>
             </view>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="9qR-3l-m8d" secondAttribute="trailing" id="56i-kH-SO9"/>
+                <constraint firstItem="9qR-3l-m8d" firstAttribute="leading" secondItem="4fj-dD-uVc" secondAttribute="leading" id="IL2-XB-CNS"/>
                 <constraint firstItem="Hev-q5-nHw" firstAttribute="leading" secondItem="4fj-dD-uVc" secondAttribute="leading" id="WHT-lL-iWA"/>
                 <constraint firstAttribute="trailing" secondItem="Hev-q5-nHw" secondAttribute="trailing" id="ciY-Mk-Ktc"/>
                 <constraint firstAttribute="bottom" secondItem="Hev-q5-nHw" secondAttribute="bottom" id="cje-hb-iT0"/>
+                <constraint firstAttribute="bottom" secondItem="9qR-3l-m8d" secondAttribute="bottom" id="kar-dt-knv"/>
+                <constraint firstItem="9qR-3l-m8d" firstAttribute="top" secondItem="4fj-dD-uVc" secondAttribute="top" id="txh-5H-USy"/>
             </constraints>
             <connections>
                 <outlet property="image" destination="9qR-3l-m8d" id="CfD-It-6ch"/>

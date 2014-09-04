@@ -57,8 +57,7 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     ArtistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                                forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.label.text = [self.artists[indexPath.row] name];
+    cell.artist = self.artists[indexPath.row];
     return cell;
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "ArtistCollectionViewCell.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 @interface ArtistCollectionViewCell ()
 
@@ -28,10 +29,24 @@
     [super awakeFromNib];
     
     // style subviews
+    self.backgroundColor = [UIColor grayColor];
     _label.textColor = [UIColor whiteColor];
     _label.font = [UIFont boldSystemFontOfSize:12.0f];
     _label.numberOfLines = 0;
     [_label sizeToFit];
+}
+
+#pragma mark - setter
+-(void)setArtist:(Artist *)artist {
+    _artist = artist;
+    _label.text = artist.name;
+    // set background image
+    if (artist.images.count > 0) {
+        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
+        [self.image setImageWithURL:imageUrl];
+    } else {
+        [self.image setImage:nil];
+    }
 }
 
 @end

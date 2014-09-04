@@ -7,14 +7,21 @@
 //
 
 #import "SimilarViewController.h"
+#import "Artist.h"
 
 @interface SimilarViewController ()
-
+@property NSMutableArray *artists;
 @end
 
 @implementation SimilarViewController
 
 static NSString * const reuseIdentifier = @"Cell";
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self fetchSimilarArtists];
+    [self.collectionView reloadData];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,52 +42,37 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete method implementation -- Return the number of sections
-    return 0;
+    return 1;
 }
 
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete method implementation -- Return the number of items in the section
-    return 0;
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section
+{
+    return [self.artists count];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    // Configure the cell
-    
+    cell.backgroundColor = [UIColor whiteColor];
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
+#pragma mark - UICollectionViewDelegate
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // todo!
 }
-*/
 
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // todo!
 }
-*/
 
 /*
 // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
@@ -96,5 +88,33 @@ static NSString * const reuseIdentifier = @"Cell";
 	
 }
 */
+
+#pragma mark - UICollectionViewFlowLayoutDelegate
+
+CGFloat CELL_MARGIN = 20.0f;
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout
+ sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // square size for equally-spaced two-column layout
+    CGFloat cellWidth = (self.view.bounds.size.width - 3 * CELL_MARGIN) / 2;
+    return CGSizeMake(cellWidth, cellWidth);
+}
+
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return CELL_MARGIN;
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
+}
+
+#pragma mark - Private helpers
+
+-(void)fetchSimilarArtists {
+    // Fetch entities with MagicalRecord, sorted by ascending name
+    // todo! Update to similar, rather than all
+    self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+}
 
 @end

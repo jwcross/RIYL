@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SimilarViewController : UICollectionViewController
+@interface SimilarViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 
 @end

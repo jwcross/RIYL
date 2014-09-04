@@ -7,14 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28287F628602409F9BD74726 /* libPods-SimilarArtists.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */; };
+		AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2D956A19B6C83900955CF2 /* ArtistCell.m */; };
 		AB44F26219B123560094722E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26119B123560094722E /* main.m */; };
 		AB44F26519B123560094722E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26419B123560094722E /* AppDelegate.m */; };
 		AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */; };
-		AB44F26B19B123560094722E /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26A19B123560094722E /* MasterViewController.m */; };
+		AB44F26B19B123560094722E /* ArtistsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26A19B123560094722E /* ArtistsTableViewController.m */; };
 		AB44F26E19B123560094722E /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26D19B123560094722E /* DetailViewController.m */; };
 		AB44F27119B123560094722E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB44F26F19B123560094722E /* Main.storyboard */; };
 		AB44F27319B123560094722E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB44F27219B123560094722E /* Images.xcassets */; };
 		AB44F27F19B123560094722E /* SimilarArtistsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F27E19B123560094722E /* SimilarArtistsTests.m */; };
+		AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F29119B17CF40094722E /* LastfmAPIClient.m */; };
+		AB44F2A619B25F050094722E /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A519B25F050094722E /* Image.m */; };
+		AB44F2A919B25F060094722E /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A819B25F060094722E /* Artist.m */; };
+		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
+		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
+		ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,21 +36,37 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimilarArtists.xcconfig"; path = "Pods/Pods-SimilarArtists.xcconfig"; sourceTree = "<group>"; };
+		47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimilarArtists.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB2D956919B6C83900955CF2 /* ArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCell.h; sourceTree = "<group>"; };
+		AB2D956A19B6C83900955CF2 /* ArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCell.m; sourceTree = "<group>"; };
 		AB44F25C19B123560094722E /* SimilarArtists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimilarArtists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB44F26019B123560094722E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB44F26119B123560094722E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AB44F26319B123560094722E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AB44F26419B123560094722E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AB44F26719B123560094722E /* SimilarArtists.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SimilarArtists.xcdatamodel; sourceTree = "<group>"; };
-		AB44F26919B123560094722E /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		AB44F26A19B123560094722E /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		AB44F26919B123560094722E /* ArtistsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArtistsTableViewController.h; sourceTree = "<group>"; };
+		AB44F26A19B123560094722E /* ArtistsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArtistsTableViewController.m; sourceTree = "<group>"; };
 		AB44F26C19B123560094722E /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		AB44F26D19B123560094722E /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		AB44F27019B123560094722E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AB44F27219B123560094722E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AB44F27219B123560094722E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SimilarArtists/Images.xcassets; sourceTree = "<group>"; };
 		AB44F27819B123560094722E /* SimilarArtistsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimilarArtistsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB44F27D19B123560094722E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB44F27E19B123560094722E /* SimilarArtistsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimilarArtistsTests.m; sourceTree = "<group>"; };
+		AB44F29019B17CF40094722E /* LastfmAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastfmAPIClient.h; sourceTree = "<group>"; };
+		AB44F29119B17CF40094722E /* LastfmAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastfmAPIClient.m; sourceTree = "<group>"; };
+		AB44F2A419B25F050094722E /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		AB44F2A519B25F050094722E /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		AB44F2A719B25F060094722E /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
+		AB44F2A819B25F060094722E /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
+		AB44F2AC19B26A6A0094722E /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		ABFAE83119B7EE550029CCCB /* SimilarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimilarViewController.h; sourceTree = "<group>"; };
+		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
+		ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
+		ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCollectionViewCell.m; sourceTree = "<group>"; };
+		ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28287F628602409F9BD74726 /* libPods-SimilarArtists.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,12 +88,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C201C7904234603B2C8EDBF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AB44F25319B123560094722E = {
 			isa = PBXGroup;
 			children = (
 				AB44F25E19B123560094722E /* SimilarArtists */,
 				AB44F27B19B123560094722E /* SimilarArtistsTests */,
 				AB44F25D19B123560094722E /* Products */,
+				AB44F28F19B124AD0094722E /* Resources */,
+				9C201C7904234603B2C8EDBF /* Frameworks */,
+				0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,16 +120,15 @@
 		AB44F25E19B123560094722E /* SimilarArtists */ = {
 			isa = PBXGroup;
 			children = (
-				AB44F26319B123560094722E /* AppDelegate.h */,
-				AB44F26419B123560094722E /* AppDelegate.m */,
-				AB44F26919B123560094722E /* MasterViewController.h */,
-				AB44F26A19B123560094722E /* MasterViewController.m */,
-				AB44F26C19B123560094722E /* DetailViewController.h */,
-				AB44F26D19B123560094722E /* DetailViewController.m */,
-				AB44F26F19B123560094722E /* Main.storyboard */,
-				AB44F27219B123560094722E /* Images.xcassets */,
-				AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */,
+				AB44F28B19B123D90094722E /* Application */,
+				AB44F28C19B123E90094722E /* Controllers */,
+				AB44F28919B123C20094722E /* Models */,
+				AB44F28819B123B50094722E /* Views */,
+				AB44F28D19B123FB0094722E /* Library */,
+				AB44F28A19B123C90094722E /* Support */,
 				AB44F25F19B123560094722E /* Supporting Files */,
+				AB44F29019B17CF40094722E /* LastfmAPIClient.h */,
+				AB44F29119B17CF40094722E /* LastfmAPIClient.m */,
 			);
 			path = SimilarArtists;
 			sourceTree = "<group>";
@@ -103,6 +138,7 @@
 			children = (
 				AB44F26019B123560094722E /* Info.plist */,
 				AB44F26119B123560094722E /* main.m */,
+				AB44F2AC19B26A6A0094722E /* PrefixHeader.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -124,6 +160,75 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		AB44F28819B123B50094722E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F26F19B123560094722E /* Main.storyboard */,
+				AB2D956919B6C83900955CF2 /* ArtistCell.h */,
+				AB2D956A19B6C83900955CF2 /* ArtistCell.m */,
+				ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */,
+				ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */,
+				ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AB44F28919B123C20094722E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */,
+				AB44F2A719B25F060094722E /* Artist.h */,
+				AB44F2A819B25F060094722E /* Artist.m */,
+				AB44F2A419B25F050094722E /* Image.h */,
+				AB44F2A519B25F050094722E /* Image.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		AB44F28A19B123C90094722E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		AB44F28B19B123D90094722E /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F26319B123560094722E /* AppDelegate.h */,
+				AB44F26419B123560094722E /* AppDelegate.m */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
+		AB44F28C19B123E90094722E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F26919B123560094722E /* ArtistsTableViewController.h */,
+				AB44F26A19B123560094722E /* ArtistsTableViewController.m */,
+				AB44F26C19B123560094722E /* DetailViewController.h */,
+				AB44F26D19B123560094722E /* DetailViewController.m */,
+				ABFAE83119B7EE550029CCCB /* SimilarViewController.h */,
+				ABFAE83219B7EE550029CCCB /* SimilarViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		AB44F28D19B123FB0094722E /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		AB44F28F19B124AD0094722E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F27219B123560094722E /* Images.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,9 +236,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AB44F28219B123560094722E /* Build configuration list for PBXNativeTarget "SimilarArtists" */;
 			buildPhases = (
+				BBE72FDBB65F48DDA2238602 /* Check Pods Manifest.lock */,
 				AB44F25819B123560094722E /* Sources */,
 				AB44F25919B123560094722E /* Frameworks */,
 				AB44F25A19B123560094722E /* Resources */,
+				2821D78E24384729AB73BBE0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */,
 				AB44F27119B123560094722E /* Main.storyboard in Resources */,
 				AB44F27319B123560094722E /* Images.xcassets in Resources */,
 			);
@@ -218,16 +326,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2821D78E24384729AB73BBE0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-SimilarArtists-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BBE72FDBB65F48DDA2238602 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AB44F25819B123560094722E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */,
 				AB44F26E19B123560094722E /* DetailViewController.m in Sources */,
-				AB44F26B19B123560094722E /* MasterViewController.m in Sources */,
+				AB44F26B19B123560094722E /* ArtistsTableViewController.m in Sources */,
+				AB44F2A919B25F060094722E /* Artist.m in Sources */,
+				AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */,
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
+				AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */,
+				ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,
+				AB44F2A619B25F050094722E /* Image.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,23 +486,36 @@
 		};
 		AB44F28319B123560094722E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SimilarArtists/PrefixHeader.pch;
 				INFOPLIST_FILE = SimilarArtists/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SimilarArtists/SimilarArtists-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		AB44F28419B123560094722E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SimilarArtists/PrefixHeader.pch;
 				INFOPLIST_FILE = SimilarArtists/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SimilarArtists/SimilarArtists-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -412,6 +572,7 @@
 				AB44F28419B123560094722E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB44F28519B123560094722E /* Build configuration list for PBXNativeTarget "SimilarArtistsTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +581,7 @@
 				AB44F28719B123560094722E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

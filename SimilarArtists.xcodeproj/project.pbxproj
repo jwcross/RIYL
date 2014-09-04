@@ -22,6 +22,7 @@
 		AB44F2A919B25F060094722E /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A819B25F060094722E /* Artist.m */; };
 		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
 		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
+		ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
 		ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
 		ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCollectionViewCell.m; sourceTree = "<group>"; };
+		ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				AB2D956A19B6C83900955CF2 /* ArtistCell.m */,
 				ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */,
 				ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */,
+				ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */,
 				AB44F27119B123560094722E /* Main.storyboard in Resources */,
 				AB44F27319B123560094722E /* Images.xcassets in Resources */,
 			);

@@ -29,9 +29,9 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.title = @"Similar Artists";
     
-    // Register cell classes
-    [self.collectionView registerClass:[ArtistCollectionViewCell class]
-            forCellWithReuseIdentifier:reuseIdentifier];
+    // Register cell class
+    UINib *cellNib = [UINib nibWithNibName:@"ArtistCollectionViewCell" bundle:nil];
+    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:reuseIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {

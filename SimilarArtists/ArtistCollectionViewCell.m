@@ -8,29 +8,30 @@
 
 #import "ArtistCollectionViewCell.h"
 
+@interface ArtistCollectionViewCell ()
+
+@property (nonatomic, strong) IBOutlet UIImageView *image;
+
+@end
+
 @implementation ArtistCollectionViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        // create a label that renders the artist name.
-        _label = [[UILabel alloc] initWithFrame:CGRectNull];
-        _label.textColor = [UIColor blackColor];
-        _label.font = [UIFont boldSystemFontOfSize:16.0f];
-        _label.backgroundColor = [UIColor clearColor];
-        [self addSubview:_label];
-        
-        [self setNeedsLayout];
+        // subviews not yet available
     }
     return self;
 }
 
-const float LABEL_MARGIN_CV = 12.0f;
-
--(void)layoutSubviews {
-    [super layoutSubviews];
-    _label.frame = CGRectMake(LABEL_MARGIN_CV, 0, self.bounds.size.width - LABEL_MARGIN_CV,
-                              self.bounds.size.height - LABEL_MARGIN_CV);
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    
+    // style subviews
+    _label.textColor = [UIColor whiteColor];
+    _label.font = [UIFont boldSystemFontOfSize:12.0f];
+    _label.numberOfLines = 0;
+    [_label sizeToFit];
 }
 
 @end

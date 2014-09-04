@@ -16,6 +16,6 @@
 @property (nonatomic) Artist *artist;
 
 // the label used to render the artist name.
-@property (nonatomic, strong, readonly) UILabel *label;
+@property (nonatomic, strong) IBOutlet UILabel *label;
 
 @end

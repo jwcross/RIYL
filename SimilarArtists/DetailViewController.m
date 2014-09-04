@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "SimilarViewController.h"
 #import "LastfmAPIClient.h"
 #import "Image.h"
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -63,6 +64,14 @@
 
 -(void)addNewArtist {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Navigation
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    SimilarViewController *upcoming = segue.destinationViewController;
+    if ([segue.identifier isEqualToString:@"viewSimilar"]) {
+        upcoming.artist = self.artist;
+    }
 }
 
 #pragma mark - Private methods

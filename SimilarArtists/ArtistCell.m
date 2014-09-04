@@ -62,10 +62,13 @@ const float LABEL_MARGIN = 12.0f;
 -(void)setArtist:(Artist *)artist {
     _artist = artist;
     _label.text = artist.name;
+    
+    // clear cached image
+    UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
+    backgroundImage.image = nil;
     // set background image
     if (artist.images.count > 0) {
         NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
-        UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
         [backgroundImage setImageWithURL:imageUrl];
     }
 }

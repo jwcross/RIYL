@@ -30,9 +30,10 @@
     
     // style subviews
     self.backgroundColor = [UIColor grayColor];
-    _label.textColor = [UIColor whiteColor];
     _label.font = [UIFont boldSystemFontOfSize:12.0f];
     _label.numberOfLines = 0;
+    _label.textColor = [UIColor whiteColor];
+    _label.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.8];
     [_label sizeToFit];
 }
 

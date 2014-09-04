@@ -16,4 +16,10 @@
 @dynamic size;
 @dynamic artist;
 
++(Image *)createEntityWithUrl:(NSString *)url {
+    Image *image = [Image createEntity];
+    image.text = url;
+    return image;
+}
+
 @end

@@ -26,6 +26,7 @@
     if (!self.artist) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Artist" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert textFieldAtIndex:0].returnKeyType = UIReturnKeyDone;
         [alert textFieldAtIndex:0].delegate = self;
         [alert show];
     }

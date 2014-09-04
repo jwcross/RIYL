@@ -17,4 +17,6 @@
 @property (nonatomic, retain) NSString *size;
 @property (nonatomic, retain) Artist *artist;
 
++(Image*)createEntityWithUrl:(NSString*)url;
+
 @end

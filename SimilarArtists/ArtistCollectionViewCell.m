@@ -43,7 +43,7 @@
     _label.text = artist.name;
     // set background image
     if (artist.images.count > 0) {
-        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
+        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo?
         [self.image setImageWithURL:imageUrl];
     } else {
         [self.image setImage:nil];

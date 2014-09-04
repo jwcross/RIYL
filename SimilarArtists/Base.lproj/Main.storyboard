@@ -102,7 +102,7 @@
                     <navigationItem key="navigationItem" id="cra-N8-TIN">
                         <barButtonItem key="rightBarButtonItem" title="Similar" id="pgd-kS-f6c">
                             <connections>
-                                <segue destination="ys0-5c-0IF" kind="show" id="EoK-nt-omx"/>
+                                <segue destination="ys0-5c-0IF" kind="show" identifier="viewSimilar" id="EoK-nt-omx"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

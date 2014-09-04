@@ -6,12 +6,14 @@
 //  Copyright (c) 2014 CCS. All rights reserved.
 //
 
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "SimilarViewController.h"
-#import "Artist.h"
 #import "ArtistCollectionViewCell.h"
+#import "LastfmAPIClient.h"
+#import "Image.h"
 
 @interface SimilarViewController ()
-@property NSMutableArray *artists;
+@property NSMutableArray *similarArtists;
 @end
 
 @implementation SimilarViewController
@@ -20,7 +22,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self fetchSimilarArtists];
+    [self getSimilarArtists];
     [self.collectionView reloadData];
 }
 
@@ -34,9 +36,14 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:reuseIdentifier];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    // for now, delete all fetched similar artists (to prevent prior VCs from saving)
+    // todo!
+    for (Artist *artist in self.similarArtists) {
+        [artist deleteEntity];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -49,7 +56,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-    return [self.artists count];
+    return [self.similarArtists count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -57,7 +64,7 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     ArtistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                                forIndexPath:indexPath];
-    cell.artist = self.artists[indexPath.row];
+    cell.artist = self.similarArtists[indexPath.row];
     return cell;
 }
 
@@ -108,10 +115,47 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 
 #pragma mark - Private helpers
 
--(void)fetchSimilarArtists {
-    // Fetch entities with MagicalRecord, sorted by ascending name
-    // todo! Update to similar, rather than all
-    self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+-(void)getSimilarArtists {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading similar artists";
+    
+    // get artist details
+    LastfmAPIClient *api = [LastfmAPIClient sharedClient];
+    [api getSimilarArtistsForArtist:self.artist.name limit:20 autocorrect:YES
+         success:^(NSURLSessionDataTask *task, id responseObject) {
+             NSLog(@"Success -- %@", responseObject);
+             [self saveSimilarArtistsForResponse:responseObject[@"similarartists"][@"artist"]];
+             [hud hide:YES];
+             [self.collectionView reloadData];
+             
+         } failure:^(NSURLSessionDataTask *task, NSError *error) {
+             NSLog(@"Failure -- %@", error.description);
+             [hud hide:YES];
+         }];
+}
+
+-(void)saveSimilarArtistsForResponse:(NSArray*)similarArtists {
+    NSMutableArray *newSimilar = [NSMutableArray array];
+    
+    for (NSDictionary *artistDict in similarArtists) {
+        Artist *similar = [Artist createEntity]; //todo! save, add relationship to seed
+        similar.name = artistDict[@"name"];
+        similar.mbid = artistDict[@"mbid"];
+
+        if ([artistDict[@"image"] count] > 0) {
+            Image *image = [Image createEntity];
+            image.text = [artistDict[@"image"] lastObject][@"#text"];
+            image.size = [artistDict[@"image"] lastObject][@"size"];
+            image.artist = self.artist;
+            
+            [similar addImagesObject:image];
+        }
+        
+        [newSimilar addObject:similar];
+    }
+    
+    self.similarArtists = newSimilar;
+    [self.collectionView reloadData];
 }
 
 @end

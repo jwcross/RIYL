@@ -44,12 +44,13 @@
 -(void)setArtist:(Artist *)artist {
     _artist = artist;
     _label.text = artist.name;
+    
+    // clear cached image
+    [self.image setImage:nil];
     // set background image
     if (artist.images.count > 0) {
         NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo?
         [self.image setImageWithURL:imageUrl];
-    } else {
-        [self.image setImage:nil];
     }
 }
 

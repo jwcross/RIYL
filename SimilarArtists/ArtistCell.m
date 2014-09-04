@@ -35,19 +35,12 @@
         
         // clip to bounds for the image view
         self.clipsToBounds = YES;
+        self.backgroundView.clipsToBounds = YES;
         
         // remove the default highlight for selected cells
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
-}
-
--(UILabel*)createCueLabel {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectNull];
-    label.textColor = [UIColor whiteColor];
-    label.font = [UIFont boldSystemFontOfSize:20.0];
-    label.backgroundColor = [UIColor clearColor];
-    return label;
 }
 
 const float LABEL_MARGIN = 12.0f;

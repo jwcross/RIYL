@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		28287F628602409F9BD74726 /* libPods-SimilarArtists.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */; };
+		AB28870F19BB9C7F00AAB3A3 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB28870E19BB9C7F00AAB3A3 /* Image.m */; };
+		AB28871219BB9C8000AAB3A3 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB28871119BB9C8000AAB3A3 /* Artist.m */; };
 		AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2D956A19B6C83900955CF2 /* ArtistCell.m */; };
 		AB44F26219B123560094722E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26119B123560094722E /* main.m */; };
 		AB44F26519B123560094722E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26419B123560094722E /* AppDelegate.m */; };
@@ -18,8 +20,6 @@
 		AB44F27319B123560094722E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB44F27219B123560094722E /* Images.xcassets */; };
 		AB44F27F19B123560094722E /* SimilarArtistsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F27E19B123560094722E /* SimilarArtistsTests.m */; };
 		AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F29119B17CF40094722E /* LastfmAPIClient.m */; };
-		AB44F2A619B25F050094722E /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A519B25F050094722E /* Image.m */; };
-		AB44F2A919B25F060094722E /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A819B25F060094722E /* Artist.m */; };
 		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
 		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
 		ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */; };
@@ -38,6 +38,11 @@
 /* Begin PBXFileReference section */
 		0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimilarArtists.xcconfig"; path = "Pods/Pods-SimilarArtists.xcconfig"; sourceTree = "<group>"; };
 		47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimilarArtists.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB28870C19BB95D900AAB3A3 /* SimilarArtists 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SimilarArtists 2.xcdatamodel"; sourceTree = "<group>"; };
+		AB28870D19BB9C7F00AAB3A3 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		AB28870E19BB9C7F00AAB3A3 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		AB28871019BB9C8000AAB3A3 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
+		AB28871119BB9C8000AAB3A3 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		AB2D956919B6C83900955CF2 /* ArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCell.h; sourceTree = "<group>"; };
 		AB2D956A19B6C83900955CF2 /* ArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCell.m; sourceTree = "<group>"; };
 		AB44F25C19B123560094722E /* SimilarArtists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimilarArtists.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,10 +62,6 @@
 		AB44F27E19B123560094722E /* SimilarArtistsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimilarArtistsTests.m; sourceTree = "<group>"; };
 		AB44F29019B17CF40094722E /* LastfmAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastfmAPIClient.h; sourceTree = "<group>"; };
 		AB44F29119B17CF40094722E /* LastfmAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastfmAPIClient.m; sourceTree = "<group>"; };
-		AB44F2A419B25F050094722E /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		AB44F2A519B25F050094722E /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
-		AB44F2A719B25F060094722E /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
-		AB44F2A819B25F060094722E /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		AB44F2AC19B26A6A0094722E /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		ABFAE83119B7EE550029CCCB /* SimilarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimilarViewController.h; sourceTree = "<group>"; };
 		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
@@ -177,10 +178,10 @@
 			isa = PBXGroup;
 			children = (
 				AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */,
-				AB44F2A719B25F060094722E /* Artist.h */,
-				AB44F2A819B25F060094722E /* Artist.m */,
-				AB44F2A419B25F050094722E /* Image.h */,
-				AB44F2A519B25F050094722E /* Image.m */,
+				AB28871019BB9C8000AAB3A3 /* Artist.h */,
+				AB28871119BB9C8000AAB3A3 /* Artist.m */,
+				AB28870D19BB9C7F00AAB3A3 /* Image.h */,
+				AB28870E19BB9C7F00AAB3A3 /* Image.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -367,14 +368,14 @@
 				ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */,
 				AB44F26E19B123560094722E /* DetailViewController.m in Sources */,
 				AB44F26B19B123560094722E /* ArtistsTableViewController.m in Sources */,
-				AB44F2A919B25F060094722E /* Artist.m in Sources */,
 				AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */,
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
 				AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */,
 				ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */,
+				AB28870F19BB9C7F00AAB3A3 /* Image.m in Sources */,
+				AB28871219BB9C8000AAB3A3 /* Artist.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,
-				AB44F2A619B25F050094722E /* Image.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,9 +590,10 @@
 		AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AB28870C19BB95D900AAB3A3 /* SimilarArtists 2.xcdatamodel */,
 				AB44F26719B123560094722E /* SimilarArtists.xcdatamodel */,
 			);
-			currentVersion = AB44F26719B123560094722E /* SimilarArtists.xcdatamodel */;
+			currentVersion = AB28870C19BB95D900AAB3A3 /* SimilarArtists 2.xcdatamodel */;
 			path = SimilarArtists.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

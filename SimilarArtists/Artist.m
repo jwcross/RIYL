@@ -2,20 +2,25 @@
 //  Artist.m
 //  SimilarArtists
 //
-//  Created by Jonathan Crossley on 8/30/14.
+//  Created by Jonathan Crossley on 9/6/14.
 //  Copyright (c) 2014 CCS. All rights reserved.
 //
 
 #import "Artist.h"
+#import "Artist.h"
 #import "Image.h"
+
 
 @implementation Artist
 
-@dynamic name;
-@dynamic mbid;
-@dynamic url;
 @dynamic bio;
+@dynamic mbid;
+@dynamic name;
+@dynamic url;
+@dynamic liked;
 @dynamic images;
+@dynamic similarArtists;
+@dynamic similarParent;
 
 -(void)addImagesObject:(NSManagedObject *)value {
     // Create a mutable set with the existing objects, add the new object, update relationship

@@ -22,15 +22,17 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self getSimilarArtists];
-    [self.collectionView reloadData];
+    // if we don't yet have associated similarArtists, fetch from API
+    NSLog(@"similarArtists.count = %d", self.artist.similarArtists.count);
+    if (self.artist.similarArtists.count == 0) {
+        [self getSimilarArtists];
+        [self.collectionView reloadData];
+    }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"Similar Artists";
-    
     // Register cell class
     UINib *cellNib = [UINib nibWithNibName:@"ArtistCollectionViewCell" bundle:nil];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:reuseIdentifier];
@@ -38,12 +40,8 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
-    // for now, delete all fetched similar artists (to prevent prior VCs from saving)
-    // todo!
-    for (Artist *artist in self.similarArtists) {
-        [artist deleteEntity];
-    }
+    // Save context as view disappears.
+    [self saveContext];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -56,7 +54,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-    return [self.similarArtists count];
+    return [self.artist.similarArtists count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -64,7 +62,7 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     ArtistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                                forIndexPath:indexPath];
-    cell.artist = self.similarArtists[indexPath.row];
+    cell.artist = self.artist.similarArtists[indexPath.row];
     return cell;
 }
 
@@ -114,6 +112,16 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 }
 
 #pragma mark - Private helpers
+-(void)saveContext {
+    [[NSManagedObjectContext defaultContext]
+     saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+         if (success) {
+             NSLog(@"%d similar artists successfully saved.", _similarArtists.count);
+         } else if (error) {
+             NSLog(@"Error saving %d similar artists: %@", _similarArtists.count, error.description);
+         }
+    }];
+}
 
 -(void)getSimilarArtists {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -123,9 +131,10 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
     [api getSimilarArtistsForArtist:self.artist.name limit:20 autocorrect:YES
          success:^(NSURLSessionDataTask *task, id responseObject) {
-             NSLog(@"Success -- %@", responseObject);
-             [self saveSimilarArtistsForResponse:responseObject[@"similarartists"][@"artist"]];
+             NSArray *similar = responseObject[@"similarartists"][@"artist"];
+             NSLog(@"Success -- %d artists", similar.count);
              [hud hide:YES];
+             [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];
              
          } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -154,6 +163,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
         [newSimilar addObject:similar];
     }
     
+    self.artist.similarArtists = [[NSOrderedSet alloc] initWithArray:newSimilar];
     self.similarArtists = newSimilar;
     [self.collectionView reloadData];
 }

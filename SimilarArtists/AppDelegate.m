@@ -28,7 +28,7 @@
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     // Setup CoreData with MagicalRecord
-    [MagicalRecord setupCoreDataStack];
+    [MagicalRecord setupAutoMigratingCoreDataStack];
     
     // Setup App with prefilled Artist items.
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledArtists"]) {

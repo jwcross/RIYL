@@ -109,8 +109,9 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 #pragma mark - Private helper methods
 
 -(void)fetchAllArtists {
-    // Fetch entities with MagicalRecord, sorted by ascending name
-    self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+    // Fetch `liked` artists with MagicalRecord, sorted by ascending name
+    NSPredicate *liked = [NSPredicate predicateWithFormat:@"liked == YES"];
+    self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];
 }
 
 -(void)saveContext {

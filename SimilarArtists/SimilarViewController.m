@@ -23,7 +23,6 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // if we don't yet have associated similarArtists, fetch from API
-    NSLog(@"similarArtists.count = %d", self.artist.similarArtists.count);
     if (self.artist.similarArtists.count == 0) {
         [self getSimilarArtists];
         [self.collectionView reloadData];

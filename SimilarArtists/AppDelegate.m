@@ -52,53 +52,62 @@
     // Create Nujabes
     Artist *nujabes = [Artist createEntity];
     nujabes.name = @"Nujabes";
+    nujabes.liked = @YES;
     url = @"http://userserve-ak.last.fm/serve/_/44041763/Nujabes+_.jpg";
     [nujabes addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Modest Mouse
     Artist *modestMouse = [Artist createEntity];
+    modestMouse.liked = @YES;
     modestMouse.name = @"Modest Mouse";
     url = @"http://userserve-ak.last.fm/serve/500/886281/Modest+Mouse.jpg";
     [modestMouse addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Nightmares on Wax
     Artist *nightmaresOnWax = [Artist createEntity];
+    nightmaresOnWax.liked = @YES;
     nightmaresOnWax.name = @"Nightmares on Wax";
     url = @"http://userserve-ak.last.fm/serve/_/2162189/Nightmares+on+Wax.jpg";
     [nightmaresOnWax addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Tokyo Police Club
     Artist *tokyoPoliceClub = [Artist createEntity];
+    tokyoPoliceClub.liked = @YES;
     tokyoPoliceClub.name = @"Tokyo Police Club";
     url = @"http://userserve-ak.last.fm/serve/_/4855404/Tokyo+Police+Club+tokyopolice_cover.jpg";
     [tokyoPoliceClub addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Why?
     Artist *why = [Artist createEntity];
+    why.liked = @YES;
     why.name = @"Why?";
     url = @"http://userserve-ak.last.fm/serve/_/28744645/Why+Live+Dublab+Session+PROPER.png";
     [why addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create The Hotelier
     Artist *theHotelier = [Artist createEntity];
+    theHotelier.liked = @YES;
     theHotelier.name = @"The Hotelier";
     url = @"http://userserve-ak.last.fm/serve/500/98412025/The+Hotelier+TheHotelier5.png";
     [theHotelier addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Grouper
     Artist *grouper = [Artist createEntity];
+    grouper.liked = @YES;
     grouper.name = @"Grouper";
     url = @"http://userserve-ak.last.fm/serve/_/69589066/Grouper+Liz6.jpg";
     [grouper addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Cass McCombs
     Artist *cassMccombs = [Artist createEntity];
+    cassMccombs.liked = @YES;
     cassMccombs.name = @"Cass McCombs";
     url = @"http://userserve-ak.last.fm/serve/_/32726321/Cass+McCombs+CASS.jpg";
     [cassMccombs addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Kanye West
     Artist *yeezus = [Artist createEntity];
+    yeezus.liked = @YES;
     yeezus.name = @"Kanye West";
     url = @"http://userserve-ak.last.fm/serve/500/91770519/Kanye+West+Yeezus+PNG.png";
     [yeezus addImagesObject:[Image createEntityWithUrl:url]];

@@ -84,10 +84,11 @@
 }
 
 -(NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction
-    swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
+             swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
 {
   swipeSettings.transition = MGSwipeTransitionBorder;
   expansionSettings.buttonIndex = 0;
+  expansionSettings.fillOnTrigger = direction == MGSwipeDirectionRightToLeft;
   
   return direction == MGSwipeDirectionLeftToRight ? [self createLeftButtons]
        : direction == MGSwipeDirectionRightToLeft ? [self createRightButtons]
@@ -96,6 +97,17 @@
 
 -(BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index
             direction:(MGSwipeDirection)direction    fromExpansion:(BOOL)fromExpansion {
+  
+  BOOL isDelete = index == 0 && direction == MGSwipeDirectionRightToLeft;
+  if (isDelete) {
+    // Deleting an Entity with MagicalRecord
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.artists[indexPath.row] deleteEntity];
+    [self saveContext];
+    [self.artists removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                          withRowAnimation:UITableViewRowAnimationFade];
+  }
   
   NSLog(@"Callback received%@ (%@)",
     (fromExpansion ? @" from expansion" : @""),

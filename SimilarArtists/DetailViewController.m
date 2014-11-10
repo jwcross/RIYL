@@ -91,6 +91,7 @@
     self.artist.mbid = artistDict[@"mbid"];
     self.artist.bio = artistDict[@"bio"][@"content"];
     self.artist.liked = @NO; // default not-`liked` for added artists
+    self.artist.nowListening = @YES; // default `now listening` for added artists
     
     if ([artistDict[@"image"] count] > 0) {
         Image *image = [Image createEntity];

@@ -42,6 +42,10 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
       
         // MGSwipeTableCell settings
+        self.leftExpansion.buttonIndex = 0;
+        self.leftExpansion.fillOnTrigger = NO;
+        self.rightExpansion.buttonIndex = 0;
+        self.rightExpansion.fillOnTrigger = YES;
         self.leftSwipeSettings.transition = MGSwipeTransitionBorder;
         self.rightSwipeSettings.transition = MGSwipeTransitionBorder;
       

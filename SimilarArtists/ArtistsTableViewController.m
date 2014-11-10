@@ -35,14 +35,15 @@
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   self.tableView.backgroundColor = [UIColor blackColor];
-  [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"Cell"];
+  [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"ArtistCell"];
 }
 
 #pragma mark - UITableViewDatasource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+  static NSString *identifier = @"ArtistCell";
+  ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier
                                                      forIndexPath:indexPath];
   cell.artist = self.artists[indexPath.row];
   [cell.label setUserInteractionEnabled:NO];

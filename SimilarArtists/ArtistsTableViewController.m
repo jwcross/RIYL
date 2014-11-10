@@ -95,18 +95,25 @@
        : nil;
 }
 
--(BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index
+-(BOOL)swipeTableCell:(ArtistCell *)cell tappedButtonAtIndex:(NSInteger)index
             direction:(MGSwipeDirection)direction    fromExpansion:(BOOL)fromExpansion {
+  // Get corresponding artist and cell row
+  Artist *artist = cell.artist;
+  NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
   
+  BOOL isLike = index == 0 && direction == MGSwipeDirectionLeftToRight;
   BOOL isDelete = index == 0 && direction == MGSwipeDirectionRightToLeft;
+  
   if (isDelete) {
     // Deleting an Entity with MagicalRecord
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    [self.artists[indexPath.row] deleteEntity];
+    [artist deleteEntity];
     [self saveContext];
     [self.artists removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                          withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+  } else if (isLike) {
+    artist.liked = [artist.liked isEqual:@NO] ? @YES : @NO;
+    [self saveContext];
+    [self.tableView reloadData];
   }
   
   NSLog(@"Callback received%@ (%@)",

@@ -13,14 +13,15 @@
 
 @interface Artist : NSManagedObject
 
-@property (nonatomic, retain) NSString * bio;
-@property (nonatomic, retain) NSString * mbid;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSNumber * liked;
+@property (nonatomic, retain) NSString *bio;
+@property (nonatomic, retain) NSString *mbid;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSNumber *liked;
 @property (nonatomic, retain) NSOrderedSet *images;
 @property (nonatomic, retain) NSOrderedSet *similarArtists;
 @property (nonatomic, retain) Artist *similarParent;
+
 @end
 
 @interface Artist (CoreDataGeneratedAccessors)
@@ -45,4 +46,5 @@
 - (void)removeSimilarArtistsObject:(Artist *)value;
 - (void)addSimilarArtists:(NSOrderedSet *)values;
 - (void)removeSimilarArtists:(NSOrderedSet *)values;
+
 @end

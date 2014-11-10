@@ -94,40 +94,28 @@
        : nil;
 }
 
+-(BOOL)swipeTableCell:(MGSwipeTableCell *)cell tappedButtonAtIndex:(NSInteger)index
+            direction:(MGSwipeDirection)direction    fromExpansion:(BOOL)fromExpansion {
+  
+  NSLog(@"Callback received%@ (%@)",
+    (fromExpansion ? @" from expansion" : @""),
+    (direction == MGSwipeDirectionLeftToRight ? @"left" : @"right"));
+  
+  return YES;
+}
+
 -(NSArray *)createLeftButtons {
-  NSMutableArray *result = [NSMutableArray array];
-  UIColor *colors[2] = {
-    [UIColor greenColor],
-    [UIColor colorWithRed:0 green:0x99/255.0 blue:0xcc/255.0 alpha:1.0],
-  };
-  
-  NSString *titles[2] = {@"Like", @"Unlike"};
-  
-  for (int i = 0; i < 2; ++i) {
-    MGSwipeButton *button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] padding:15
-        callback:^BOOL(MGSwipeTableCell *sender) {
-          NSLog(@"Convenience callback received (left).");
-          return YES;
-    }];
-    [result addObject:button];
-  }
-  return result;
+  UIColor *colors[2] = { [UIColor greenColor], [UIColor colorWithRed:0 green:0x99/255.0 blue:0xcc/255.0 alpha:1.0] };
+  MGSwipeButton *likeButton = [MGSwipeButton buttonWithTitle:@"Like" backgroundColor:colors[0] padding:15];
+  MGSwipeButton *unlikeButton = [MGSwipeButton buttonWithTitle:@"Unlike" backgroundColor:colors[1] padding:15];
+  return @[likeButton, unlikeButton];
 }
 
 -(NSArray *)createRightButtons {
-  NSMutableArray *result = [NSMutableArray array];
-  NSString *titles[2] = {@"Delete", @"More"};
   UIColor *colors[2] = {[UIColor redColor], [UIColor lightGrayColor]};
-  
-  for (int i = 0; i < 2; ++i) {
-    MGSwipeButton *button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] padding:15
-        callback:^BOOL(MGSwipeTableCell *sender) {
-          NSLog(@"Convenience callback received (right).");
-          return YES;
-    }];
-    [result addObject:button];
-  }
-  return result;
+  MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@"Delete" backgroundColor:colors[0] padding:15];
+  MGSwipeButton *moreButton = [MGSwipeButton buttonWithTitle:@"More" backgroundColor:colors[1] padding:15];
+  return @[deleteButton, moreButton];
 }
 
 

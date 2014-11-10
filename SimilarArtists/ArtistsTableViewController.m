@@ -24,7 +24,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  [self fetchAllArtists];
+  [self fetchAllNowListeningArtists];
   [self.tableView reloadData];
 }
 
@@ -163,6 +163,13 @@
 {
   // Fetch all artists with MagicalRecord, sorted by ascending name
   self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+}
+
+-(void)fetchAllNowListeningArtists
+{
+  // Fetch all `nowListening` artists with MagicalRecord, sorted by ascending name
+  NSPredicate *nowListening = [NSPredicate predicateWithFormat:@"nowListening == YES"];
+  self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:nowListening] mutableCopy];
 }
 
 -(void)fetchAllLikedArtists

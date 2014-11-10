@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SimilarArtists-MGSwipeTableCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SimilarArtists-MagicalRecord.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>09FD81FDA2A046F6B00CCAB1</key>
+		<key>B652C897FBC1DA3E89ABA69C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>89368CCAA3264664AE198ADB</key>
+		<key>C5339B19DAE0DFB72FA21DD8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EAFCEFC378BC4718B392225C</key>
+		<key>D13D22DF7628A055443274B6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F7CBDE81C89F45D4B43E687D</key>
+		<key>E30D64DF8019216D9F9766B1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF3243D183D587C64B101F93</key>
 		<dict>
 			<key>primary</key>
 			<true/>

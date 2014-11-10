@@ -7,6 +7,7 @@
 //
 
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import <MGSwipeTableCell/MGSwipeButton.h>
 #import "ArtistsTableViewController.h"
 #import "DetailViewController.h"
 #import "LastfmAPIClient.h"
@@ -35,7 +36,6 @@
   self.tableView.dataSource = self;
   self.tableView.delegate = self;
   self.tableView.backgroundColor = [UIColor blackColor];
-  [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"ArtistCell"];
 }
 
 #pragma mark - UITableViewDatasource
@@ -43,8 +43,12 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   static NSString *identifier = @"ArtistCell";
-  ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier
-                                                     forIndexPath:indexPath];
+  ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+  if (!cell) {
+    cell = [[ArtistCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+  }
+  cell.delegate = self;
+  
   cell.artist = self.artists[indexPath.row];
   [cell.label setUserInteractionEnabled:NO];
   return cell;
@@ -55,31 +59,12 @@
   return self.artists.count;
 }
 
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  return YES;
-}
-
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
   return 1;
 }
 
 #pragma mark - UITableViewDelegate
-
--(void)  tableView:(UITableView *)tableView
-commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
- forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    // Deleting an Entity with MagicalRecord
-    [self.artists[indexPath.row] deleteEntity];
-    [self saveContext];
-    [self.artists removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                          withRowAnimation:UITableViewRowAnimationFade];
-  }
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -90,6 +75,61 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 {
   [self performSegueWithIdentifier:@"viewArtist" sender:nil];
 }
+
+#pragma mark - MGSwipeTableCellDelegate
+
+-(BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
+{
+  return YES;
+}
+
+-(NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction
+    swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
+{
+  swipeSettings.transition = MGSwipeTransitionBorder;
+  expansionSettings.buttonIndex = 0;
+  
+  return direction == MGSwipeDirectionLeftToRight ? [self createLeftButtons]
+       : direction == MGSwipeDirectionRightToLeft ? [self createRightButtons]
+       : nil;
+}
+
+-(NSArray *)createLeftButtons {
+  NSMutableArray *result = [NSMutableArray array];
+  UIColor *colors[2] = {
+    [UIColor greenColor],
+    [UIColor colorWithRed:0 green:0x99/255.0 blue:0xcc/255.0 alpha:1.0],
+  };
+  
+  NSString *titles[2] = {@"Like", @"Unlike"};
+  
+  for (int i = 0; i < 2; ++i) {
+    MGSwipeButton *button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] padding:15
+        callback:^BOOL(MGSwipeTableCell *sender) {
+          NSLog(@"Convenience callback received (left).");
+          return YES;
+    }];
+    [result addObject:button];
+  }
+  return result;
+}
+
+-(NSArray *)createRightButtons {
+  NSMutableArray *result = [NSMutableArray array];
+  NSString *titles[2] = {@"Delete", @"More"};
+  UIColor *colors[2] = {[UIColor redColor], [UIColor lightGrayColor]};
+  
+  for (int i = 0; i < 2; ++i) {
+    MGSwipeButton *button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] padding:15
+        callback:^BOOL(MGSwipeTableCell *sender) {
+          NSLog(@"Convenience callback received (right).");
+          return YES;
+    }];
+    [result addObject:button];
+  }
+  return result;
+}
+
 
 #pragma mark - Navigation methods
 

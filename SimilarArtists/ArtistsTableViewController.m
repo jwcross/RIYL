@@ -161,6 +161,12 @@
 
 -(void)fetchAllArtists
 {
+  // Fetch all artists with MagicalRecord, sorted by ascending name
+  self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+}
+
+-(void)fetchAllLikedArtists
+{
   // Fetch `liked` artists with MagicalRecord, sorted by ascending name
   NSPredicate *liked = [NSPredicate predicateWithFormat:@"liked == YES"];
   self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];

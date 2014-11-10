@@ -20,42 +20,48 @@
 
 @implementation ArtistsTableViewController
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self fetchAllArtists];
-    [self.tableView reloadData];
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  [self fetchAllArtists];
+  [self.tableView reloadData];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.title = @"My Artists";
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.backgroundColor = [UIColor blackColor];
-    [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"Cell"];
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  
+  self.title = @"My Artists";
+  self.tableView.dataSource = self;
+  self.tableView.delegate = self;
+  self.tableView.backgroundColor = [UIColor blackColor];
+  [self.tableView registerClass:[ArtistCell class] forCellReuseIdentifier:@"Cell"];
 }
 
 #pragma mark - UITableViewDatasource
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
-                                                            forIndexPath:indexPath];
-    cell.artist = self.artists[indexPath.row];
-    [cell.label setUserInteractionEnabled:NO];
-    return cell;
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+                                                     forIndexPath:indexPath];
+  cell.artist = self.artists[indexPath.row];
+  [cell.label setUserInteractionEnabled:NO];
+  return cell;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.artists.count;
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+  return self.artists.count;
 }
 
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  return YES;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+  return 1;
 }
 
 #pragma mark - UITableViewDelegate
@@ -64,59 +70,64 @@
 commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
  forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Deleting an Entity with MagicalRecord
-        [self.artists[indexPath.row] deleteEntity];
-        [self saveContext];
-        [self.artists removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                              withRowAnimation:UITableViewRowAnimationFade];
-    }
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    // Deleting an Entity with MagicalRecord
+    [self.artists[indexPath.row] deleteEntity];
+    [self saveContext];
+    [self.artists removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath]
+                          withRowAnimation:UITableViewRowAnimationFade];
+  }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80.0f;
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  return 80.0f;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"viewArtist" sender:nil];
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  [self performSegueWithIdentifier:@"viewArtist" sender:nil];
 }
 
 #pragma mark - Navigation methods
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    DetailViewController *upcoming = segue.destinationViewController;
-    if ([segue.identifier isEqualToString:@"viewArtist"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Artist *artist = self.artists[indexPath.row];
-        upcoming.artist = artist;
-    } else if ([segue.identifier isEqualToString:@"addArtist"]) {
-        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
-        cancel.title = @"Cancel";
-        cancel.style = UIBarButtonItemStyleBordered;
-        cancel.target = upcoming;
-        cancel.action = @selector(cancelAdd);
-        upcoming.navigationItem.leftBarButtonItem = cancel;
-        
-        UIBarButtonItem *done = [[UIBarButtonItem alloc] init];
-        done.title = @"Done";
-        done.style = UIBarButtonItemStyleBordered;
-        done.target = upcoming;
-        done.action = @selector(addNewArtist);
-        upcoming.navigationItem.rightBarButtonItem = done;
-    }
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+  DetailViewController *upcoming = segue.destinationViewController;
+  if ([segue.identifier isEqualToString:@"viewArtist"]) {
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    Artist *artist = self.artists[indexPath.row];
+    upcoming.artist = artist;
+  } else if ([segue.identifier isEqualToString:@"addArtist"]) {
+    UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
+    cancel.title = @"Cancel";
+    cancel.style = UIBarButtonItemStyleBordered;
+    cancel.target = upcoming;
+    cancel.action = @selector(cancelAdd);
+    upcoming.navigationItem.leftBarButtonItem = cancel;
+    
+    UIBarButtonItem *done = [[UIBarButtonItem alloc] init];
+    done.title = @"Done";
+    done.style = UIBarButtonItemStyleBordered;
+    done.target = upcoming;
+    done.action = @selector(addNewArtist);
+    upcoming.navigationItem.rightBarButtonItem = done;
+  }
 }
 
 #pragma mark - Private helper methods
 
--(void)fetchAllArtists {
-    // Fetch `liked` artists with MagicalRecord, sorted by ascending name
-    NSPredicate *liked = [NSPredicate predicateWithFormat:@"liked == YES"];
-    self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];
+-(void)fetchAllArtists
+{
+  // Fetch `liked` artists with MagicalRecord, sorted by ascending name
+  NSPredicate *liked = [NSPredicate predicateWithFormat:@"liked == YES"];
+  self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];
 }
 
--(void)saveContext {
-    [[NSManagedObjectContext defaultContext] saveToPersistentStoreAndWait];
+-(void)saveContext
+{
+  [[NSManagedObjectContext defaultContext] saveToPersistentStoreAndWait];
 }
 
 @end

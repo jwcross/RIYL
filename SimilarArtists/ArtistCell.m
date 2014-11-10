@@ -56,6 +56,9 @@ const float LABEL_MARGIN = 12.0f;
 -(void)setArtist:(Artist *)artist {
     _artist = artist;
     _label.text = artist.name;
+    _label.textColor = artist.liked.intValue ==  1 ? [UIColor greenColor]
+                     : artist.liked.intValue == -1 ? [UIColor redColor]
+                     : [UIColor whiteColor];
     
     // clear cached image
     UIImageView *backgroundImage = (UIImageView*)self.backgroundView;

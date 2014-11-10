@@ -7,6 +7,7 @@
 //
 
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import <MGSwipeTableCell/MGSwipeButton.h>
 #import "ArtistCell.h"
 
 @implementation ArtistCell
@@ -24,7 +25,7 @@
         _label.backgroundColor = [UIColor clearColor];
         _label.delegate = self;
         _label.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
-        [self addSubview:_label];
+        [self.contentView addSubview:_label];
         
         // create background image view
         self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectNull];
@@ -39,6 +40,14 @@
         
         // remove the default highlight for selected cells
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+      
+        // MGSwipeTableCell settings
+        self.leftSwipeSettings.transition = MGSwipeTransitionBorder;
+        self.rightSwipeSettings.transition = MGSwipeTransitionBorder;
+      
+        // swipe buttons
+        self.leftButtons = [self createLeftButtons];
+        self.rightButtons = [self createRightButtons];
     }
     return self;
 }
@@ -71,5 +80,44 @@ const float LABEL_MARGIN = 12.0f;
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     return NO; //todo!
 }
+
+#pragma mark - MGTableCell
+
+-(NSArray *)createLeftButtons {
+  NSMutableArray *result = [NSMutableArray array];
+  UIColor *colors[2] = {
+    [UIColor greenColor],
+    [UIColor colorWithRed:0 green:0x99/255.0 blue:0xcc/255.0 alpha:1.0],
+  };
+  
+  NSString *titles[2] = {@"Like", @"Unlike"};
+  
+  for (int i = 0; i < 2; ++i) {
+    MGSwipeButton *button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] padding:15
+        callback:^BOOL(MGSwipeTableCell *sender) {
+          NSLog(@"Convenience callback received (left).");
+          return YES;
+    }];
+    [result addObject:button];
+  }
+  return result;
+}
+
+-(NSArray *)createRightButtons {
+  NSMutableArray *result = [NSMutableArray array];
+  NSString *titles[2] = {@"Delete", @"More"};
+  UIColor *colors[2] = {[UIColor redColor], [UIColor lightGrayColor]};
+  
+  for (int i = 0; i < 2; ++i) {
+    MGSwipeButton *button = [MGSwipeButton buttonWithTitle:titles[i] backgroundColor:colors[i] padding:15
+        callback:^BOOL(MGSwipeTableCell *sender) {
+          NSLog(@"Convenience callback received (right).");
+          return YES;
+    }];
+    [result addObject:button];
+  }
+  return result;
+}
+
 
 @end

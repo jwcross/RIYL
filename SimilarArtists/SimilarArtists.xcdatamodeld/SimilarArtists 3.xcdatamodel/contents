@@ -5,6 +5,7 @@
         <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="mbid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nowListening" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Image" inverseName="artist" inverseEntity="Image" syncable="YES"/>
         <relationship name="similarArtists" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Artist" inverseName="similarParent" inverseEntity="Artist" syncable="YES"/>
@@ -16,7 +17,7 @@
         <relationship name="artist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="images" inverseEntity="Artist" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Artist" positionX="288" positionY="234" width="128" height="165"/>
+        <element name="Artist" positionX="288" positionY="234" width="128" height="180"/>
         <element name="Image" positionX="286" positionY="65" width="128" height="88"/>
     </elements>
 </model>

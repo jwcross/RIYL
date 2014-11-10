@@ -18,6 +18,7 @@
 @dynamic name;
 @dynamic url;
 @dynamic liked;
+@dynamic nowListening;
 @dynamic images;
 @dynamic similarArtists;
 @dynamic similarParent;

@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSNumber *liked;
+@property (nonatomic, retain) NSNumber *nowListening;
 @property (nonatomic, retain) NSOrderedSet *images;
 @property (nonatomic, retain) NSOrderedSet *similarArtists;
 @property (nonatomic, retain) Artist *similarParent;

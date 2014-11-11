@@ -20,7 +20,8 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     // if we don't yet have associated similarArtists, fetch from API
     if (self.artist.similarArtists.count == 0) {
@@ -29,7 +30,8 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.title = @"Similar Artists";
     // Register cell class
@@ -37,7 +39,8 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:reuseIdentifier];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+-(void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     // Save context as view disappears.
     [self saveContext];
@@ -45,10 +48,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark - UICollectionViewDataSource
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     return 1;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
@@ -67,11 +70,13 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark - UICollectionViewDelegate
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     // todo!
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     // todo!
 }
 
@@ -94,24 +99,29 @@ static NSString * const reuseIdentifier = @"Cell";
 
 CGFloat CELL_MARGIN = 20.0f;
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout
- sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+-(CGSize)collectionView:(UICollectionView *)collectionView
+                 layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     // square size for equally-spaced two-column layout
     CGFloat cellWidth = (self.view.bounds.size.width - 3 * CELL_MARGIN) / 2;
     return CGSizeMake(cellWidth, cellWidth);
 }
 
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+-(CGFloat)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
     return CELL_MARGIN;
 }
 
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                       layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
     return UIEdgeInsetsMake(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 }
 
 #pragma mark - Private helpers
--(void)saveContext {
+-(void)saveContext
+{
     [[NSManagedObjectContext defaultContext]
      saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
          if (success) {
@@ -122,7 +132,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     }];
 }
 
--(void)getSimilarArtists {
+-(void)getSimilarArtists
+{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading similar artists";
     
@@ -142,9 +153,9 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
          }];
 }
 
--(void)saveSimilarArtistsForResponse:(NSArray*)similarArtists {
+-(void)saveSimilarArtistsForResponse:(NSArray*)similarArtists
+{
     NSMutableArray *newSimilar = [NSMutableArray array];
-    
     for (NSDictionary *artistDict in similarArtists) {
         Artist *similar = [Artist createEntity]; //todo! save, add relationship to seed
         similar.name = artistDict[@"name"];
@@ -158,10 +169,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
             
             [similar addImagesObject:image];
         }
-        
         [newSimilar addObject:similar];
     }
-    
     self.artist.similarArtists = [[NSOrderedSet alloc] initWithArray:newSimilar];
     self.similarArtists = newSimilar;
     [self.collectionView reloadData];

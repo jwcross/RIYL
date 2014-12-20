@@ -22,15 +22,18 @@ PODS:
     - AFNetworking/NSURLSession
   - MagicalRecord/Shorthand (2.2)
   - MBProgressHUD (0.9)
+  - MGSwipeTableCell (HEAD based on 1.2.0)
 
 DEPENDENCIES:
   - AFNetworking (= 2.3.1)
   - MagicalRecord/Shorthand (~> 2.2)
   - MBProgressHUD (~> 0.8)
+  - MGSwipeTableCell (HEAD)
 
 SPEC CHECKSUMS:
   AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
   MagicalRecord: 2b471584fc9e3137f3d0a56967917baa4979e224
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  MGSwipeTableCell: 7e891341216cf91a6250ccde22c4c26b5247bb51
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.34.4

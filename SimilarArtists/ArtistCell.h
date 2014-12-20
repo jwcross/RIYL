@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MGSwipeTableCell/MGSwipeTableCell.h>
 #import "Artist.h"
 
 // A custom table view cell that renders Artist items.
-@interface ArtistCell : UITableViewCell <UITextFieldDelegate>
+@interface ArtistCell : MGSwipeTableCell <UITextFieldDelegate>
 
 // the item that this cell renders.
 @property (nonatomic) Artist *artist;

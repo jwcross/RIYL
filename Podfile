@@ -8,6 +8,7 @@ target "SimilarArtists" do
 pod 'AFNetworking', '2.3.1'
 pod 'MagicalRecord/Shorthand', '~> 2.2'
 pod 'MBProgressHUD', '~> 0.8'
+pod 'MGSwipeTableCell', :head
 
 end
 

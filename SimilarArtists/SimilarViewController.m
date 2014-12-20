@@ -157,17 +157,35 @@ CGFloat CELL_MARGIN = 20.0f;
 {
     NSMutableArray *newSimilar = [NSMutableArray array];
     for (NSDictionary *artistDict in similarArtists) {
-        Artist *similar = [Artist createEntity]; //todo! save, add relationship to seed
-        similar.name = artistDict[@"name"];
-        similar.mbid = artistDict[@"mbid"];
-
-        if ([artistDict[@"image"] count] > 0) {
-            Image *image = [Image createEntity];
-            image.text = [artistDict[@"image"] lastObject][@"#text"];
-            image.size = [artistDict[@"image"] lastObject][@"size"];
-            image.artist = self.artist;
+        // 1. Check if artist already exists in table
+        Artist *similar;
+        if ([artistDict[@"mbid"] length] > 0) {
+            similar = [Artist findFirstByAttribute:@"mbid" withValue:artistDict[@"mbid"]];
+        } else {
+            NSLog(@"ERROR: Artist has empty mbid.\nname = %@\nid = %@",
+                   artistDict[@"name"], artistDict[@"id"]);
+        }
+        
+        if (similar != nil) {
+            NSLog(@"Found similar artist in table");
+            NSLog(@"debug: artistDict[@\"mbid\"] = %@", artistDict[@"mbid"]);
+            NSLog(@"debug: similar.mbid = %@", similar.mbid);
+            NSLog(@"debug: artistDict[@\"name\"] = %@", artistDict[@"name"]);
+            NSLog(@"debug: similar.name = %@", similar.name);
             
-            [similar addImagesObject:image];
+        } else {
+            similar = [Artist createEntity]; //todo! save, add relationship to seed
+            similar.name = artistDict[@"name"];
+            similar.mbid = artistDict[@"mbid"];
+
+            if ([artistDict[@"image"] count] > 0) {
+                Image *image = [Image createEntity];
+                image.text = [artistDict[@"image"] lastObject][@"#text"];
+                image.size = [artistDict[@"image"] lastObject][@"size"];
+                image.artist = self.artist;
+                
+                [similar addImagesObject:image];
+            }
         }
         [newSimilar addObject:similar];
     }

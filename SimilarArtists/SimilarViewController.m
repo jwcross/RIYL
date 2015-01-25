@@ -125,9 +125,9 @@ CGFloat CELL_MARGIN = 20.0f;
     [[NSManagedObjectContext defaultContext]
      saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
          if (success) {
-             NSLog(@"%d similar artists successfully saved.", _similarArtists.count);
+             NSLog(@"%tu similar artists successfully saved.", _similarArtists.count);
          } else if (error) {
-             NSLog(@"Error saving %d similar artists: %@", _similarArtists.count, error.description);
+             NSLog(@"Error saving %tu similar artists: %@", _similarArtists.count, error.description);
          }
     }];
 }
@@ -142,7 +142,7 @@ CGFloat CELL_MARGIN = 20.0f;
     [api getSimilarArtistsForArtist:self.artist.name limit:20 autocorrect:YES
          success:^(NSURLSessionDataTask *task, id responseObject) {
              NSArray *similar = responseObject[@"similarartists"][@"artist"];
-             NSLog(@"Success -- %d artists", similar.count);
+             NSLog(@"Success -- %tu artists", similar.count);
              [hud hide:YES];
              [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];

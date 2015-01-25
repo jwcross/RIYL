@@ -71,11 +71,6 @@
   return 80.0f;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  [self performSegueWithIdentifier:@"viewArtist" sender:nil];
-}
-
 #pragma mark - MGSwipeTableCellDelegate
 
 -(BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction

@@ -12,12 +12,10 @@
 
 @implementation ArtistCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        
         // create a label that renders the artist name
         _label = [[UITextField alloc] initWithFrame:CGRectNull];
         _label.textColor = [UIColor whiteColor];
@@ -41,7 +39,7 @@
         // remove the default highlight for selected cells
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    return self;
+    return self;   
 }
 
 const float LABEL_MARGIN = 12.0f;

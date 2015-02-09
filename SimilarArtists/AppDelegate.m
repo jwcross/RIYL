@@ -127,7 +127,7 @@
     yeezus.liked = @NO;
     yeezus.nowListening = @YES;
     yeezus.name = @"Kanye West";
-    url = @"http://userserve-ak.last.fm/serve/500/91770519/Kanye+West+Yeezus+PNG.png";
+    url = @"http://userserve-ak.last.fm/serve/_/52579947/Kanye+West+kanye+bet+awards.png";
     [yeezus addImagesObject:[Image createEntityWithUrl:url]];
 }
 

@@ -37,6 +37,9 @@
     // Setup CoreData with MagicalRecord
     [MagicalRecord setupAutoMigratingCoreDataStack];
     
+    // Define MagicalRecord logging level
+    [MagicalRecord setLoggingLevel:MagicalRecordLoggingLevelWarn];
+    
     // Setup App with prefilled Artist items.
     if (![[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledArtists"]) {
         

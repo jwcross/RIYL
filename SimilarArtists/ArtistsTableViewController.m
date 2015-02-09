@@ -101,7 +101,7 @@
   
   if (isDelete) {
     // Deleting an Entity with MagicalRecord
-    [artist deleteEntity];
+    [artist MR_deleteEntity];
     [self saveContext];
     [self.artists removeObjectAtIndex:indexPath.row];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -164,26 +164,26 @@
 -(void)fetchAllArtists
 {
   // Fetch all artists with MagicalRecord, sorted by ascending name
-  self.artists = [[Artist findAllSortedBy:@"name" ascending:YES] mutableCopy];
+  self.artists = [[Artist MR_findAllSortedBy:@"name" ascending:YES] mutableCopy];
 }
 
 -(void)fetchAllNowListeningArtists
 {
   // Fetch all `nowListening` artists with MagicalRecord, sorted by ascending name
   NSPredicate *nowListening = [NSPredicate predicateWithFormat:@"nowListening == YES"];
-  self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:nowListening] mutableCopy];
+  self.artists = [[Artist MR_findAllSortedBy:@"name" ascending:YES withPredicate:nowListening] mutableCopy];
 }
 
 -(void)fetchAllLikedArtists
 {
   // Fetch `liked` artists with MagicalRecord, sorted by ascending name
   NSPredicate *liked = [NSPredicate predicateWithFormat:@"liked == YES"];
-  self.artists = [[Artist findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];
+  self.artists = [[Artist MR_findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];
 }
 
 -(void)saveContext
 {
-  [[NSManagedObjectContext defaultContext] saveToPersistentStoreAndWait];
+  [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }
 
 @end

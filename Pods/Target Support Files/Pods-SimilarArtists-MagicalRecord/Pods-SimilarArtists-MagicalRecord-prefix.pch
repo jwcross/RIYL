@@ -3,6 +3,5 @@
 #endif
 
 #import "Pods-SimilarArtists-environment.h"
-#define MR_SHORTHAND 0
 #import <CoreData/CoreData.h>
 #import "CoreData+MagicalRecord.h"

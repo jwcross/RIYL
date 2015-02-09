@@ -64,7 +64,7 @@
 }
 
 -(void)cancelAdd {
-    [self.artist deleteEntity];
+    [self.artist MR_deleteEntity];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -84,7 +84,7 @@
 
 -(void)saveArtistForResponse:(NSDictionary*)artistDict {
     if (!self.artist) {
-        self.artist = [Artist createEntity];
+        self.artist = [Artist MR_createEntity];
     }
     
     self.artist.name = artistDict[@"name"];
@@ -96,7 +96,7 @@
     }
   
     if ([artistDict[@"image"] count] > 0) {
-        Image *image = [Image createEntity];
+        Image *image = [Image MR_createEntity];
         image.text = [artistDict[@"image"] lastObject][@"#text"];
         image.size = [artistDict[@"image"] lastObject][@"size"];
         image.artist = self.artist;
@@ -108,14 +108,14 @@
 }
 
 -(void)saveContext {
-    [[NSManagedObjectContext defaultContext]
-     saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+    [[NSManagedObjectContext MR_defaultContext]
+     MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
          if (success) {
              NSLog(@"Artist successfully saved.");
          } else if (error) {
              NSLog(@"Error saving artist: %@", error.description);
          }
-    }];
+     }];
 }
 
 #pragma mark - UITextFieldDelegate

@@ -12,6 +12,7 @@
 #import "Artist.h"
 #import "Image.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
+#import <MagicalRecord/MagicalRecord+Options.h>
 
 @interface AppDelegate ()
 
@@ -27,6 +28,12 @@
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
+    [self setupMagicalRecord];
+    
+    return YES;
+}
+
+-(void)setupMagicalRecord {
     // Setup CoreData with MagicalRecord
     [MagicalRecord setupAutoMigratingCoreDataStack];
     
@@ -36,21 +43,20 @@
         [self setupSampleData];
         
         // Save Managed Object Context
-        [[NSManagedObjectContext defaultContext] saveToPersistentStoreWithCompletion:nil];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
         
         // Set User Default to prevent another preload of data on startup.
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MR_HasPrefilledArtists"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-    return YES;
 }
 
 -(void)setupSampleData {
     NSString *url;
     
     // Create Nujabes
-    Artist *nujabes = [Artist createEntity];
+    Artist *nujabes = [Artist MR_createEntity];
     nujabes.name = @"Nujabes";
     nujabes.liked = @NO;
     nujabes.nowListening = @YES;
@@ -58,7 +64,7 @@
     [nujabes addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Modest Mouse
-    Artist *modestMouse = [Artist createEntity];
+    Artist *modestMouse = [Artist MR_createEntity];
     modestMouse.liked = @NO;
     modestMouse.nowListening = @YES;
     modestMouse.name = @"Modest Mouse";
@@ -66,7 +72,7 @@
     [modestMouse addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Nightmares on Wax
-    Artist *nightmaresOnWax = [Artist createEntity];
+    Artist *nightmaresOnWax = [Artist MR_createEntity];
     nightmaresOnWax.liked = @NO;
     nightmaresOnWax.nowListening = @YES;
     nightmaresOnWax.name = @"Nightmares on Wax";
@@ -74,7 +80,7 @@
     [nightmaresOnWax addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Tokyo Police Club
-    Artist *tokyoPoliceClub = [Artist createEntity];
+    Artist *tokyoPoliceClub = [Artist MR_createEntity];
     tokyoPoliceClub.liked = @NO;
     tokyoPoliceClub.nowListening = @YES;
     tokyoPoliceClub.name = @"Tokyo Police Club";
@@ -82,7 +88,7 @@
     [tokyoPoliceClub addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Why?
-    Artist *why = [Artist createEntity];
+    Artist *why = [Artist MR_createEntity];
     why.liked = @NO;
     why.nowListening = @YES;
     why.name = @"Why?";
@@ -90,7 +96,7 @@
     [why addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create The Hotelier
-    Artist *theHotelier = [Artist createEntity];
+    Artist *theHotelier = [Artist MR_createEntity];
     theHotelier.liked = @NO;
     theHotelier.nowListening = @YES;
     theHotelier.name = @"The Hotelier";
@@ -98,7 +104,7 @@
     [theHotelier addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Grouper
-    Artist *grouper = [Artist createEntity];
+    Artist *grouper = [Artist MR_createEntity];
     grouper.liked = @NO;
     grouper.nowListening = @YES;
     grouper.name = @"Grouper";
@@ -106,7 +112,7 @@
     [grouper addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Cass McCombs
-    Artist *cassMccombs = [Artist createEntity];
+    Artist *cassMccombs = [Artist MR_createEntity];
     cassMccombs.liked = @NO;
     cassMccombs.nowListening = @YES;
     cassMccombs.name = @"Cass McCombs";
@@ -114,7 +120,7 @@
     [cassMccombs addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Kanye West
-    Artist *yeezus = [Artist createEntity];
+    Artist *yeezus = [Artist MR_createEntity];
     yeezus.liked = @NO;
     yeezus.nowListening = @YES;
     yeezus.name = @"Kanye West";

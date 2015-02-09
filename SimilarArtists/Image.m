@@ -17,7 +17,7 @@
 @dynamic artist;
 
 +(Image *)createEntityWithUrl:(NSString *)url {
-    Image *image = [Image createEntity];
+    Image *image = [Image MR_createEntity];
     image.text = url;
     return image;
 }

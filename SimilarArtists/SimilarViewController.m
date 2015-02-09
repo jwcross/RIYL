@@ -122,8 +122,8 @@ CGFloat CELL_MARGIN = 20.0f;
 #pragma mark - Private helpers
 -(void)saveContext
 {
-    [[NSManagedObjectContext defaultContext]
-     saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+    [[NSManagedObjectContext MR_defaultContext]
+     MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
          if (success) {
              NSLog(@"%tu similar artists successfully saved.", _similarArtists.count);
          } else if (error) {
@@ -160,7 +160,8 @@ CGFloat CELL_MARGIN = 20.0f;
         // 1. Check if artist already exists in table
         Artist *similar;
         if ([artistDict[@"mbid"] length] > 0) {
-            similar = [Artist findFirstByAttribute:@"mbid" withValue:artistDict[@"mbid"]];
+            similar = [Artist MR_findFirstByAttribute:@"mbid"
+                                            withValue:artistDict[@"mbid"]];
         } else {
             NSLog(@"ERROR: Artist has empty mbid.\nname = %@\nid = %@",
                    artistDict[@"name"], artistDict[@"id"]);
@@ -174,12 +175,12 @@ CGFloat CELL_MARGIN = 20.0f;
             NSLog(@"debug: similar.name = %@", similar.name);
             
         } else {
-            similar = [Artist createEntity]; //todo! save, add relationship to seed
+            similar = [Artist MR_createEntity]; //todo! save, add relationship to seed
             similar.name = artistDict[@"name"];
             similar.mbid = artistDict[@"mbid"];
 
             if ([artistDict[@"image"] count] > 0) {
-                Image *image = [Image createEntity];
+                Image *image = [Image MR_createEntity];
                 image.text = [artistDict[@"image"] lastObject][@"#text"];
                 image.size = [artistDict[@"image"] lastObject][@"size"];
                 image.artist = self.artist;

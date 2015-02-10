@@ -9,6 +9,7 @@ pod 'MagicalRecord', :git => 'https://github.com/magicalpanda/MagicalRecord.git'
 pod 'MBProgressHUD', '~> 0.8'
 pod 'MGSwipeTableCell', :head
 pod 'SpinKit', '~> 1.0.1'
+pod 'libextobjc', '~> 0.4.1'
 
 end
 

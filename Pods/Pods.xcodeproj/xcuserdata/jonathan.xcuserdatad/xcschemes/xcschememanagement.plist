@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SimilarArtists-libextobjc.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SimilarArtists.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>33520362C56825752B9030B3</key>
+		<key>28F417CD40BA7E7D5C3D875D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6485B45E6713E91316A17B9E</key>
+		<key>42C7C944FB71C378FFF060EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6D15B067D841ACF3F47354CF</key>
+		<key>57CE06FEE29375B6437FE3E1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6DFAC991601783D0143BB45D</key>
+		<key>7687F3F34A716F00B4A7FE2B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AE062F990C780CE2361321E8</key>
+		<key>8A20E774C096C36FEE181590</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E0C99F46D34631E9F05A1C14</key>
+		<key>C4CA3045AE0A9E299C104790</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D4FFB1A2AEE7ABF9CF748B47</key>
 		<dict>
 			<key>primary</key>
 			<true/>

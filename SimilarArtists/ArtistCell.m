@@ -9,6 +9,7 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <MGSwipeTableCell/MGSwipeButton.h>
 #import <SpinKit/RTSpinKitView.h>
+#import <libextobjc/EXTScope.h>
 #import "ArtistCell.h"
 
 @interface ArtistCell ()
@@ -80,26 +81,29 @@ const float LABEL_MARGIN = 12.0f;
     }
 }
 
+typedef void (^ImageSuccess)(NSURLRequest*, NSHTTPURLResponse*, UIImage*);
+typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
+
 -(void)setBackgroundImageForArtist:(Artist*)artist {
-    UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
     [_progressView startAnimating];
     
     NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
     
-    __weak ArtistCell *weakSelf = self;
-    [backgroundImage setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
-                           placeholderImage:nil
-                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                        NSLog(@"Success -- fetching image");
-                                        __strong ArtistCell *strongSelf = weakSelf;
-                                        [strongSelf.progressView stopAnimating];
-                                        [strongSelf.backgroundImageView setImage:image];
-                                        
-                                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                        NSLog(@"Error -- fetching image");
-                                        __strong ArtistCell *strongSelf = weakSelf;
-                                        [strongSelf.progressView stopAnimating];
-                                    }];
+    @weakify(self)
+    ImageSuccess success = ^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        @strongify(self)
+        [self.progressView stopAnimating];
+        [self.backgroundImageView setImage:image];
+    };
+    ImageError failure = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        @strongify(self)
+        [self.progressView stopAnimating];
+    };
+    
+    [self.backgroundImageView setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
+                                    placeholderImage:nil
+                                             success:success
+                                             failure:failure];
 }
 
 #pragma mark - UITextFieldDelegate

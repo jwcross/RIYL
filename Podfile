@@ -8,6 +8,7 @@ pod 'AFNetworking', '2.3.1'
 pod 'MagicalRecord', :git => 'https://github.com/magicalpanda/MagicalRecord.git', :branch => 'develop'
 pod 'MBProgressHUD', '~> 0.8'
 pod 'MGSwipeTableCell', :head
+pod 'SpinKit', '~> 1.0.1'
 
 end
 

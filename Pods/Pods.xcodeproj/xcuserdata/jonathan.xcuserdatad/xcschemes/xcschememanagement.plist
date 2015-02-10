@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SimilarArtists-SpinKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SimilarArtists.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>04DDCBA745FE8AD6A7758F4E</key>
+		<key>33520362C56825752B9030B3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>12989C29FF1AAB8CCF831C33</key>
+		<key>6485B45E6713E91316A17B9E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>80CCDAEDB99F097B93B14C2C</key>
+		<key>6D15B067D841ACF3F47354CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8D7F9686822C6AD3AED3F26D</key>
+		<key>6DFAC991601783D0143BB45D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F13A48488CDC75CA86CF2CC0</key>
+		<key>AE062F990C780CE2361321E8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E0C99F46D34631E9F05A1C14</key>
 		<dict>
 			<key>primary</key>
 			<true/>

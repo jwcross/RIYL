@@ -72,3 +72,9 @@
 #define COCOAPODS_VERSION_MINOR_MagicalRecord_Core 3
 #define COCOAPODS_VERSION_PATCH_MagicalRecord_Core 0
 
+// SpinKit
+#define COCOAPODS_POD_AVAILABLE_SpinKit
+#define COCOAPODS_VERSION_MAJOR_SpinKit 1
+#define COCOAPODS_VERSION_MINOR_SpinKit 0
+#define COCOAPODS_VERSION_PATCH_SpinKit 1
+

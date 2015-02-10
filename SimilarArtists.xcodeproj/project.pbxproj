@@ -48,7 +48,7 @@
 		AB2BD3681A7F293E00E073C6 /* Launch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Launch.xib; sourceTree = "<group>"; };
 		AB2D956919B6C83900955CF2 /* ArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCell.h; sourceTree = "<group>"; };
 		AB2D956A19B6C83900955CF2 /* ArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCell.m; sourceTree = "<group>"; };
-		AB44F25C19B123560094722E /* SimilarArtists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimilarArtists.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB44F25C19B123560094722E /* RIYL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RIYL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB44F26019B123560094722E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB44F26119B123560094722E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AB44F26319B123560094722E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		AB44F25D19B123560094722E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB44F25C19B123560094722E /* SimilarArtists.app */,
+				AB44F25C19B123560094722E /* RIYL.app */,
 				AB44F27819B123560094722E /* SimilarArtistsTests.xctest */,
 			);
 			name = Products;
@@ -263,7 +263,7 @@
 			);
 			name = SimilarArtists;
 			productName = SimilarArtists;
-			productReference = AB44F25C19B123560094722E /* SimilarArtists.app */;
+			productReference = AB44F25C19B123560094722E /* RIYL.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AB44F27719B123560094722E /* SimilarArtistsTests */ = {
@@ -515,7 +515,7 @@
 				INFOPLIST_FILE = SimilarArtists/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RIYL;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SimilarArtists/SimilarArtists-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -536,7 +536,7 @@
 				INFOPLIST_FILE = SimilarArtists/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RIYL;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SimilarArtists/SimilarArtists-Bridging-Header.h";
 			};

@@ -14,7 +14,22 @@
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <MagicalRecord/MagicalRecord+Options.h>
 
-@interface AppDelegate ()
+@implementation UIColor (Extensions)
+
++ (UIColor*)colorWithHexString:(NSString*)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0
+                           green:((rgbValue & 0xFF00) >> 8)/255.0
+                            blue:(rgbValue & 0xFF)/255.0
+                           alpha:1.0];
+}
+
++ (UIColor*)darkerGrayColor {
+    return [UIColor colorWithHexString:@"#373c42"];
+}
 
 @end
 
@@ -23,7 +38,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window.tintColor = [UIColor whiteColor];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.22f green:0.17f blue:0.13f alpha:1.00f]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor darkerGrayColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;

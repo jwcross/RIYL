@@ -8,7 +8,13 @@
 
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <MGSwipeTableCell/MGSwipeButton.h>
+#import <SpinKit/RTSpinKitView.h>
 #import "ArtistCell.h"
+
+@interface ArtistCell ()
+@property RTSpinKitView *progressView;
+@property UIImageView *backgroundImageView;
+@end
 
 @implementation ArtistCell
 
@@ -26,8 +32,13 @@
         [self.contentView addSubview:_label];
         
         // create background image view
-        self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectNull];
-        [self.backgroundView setContentMode:UIViewContentModeScaleAspectFill];
+        _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectNull];
+        _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.backgroundView = _backgroundImageView;
+        
+        // add SpinKit view
+        _progressView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave];
+        [self.contentView addSubview:_progressView];
         
         // clear background
         self.backgroundColor = [UIColor clearColor];
@@ -48,6 +59,8 @@ const float LABEL_MARGIN = 12.0f;
     [super layoutSubviews];
     _label.frame = CGRectMake(LABEL_MARGIN, 0, self.bounds.size.width - LABEL_MARGIN,
                               self.bounds.size.height - LABEL_MARGIN);
+    _progressView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    _progressView.color = [UIColor whiteColor];
 }
 
 #pragma mark - setter
@@ -61,11 +74,32 @@ const float LABEL_MARGIN = 12.0f;
     // clear cached image
     UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
     backgroundImage.image = nil;
-    // set background image
+    
     if (artist.images.count > 0) {
-        NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
-        [backgroundImage setImageWithURL:imageUrl];
+        [self setBackgroundImageForArtist:artist];
     }
+}
+
+-(void)setBackgroundImageForArtist:(Artist*)artist {
+    UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
+    [_progressView startAnimating];
+    
+    NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
+    
+    __weak ArtistCell *weakSelf = self;
+    [backgroundImage setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
+                           placeholderImage:nil
+                                    success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                        NSLog(@"Success -- fetching image");
+                                        __strong ArtistCell *strongSelf = weakSelf;
+                                        [strongSelf.progressView stopAnimating];
+                                        [strongSelf.backgroundImageView setImage:image];
+                                        
+                                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                        NSLog(@"Error -- fetching image");
+                                        __strong ArtistCell *strongSelf = weakSelf;
+                                        [strongSelf.progressView stopAnimating];
+                                    }];
 }
 
 #pragma mark - UITextFieldDelegate

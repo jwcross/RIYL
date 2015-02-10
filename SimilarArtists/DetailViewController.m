@@ -12,6 +12,7 @@
 #import "Image.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import <SpinKit/RTSpinKitView.h>
 
 @interface DetailViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 
@@ -152,8 +153,12 @@
     }
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading artist";
-    
+    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:[UIColor whiteColor]];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.customView = spinner;
+    hud.labelText = NSLocalizedString(@"Loading artist", @"Loading artist");
+    [spinner startAnimating];
+
     // get artist details
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
     [api getInfoForArtist:artistName autocorrect:YES

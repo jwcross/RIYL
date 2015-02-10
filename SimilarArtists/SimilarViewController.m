@@ -7,6 +7,7 @@
 //
 
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <SpinKit/RTSpinKitView.h>
 #import "SimilarViewController.h"
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
@@ -135,7 +136,11 @@ CGFloat CELL_MARGIN = 20.0f;
 -(void)getSimilarArtists
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading similar artists";
+    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:[UIColor whiteColor]];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.customView = spinner;
+    hud.labelText = NSLocalizedString(@"Loading similar artists", @"Loading similar artists");
+    [spinner startAnimating];
     
     // get artist details
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];

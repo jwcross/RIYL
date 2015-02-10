@@ -22,7 +22,7 @@
 #pragma mark - Managing the detail item
 
 -(void)viewDidLoad {
-    // 1. If there is no artist, create new Artist
+    // 1. If there is no artist, show Alert to create new artist
     if (!self.artist) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Artist"
                                                         message:nil
@@ -84,7 +84,8 @@
 
 -(void)saveArtistForResponse:(NSDictionary*)artistDict {
     if (!self.artist) {
-        self.artist = [Artist MR_createEntity];
+        NSString *name = artistDict[@"name"];
+        self.artist = [Artist MR_findFirstOrCreateByAttribute:@"name" withValue:name];
     }
     
     self.artist.name = artistDict[@"name"];
@@ -103,8 +104,6 @@
         
         [self.artist addImagesObject:image];
     }
-    
-    [self refreshView];
 }
 
 -(void)saveContext {
@@ -142,6 +141,16 @@
 #pragma - Private helper methods
 
 -(void)getArtist:(NSString*)artistName {
+    if ([self hasSavedArtist:artistName]) {
+        self.artist = [Artist MR_findFirstByAttribute:@"name" withValue:artistName];
+        [self refreshView];
+    }
+    
+    if (self.artist.bio) {
+        NSLog(@"Already have details for this artist - returning early");
+        return;
+    }
+
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading artist";
     
@@ -152,11 +161,16 @@
                       NSLog(@"Success -- %@", responseObject);
                       [hud hide:YES];
                       [self saveArtistForResponse:responseObject[@"artist"]];
+                      [self refreshView];
                       
                   } failure:^(NSURLSessionDataTask *task, NSError *error) {
                       NSLog(@"Failure -- %@", error.description);
                       [hud hide:YES];
                   }];
+}
+
+-(BOOL)hasSavedArtist:(NSString*)artistName {
+    return [Artist MR_findByAttribute:@"name" withValue:artistName] != nil;
 }
 
 -(void)refreshView {

@@ -40,7 +40,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="Ah7-4n-0Wa" kind="show" identifier="viewArtist" id="kOC-hy-kSl"/>
+                                    <segue destination="ys0-5c-0IF" kind="show" identifier="viewSimilar" id="P9K-0R-Muc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -58,6 +58,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <connections>
+                        <segue destination="Ah7-4n-0Wa" kind="show" identifier="viewDetails" id="pGZ-rL-mgD"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Cn-md-YlS" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,7 +137,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1309" y="64"/>
+            <point key="canvasLocation" x="1327" y="-306"/>
         </scene>
         <!--Similar View Controller-->
         <scene sceneID="oNe-FJ-l9Y">
@@ -168,10 +171,11 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fd7-XX-8La" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2007" y="64"/>
+            <point key="canvasLocation" x="1327" y="482"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="P9K-0R-Muc"/>
         <segue reference="ACs-P7-vbG"/>
     </inferredMetricsTieBreakers>
 </document>

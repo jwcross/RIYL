@@ -9,6 +9,7 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <MGSwipeTableCell/MGSwipeButton.h>
 #import "ArtistsTableViewController.h"
+#import "SimilarViewController.h"
 #import "DetailViewController.h"
 #import "LastfmAPIClient.h"
 #import "Artist.h"
@@ -119,6 +120,7 @@
     
     BOOL isLike = index == 0 && direction == MGSwipeDirectionLeftToRight;
     BOOL isDelete = index == 0 && direction == MGSwipeDirectionRightToLeft;
+    BOOL isDetails = index == 1 && direction == MGSwipeDirectionRightToLeft;
     
     if (isDelete) {
         // Deleting an Entity with MagicalRecord
@@ -130,6 +132,11 @@
         artist.liked = [artist.liked isEqual:@NO] ? @YES : @NO;
         [self saveContext];
         [self.tableView reloadData];
+    } else if (isDetails) {
+        [self.tableView selectRowAtIndexPath:indexPath
+                                    animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
+        [self performSegueWithIdentifier:@"viewDetails" sender:self];
     }
     
     NSLog(@"Callback received%@ (%@)",
@@ -151,7 +158,7 @@
 {
     UIColor *colors[2] = {[UIColor redColor], [UIColor lightGrayColor]};
     MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@"Delete" backgroundColor:colors[0] padding:15];
-    MGSwipeButton *moreButton = [MGSwipeButton buttonWithTitle:@"More" backgroundColor:colors[1] padding:15];
+    MGSwipeButton *moreButton = [MGSwipeButton buttonWithTitle:@"Details" backgroundColor:colors[1] padding:15];
     return @[deleteButton, moreButton];
 }
 
@@ -160,12 +167,16 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    DetailViewController *upcoming = segue.destinationViewController;
-    if ([segue.identifier isEqualToString:@"viewArtist"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Artist *artist = self.artists[indexPath.row];
-        upcoming.artist = artist;
+    if ([segue.identifier isEqualToString:@"viewSimilar"]) {
+        SimilarViewController *upcoming = segue.destinationViewController;
+        NSInteger row = [self.tableView indexPathForSelectedRow].row;
+        upcoming.artist = self.artists[row];
+    } else if ([segue.identifier isEqualToString:@"viewDetails"]) {
+        DetailViewController *upcoming = segue.destinationViewController;
+        NSInteger row = [self.tableView indexPathForSelectedRow].row;
+        upcoming.artist = self.artists[row];
     } else if ([segue.identifier isEqualToString:@"addArtist"]) {
+        DetailViewController *upcoming = segue.destinationViewController;
         UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
         cancel.title = @"Cancel";
         cancel.style = UIBarButtonItemStyleBordered;
@@ -180,6 +191,7 @@
         done.action = @selector(addNewArtist);
         upcoming.navigationItem.rightBarButtonItem = done;
     }
+    
 }
 
 #pragma mark - Private helper methods

@@ -11,12 +11,12 @@
 #import "Artist.h"
 
 // A custom table view cell that renders Artist items.
-@interface ArtistCell : MGSwipeTableCell <UITextFieldDelegate>
+@interface ArtistCell : MGSwipeTableCell
 
 // the item that this cell renders.
 @property (nonatomic) Artist *artist;
 
 // the label used to render the artist name.
-@property (nonatomic, strong, readonly) UITextField *label;
+@property (nonatomic, strong, readonly) UILabel *label;
 
 @end

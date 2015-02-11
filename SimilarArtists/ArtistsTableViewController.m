@@ -68,7 +68,7 @@
 
 #pragma mark - UITableViewDelegate
 
--(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+-(void) tableView:(UITableView *)tableView willDisplayCell:(ArtistCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Remove separator inset
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -132,7 +132,12 @@
         [self.artists removeObjectAtIndex:indexPath.row];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (isLike) {
-        artist.liked = [artist.liked isEqual:@NO] ? @YES : @NO;
+        artist.liked = [artist.liked isEqual:@0] ? @1
+                     : [artist.liked isEqual:@1] ? @2
+                     : [artist.liked isEqual:@2] ? @3
+                     : [artist.liked isEqual:@3] ? @0
+                     : @-1;
+        
         [self saveContext];
         [self.tableView reloadData];
     } else if (isDetails) {
@@ -146,8 +151,12 @@
 }
 
 -(NSArray *)createLeftButtons:(Artist*)artist {
-    UIColor  *color = [artist.liked isEqual:@NO] ? [UIColor myGreenColor] : [UIColor myBlueColor];
-    NSString *title = [artist.liked isEqual:@NO] ? @"Like" : @"Unlike";
+    UIColor *colors[] = { [UIColor myGreenColor], [UIColor myBlueColor], [UIColor myRedColor], [UIColor myBlueColor] };
+    NSString *titles[] = { @"Like", @"Unlike", @"Dislike", @"Undislike" };
+    
+    long position = artist.liked.integerValue;
+    UIColor *color = colors[position % 4];
+    NSString *title = titles[position % 4];
     MGSwipeButton *likeUnlikeButton = [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:15];
     return @[likeUnlikeButton];
 }

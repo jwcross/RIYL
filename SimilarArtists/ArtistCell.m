@@ -14,11 +14,18 @@
 #import "UIColor+HexColors.h"
 
 @interface ArtistCell ()
+
 @property RTSpinKitView *progressView;
 @property UIImageView *backgroundImageView;
+
 @end
 
 @implementation ArtistCell
+
+#define LABEL_FONT [UIFont boldSystemFontOfSize:16.0f]
+static const float LABEL_CORNER_RADIUS = 3.0f;
+static const float LABEL_PADDING_X = 8.0f;
+static const float LABEL_PADDING_Y = 4.0f;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -30,12 +37,13 @@
         [self.contentView addSubview:_backgroundImageView];
 
         // create a label that renders the artist name
-        _label = [[UITextField alloc] initWithFrame:CGRectNull];
+        _label = [[UILabel alloc] initWithFrame:CGRectNull];
         _label.textColor = [UIColor whiteColor];
-        _label.font = [UIFont boldSystemFontOfSize:16.0f];
         _label.backgroundColor = [UIColor clearColor];
-        _label.delegate = self;
-        _label.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+        _label.font = LABEL_FONT;
+        _label.layer.cornerRadius = LABEL_CORNER_RADIUS;
+        _label.clipsToBounds = YES;
+        _label.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_label];
         
         // add SpinKit view
@@ -55,25 +63,27 @@
     return self;   
 }
 
-const float LABEL_MARGIN = 12.0f;
-
 -(void)layoutSubviews {
     [super layoutSubviews];
-    _label.frame = CGRectMake(LABEL_MARGIN, 0, self.bounds.size.width - LABEL_MARGIN,
-                              self.bounds.size.height - LABEL_MARGIN);
+    
+    CGSize size = [self.artist.name sizeWithAttributes:@{NSFontAttributeName: LABEL_FONT}];
+    _label.frame = CGRectMake(0, self.bounds.size.height - size.height - 2*LABEL_PADDING_Y - 0,
+                              size.width + 2*LABEL_PADDING_X, size.height + 2*LABEL_PADDING_Y);
+    
     _progressView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     _progressView.color = [UIColor whiteColor];
     _backgroundImageView.frame = self.bounds;
 }
 
 #pragma mark - setter
+
 -(void)setArtist:(Artist *)artist {
     _artist = artist;
     _label.text = artist.name;
-    _label.textColor = artist.liked.intValue ==  1 ? [UIColor myLightGreenColor]
-                     : artist.liked.intValue == -1 ? [UIColor myRedColor]
-                     : [UIColor whiteColor];
     
+    _label.backgroundColor = artist.liked.intValue ==  1 ? [UIColor myTransparentLightGreenColor]
+                           : artist.liked.intValue ==  3 ? [UIColor myTransparentRedColor]
+                           : [UIColor myTransparentDarkGrayColor];
     // clear cached image
     _backgroundImageView.image = nil;
     
@@ -106,14 +116,5 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
                                              success:success
                                              failure:failure];
 }
-
-#pragma mark - UITextFieldDelegate
-
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    return NO; //todo!
-}
-
-#pragma mark - MGTableCell
-
 
 @end

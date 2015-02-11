@@ -42,14 +42,14 @@
     // Create Nujabes
     Artist *nujabes = [Artist MR_createEntity];
     nujabes.name = @"Nujabes";
-    nujabes.liked = @NO;
+    nujabes.liked = @0;
     nujabes.nowListening = @YES;
     url = @"http://userserve-ak.last.fm/serve/_/44041763/Nujabes+_.jpg";
     [nujabes addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Modest Mouse
     Artist *modestMouse = [Artist MR_createEntity];
-    modestMouse.liked = @NO;
+    modestMouse.liked = @0;
     modestMouse.nowListening = @YES;
     modestMouse.name = @"Modest Mouse";
     url = @"http://userserve-ak.last.fm/serve/500/886281/Modest+Mouse.jpg";
@@ -57,7 +57,7 @@
     
     // Create Nightmares on Wax
     Artist *nightmaresOnWax = [Artist MR_createEntity];
-    nightmaresOnWax.liked = @NO;
+    nightmaresOnWax.liked = @0;
     nightmaresOnWax.nowListening = @YES;
     nightmaresOnWax.name = @"Nightmares on Wax";
     url = @"http://userserve-ak.last.fm/serve/_/2162189/Nightmares+on+Wax.jpg";
@@ -65,7 +65,7 @@
     
     // Create Tokyo Police Club
     Artist *tokyoPoliceClub = [Artist MR_createEntity];
-    tokyoPoliceClub.liked = @NO;
+    tokyoPoliceClub.liked = @0;
     tokyoPoliceClub.nowListening = @YES;
     tokyoPoliceClub.name = @"Tokyo Police Club";
     url = @"http://userserve-ak.last.fm/serve/_/4855404/Tokyo+Police+Club+tokyopolice_cover.jpg";
@@ -73,7 +73,7 @@
     
     // Create Why?
     Artist *why = [Artist MR_createEntity];
-    why.liked = @NO;
+    why.liked = @0;
     why.nowListening = @YES;
     why.name = @"Why?";
     url = @"http://userserve-ak.last.fm/serve/_/28744645/Why+Live+Dublab+Session+PROPER.png";
@@ -81,7 +81,7 @@
     
     // Create The Hotelier
     Artist *theHotelier = [Artist MR_createEntity];
-    theHotelier.liked = @NO;
+    theHotelier.liked = @0;
     theHotelier.nowListening = @YES;
     theHotelier.name = @"The Hotelier";
     url = @"http://userserve-ak.last.fm/serve/500/98412025/The+Hotelier+TheHotelier5.png";
@@ -89,7 +89,7 @@
     
     // Create Grouper
     Artist *grouper = [Artist MR_createEntity];
-    grouper.liked = @NO;
+    grouper.liked = @0;
     grouper.nowListening = @YES;
     grouper.name = @"Grouper";
     url = @"http://userserve-ak.last.fm/serve/_/69589066/Grouper+Liz6.jpg";
@@ -97,7 +97,7 @@
     
     // Create Cass McCombs
     Artist *cassMccombs = [Artist MR_createEntity];
-    cassMccombs.liked = @NO;
+    cassMccombs.liked = @0;
     cassMccombs.nowListening = @YES;
     cassMccombs.name = @"Cass McCombs";
     url = @"http://userserve-ak.last.fm/serve/_/32726321/Cass+McCombs+CASS.jpg";
@@ -105,7 +105,7 @@
     
     // Create Kanye West
     Artist *yeezus = [Artist MR_createEntity];
-    yeezus.liked = @NO;
+    yeezus.liked = @0;
     yeezus.nowListening = @YES;
     yeezus.name = @"Kanye West";
     url = @"http://userserve-ak.last.fm/serve/_/52579947/Kanye+West+kanye+bet+awards.png";

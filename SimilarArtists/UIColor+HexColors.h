@@ -19,4 +19,8 @@
 + (UIColor*)myGreenColor;
 + (UIColor*)myDarkGreenColor;
 
++ (UIColor*)myTransparentDarkGrayColor;
++ (UIColor*)myTransparentRedColor;
++ (UIColor*)myTransparentLightGreenColor;
+
 @end

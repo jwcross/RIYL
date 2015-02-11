@@ -23,9 +23,9 @@
 @implementation ArtistCell
 
 #define LABEL_FONT [UIFont boldSystemFontOfSize:16.0f]
-static const float LABEL_CORNER_RADIUS = 3.0f;
+static const float LABEL_CORNER_RADIUS = 2.0f;
 static const float LABEL_PADDING_X = 8.0f;
-static const float LABEL_PADDING_Y = 4.0f;
+static const float LABEL_PADDING_Y = 2.0f;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {

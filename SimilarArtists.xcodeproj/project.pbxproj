@@ -22,6 +22,7 @@
 		AB44F27F19B123560094722E /* SimilarArtistsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F27E19B123560094722E /* SimilarArtistsTests.m */; };
 		AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F29119B17CF40094722E /* LastfmAPIClient.m */; };
 		ABDF04B21A8AEDC1003CD76E /* SpotifyAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */; };
+		ABDF04B61A8AFF35003CD76E /* InitialDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */; };
 		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
 		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
 		ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */; };
@@ -69,6 +70,8 @@
 		AB44F2AC19B26A6A0094722E /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		ABDF04B01A8AEDC1003CD76E /* SpotifyAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifyAPIClient.h; sourceTree = "<group>"; };
 		ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyAPIClient.m; sourceTree = "<group>"; };
+		ABDF04B41A8AFF35003CD76E /* InitialDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialDataHelper.h; sourceTree = "<group>"; };
+		ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialDataHelper.m; sourceTree = "<group>"; };
 		ABFAE83119B7EE550029CCCB /* SimilarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimilarViewController.h; sourceTree = "<group>"; };
 		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
 		ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
@@ -137,6 +140,7 @@
 		AB44F25E19B123560094722E /* SimilarArtists */ = {
 			isa = PBXGroup;
 			children = (
+				ABDF04B31A8AFF05003CD76E /* Data */,
 				AB44F28B19B123D90094722E /* Application */,
 				AB44F28C19B123E90094722E /* Controllers */,
 				AB44F28919B123C20094722E /* Models */,
@@ -144,10 +148,6 @@
 				AB44F28D19B123FB0094722E /* Library */,
 				AB44F28A19B123C90094722E /* Support */,
 				AB44F25F19B123560094722E /* Supporting Files */,
-				AB44F29019B17CF40094722E /* LastfmAPIClient.h */,
-				AB44F29119B17CF40094722E /* LastfmAPIClient.m */,
-				ABDF04B01A8AEDC1003CD76E /* SpotifyAPIClient.h */,
-				ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */,
 			);
 			path = SimilarArtists;
 			sourceTree = "<group>";
@@ -247,6 +247,19 @@
 				AB44F27219B123560094722E /* Images.xcassets */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		ABDF04B31A8AFF05003CD76E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F29019B17CF40094722E /* LastfmAPIClient.h */,
+				AB44F29119B17CF40094722E /* LastfmAPIClient.m */,
+				ABDF04B01A8AEDC1003CD76E /* SpotifyAPIClient.h */,
+				ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */,
+				ABDF04B41A8AFF35003CD76E /* InitialDataHelper.h */,
+				ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,6 +405,7 @@
 				AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */,
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
+				ABDF04B61A8AFF35003CD76E /* InitialDataHelper.m in Sources */,
 				AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */,
 				ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */,
 				ABDF04B21A8AEDC1003CD76E /* SpotifyAPIClient.m in Sources */,

@@ -11,6 +11,7 @@
 #import "SimilarViewController.h"
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
+#import "SpotifyAPIClient.h"
 #import "Image.h"
 
 @interface SimilarViewController ()
@@ -73,12 +74,48 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // todo!
+    Artist *selectedArtist = self.artist.similarArtists[indexPath.row];
+    NSLog(@"Selected: %@", selectedArtist.name);
+    
+    UIAlertController *actionSheet = [self alertControllerForArtist:selectedArtist];
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // todo!
+}
+
+-(UIAlertController*)alertControllerForArtist:(Artist*)artist {
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil
+                                                                         message:nil
+                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
+    typedef void (^AlertHandler)(UIAlertAction*);
+    AlertHandler spotify = ^(UIAlertAction *action) {
+        [self spotifyTapped:artist];
+    };
+    AlertHandler cancel = ^(UIAlertAction *action) {
+        [actionSheet dismissViewControllerAnimated:YES completion:nil];
+    };
+    
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Spotify" style:UIAlertActionStyleDefault handler:spotify]];
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:cancel]];
+    
+    return actionSheet;
+}
+
+-(void)spotifyTapped:(Artist*)artist {
+    [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:^(NSURLSessionDataTask *task, id response) {
+        BOOL didReturnArtist = [response[@"artists"][@"items"] count] > 0;
+        if (didReturnArtist) {
+            NSString *spotifyID = response[@"artists"][@"items"][0][@"id"];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"spotify:artist:%@", spotifyID]];
+            [[UIApplication sharedApplication] openURL:url];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Failed to fetch artist %@ from Spotify", artist.name);
+    }];
 }
 
 /*
@@ -119,6 +156,10 @@ CGFloat CELL_MARGIN = 20.0f;
 {
     return UIEdgeInsetsMake(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 }
+
+#pragma mark - UIAlertController
+
+
 
 #pragma mark - Private helpers
 -(void)saveContext

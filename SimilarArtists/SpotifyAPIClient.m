@@ -45,6 +45,7 @@ NSString * const kSpotifyBaseURL = @"https://api.spotify.com";
             success(task, responseObject);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"Failed to fetch %@ from Spotify", artistName);
         if (failure) {
             failure(task, error);
         }

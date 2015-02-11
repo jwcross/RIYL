@@ -50,18 +50,18 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark - UICollectionViewDataSource
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView
+-(NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
     return [self.artist.similarArtists count];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ArtistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
@@ -72,17 +72,15 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark - UICollectionViewDelegate
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Artist *selectedArtist = self.artist.similarArtists[indexPath.row];
-    NSLog(@"Selected: %@", selectedArtist.name);
-    
     UIAlertController *actionSheet = [self alertControllerForArtist:selectedArtist];
-    [self presentViewController:actionSheet animated:YES completion:nil];
+    if (actionSheet) {
+        [self presentViewController:actionSheet animated:YES completion:nil];
+    }
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // todo!
 }
 
@@ -98,40 +96,30 @@ static NSString * const reuseIdentifier = @"Cell";
         [actionSheet dismissViewControllerAnimated:YES completion:nil];
     };
     
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Spotify" style:UIAlertActionStyleDefault handler:spotify]];
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:cancel]];
+    if ([self userHasSpotifyInstalled]) {
+        [actionSheet addAction:[UIAlertAction actionWithTitle:@"Spotify" style:UIAlertActionStyleDefault handler:spotify]];
+        [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:cancel]];
+        return actionSheet;
+    }
     
-    return actionSheet;
+    return nil;
+}
+
+-(BOOL)userHasSpotifyInstalled {
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"spotify:"]];
 }
 
 -(void)spotifyTapped:(Artist*)artist {
-    [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:^(NSURLSessionDataTask *task, id response) {
+    SuccessCallback success = ^(NSURLSessionDataTask *task, id response) {
         BOOL didReturnArtist = [response[@"artists"][@"items"] count] > 0;
         if (didReturnArtist) {
             NSString *spotifyID = response[@"artists"][@"items"][0][@"id"];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"spotify:artist:%@", spotifyID]];
             [[UIApplication sharedApplication] openURL:url];
         }
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"Failed to fetch artist %@ from Spotify", artist.name);
-    }];
+    };
+    [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:success failure:nil];
 }
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 #pragma mark - UICollectionViewFlowLayoutDelegate
 

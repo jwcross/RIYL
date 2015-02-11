@@ -23,6 +23,7 @@
 		AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F29119B17CF40094722E /* LastfmAPIClient.m */; };
 		ABDF04B21A8AEDC1003CD76E /* SpotifyAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */; };
 		ABDF04B61A8AFF35003CD76E /* InitialDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */; };
+		ABDF04B91A8B0F06003CD76E /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B81A8B0F06003CD76E /* UIColor+HexColors.m */; };
 		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
 		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
 		ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */; };
@@ -72,6 +73,8 @@
 		ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyAPIClient.m; sourceTree = "<group>"; };
 		ABDF04B41A8AFF35003CD76E /* InitialDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialDataHelper.h; sourceTree = "<group>"; };
 		ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialDataHelper.m; sourceTree = "<group>"; };
+		ABDF04B71A8B0F06003CD76E /* UIColor+HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColors.h"; sourceTree = "<group>"; };
+		ABDF04B81A8B0F06003CD76E /* UIColor+HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColors.m"; sourceTree = "<group>"; };
 		ABFAE83119B7EE550029CCCB /* SimilarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimilarViewController.h; sourceTree = "<group>"; };
 		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
 		ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 		AB44F28A19B123C90094722E /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				ABDF04B71A8B0F06003CD76E /* UIColor+HexColors.h */,
+				ABDF04B81A8B0F06003CD76E /* UIColor+HexColors.m */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -410,6 +415,7 @@
 				ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */,
 				ABDF04B21A8AEDC1003CD76E /* SpotifyAPIClient.m in Sources */,
 				AB28870F19BB9C7F00AAB3A3 /* Image.m in Sources */,
+				ABDF04B91A8B0F06003CD76E /* UIColor+HexColors.m in Sources */,
 				AB28871219BB9C8000AAB3A3 /* Artist.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,
 			);

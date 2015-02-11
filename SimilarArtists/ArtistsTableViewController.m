@@ -15,6 +15,7 @@
 #import "Artist.h"
 #import "Image.h"
 #import "ArtistCell.h"
+#import "UIColor+HexColors.h"
 
 @interface ArtistsTableViewController ()
 @property NSMutableArray *artists;
@@ -104,7 +105,10 @@
     expansionSettings.buttonIndex = 0;
     expansionSettings.fillOnTrigger = direction == MGSwipeDirectionRightToLeft;
     
-    return direction == MGSwipeDirectionLeftToRight ? [self createLeftButtons]
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    Artist *artist = self.artists[indexPath.row];
+    
+    return direction == MGSwipeDirectionLeftToRight ? [self createLeftButtons:artist]
     : direction == MGSwipeDirectionRightToLeft ? [self createRightButtons]
     : nil;
 }
@@ -123,7 +127,6 @@
     BOOL isDetails = index == 1 && direction == MGSwipeDirectionRightToLeft;
     
     if (isDelete) {
-        // Deleting an Entity with MagicalRecord
         [artist MR_deleteEntity];
         [self saveContext];
         [self.artists removeObjectAtIndex:indexPath.row];
@@ -139,19 +142,14 @@
         [self performSegueWithIdentifier:@"viewDetails" sender:self];
     }
     
-    NSLog(@"Callback received%@ (%@)",
-          (fromExpansion ? @" from expansion" : @""),
-          (direction == MGSwipeDirectionLeftToRight ? @"left" : @"right"));
-    
     return YES;
 }
 
--(NSArray *)createLeftButtons
-{
-    UIColor *colors[2] = { [UIColor greenColor], [UIColor colorWithRed:0 green:0x99/255.0 blue:0xcc/255.0 alpha:1.0] };
-    MGSwipeButton *likeButton = [MGSwipeButton buttonWithTitle:@"Like" backgroundColor:colors[0] padding:15];
-    MGSwipeButton *unlikeButton = [MGSwipeButton buttonWithTitle:@"Unlike" backgroundColor:colors[1] padding:15];
-    return @[likeButton, unlikeButton];
+-(NSArray *)createLeftButtons:(Artist*)artist {
+    UIColor  *color = [artist.liked isEqual:@NO] ? [UIColor greenColor] : [UIColor myBlueColor];
+    NSString *title = [artist.liked isEqual:@NO] ? @"Like" : @"Unlike";
+    MGSwipeButton *likeUnlikeButton = [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:15];
+    return @[likeUnlikeButton];
 }
 
 -(NSArray *)createRightButtons

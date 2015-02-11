@@ -10,7 +10,6 @@
 		28287F628602409F9BD74726 /* libPods-SimilarArtists.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */; };
 		AB28870F19BB9C7F00AAB3A3 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB28870E19BB9C7F00AAB3A3 /* Image.m */; };
 		AB28871219BB9C8000AAB3A3 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB28871119BB9C8000AAB3A3 /* Artist.m */; };
-		AB2BD3691A7F293E00E073C6 /* Launch.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB2BD3681A7F293E00E073C6 /* Launch.xib */; };
 		AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2D956A19B6C83900955CF2 /* ArtistCell.m */; };
 		AB44F26219B123560094722E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26119B123560094722E /* main.m */; };
 		AB44F26519B123560094722E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26419B123560094722E /* AppDelegate.m */; };
@@ -48,7 +47,6 @@
 		AB28870E19BB9C7F00AAB3A3 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		AB28871019BB9C8000AAB3A3 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
 		AB28871119BB9C8000AAB3A3 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
-		AB2BD3681A7F293E00E073C6 /* Launch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Launch.xib; sourceTree = "<group>"; };
 		AB2D956919B6C83900955CF2 /* ArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCell.h; sourceTree = "<group>"; };
 		AB2D956A19B6C83900955CF2 /* ArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCell.m; sourceTree = "<group>"; };
 		AB44F25C19B123560094722E /* RIYL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RIYL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +189,6 @@
 				ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */,
 				ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */,
 				ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */,
-				AB2BD3681A7F293E00E073C6 /* Launch.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -352,7 +349,6 @@
 			files = (
 				ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */,
 				AB44F27119B123560094722E /* Main.storyboard in Resources */,
-				AB2BD3691A7F293E00E073C6 /* Launch.xib in Resources */,
 				AB44F27319B123560094722E /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

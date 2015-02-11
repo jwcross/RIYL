@@ -24,6 +24,11 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        // create background image view
+        _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectNull];
+        _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.contentView addSubview:_backgroundImageView];
+
         // create a label that renders the artist name
         _label = [[UITextField alloc] initWithFrame:CGRectNull];
         _label.textColor = [UIColor whiteColor];
@@ -32,11 +37,6 @@
         _label.delegate = self;
         _label.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
         [self.contentView addSubview:_label];
-        
-        // create background image view
-        _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectNull];
-        _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-        self.backgroundView = _backgroundImageView;
         
         // add SpinKit view
         _progressView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave];
@@ -63,6 +63,7 @@ const float LABEL_MARGIN = 12.0f;
                               self.bounds.size.height - LABEL_MARGIN);
     _progressView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     _progressView.color = [UIColor whiteColor];
+    _backgroundImageView.frame = self.bounds;
 }
 
 #pragma mark - setter
@@ -74,8 +75,7 @@ const float LABEL_MARGIN = 12.0f;
                      : [UIColor whiteColor];
     
     // clear cached image
-    UIImageView *backgroundImage = (UIImageView*)self.backgroundView;
-    backgroundImage.image = nil;
+    _backgroundImageView.image = nil;
     
     if (artist.images.count > 0) {
         [self setBackgroundImageForArtist:artist];

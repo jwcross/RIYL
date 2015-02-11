@@ -14,5 +14,9 @@
 
 + (UIColor*)myDarkGrayColor;
 + (UIColor*)myBlueColor;
++ (UIColor*)myRedColor;
++ (UIColor*)myLightGreenColor;
++ (UIColor*)myGreenColor;
++ (UIColor*)myDarkGreenColor;
 
 @end

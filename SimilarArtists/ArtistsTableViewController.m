@@ -146,7 +146,7 @@
 }
 
 -(NSArray *)createLeftButtons:(Artist*)artist {
-    UIColor  *color = [artist.liked isEqual:@NO] ? [UIColor greenColor] : [UIColor myBlueColor];
+    UIColor  *color = [artist.liked isEqual:@NO] ? [UIColor myGreenColor] : [UIColor myBlueColor];
     NSString *title = [artist.liked isEqual:@NO] ? @"Like" : @"Unlike";
     MGSwipeButton *likeUnlikeButton = [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:15];
     return @[likeUnlikeButton];
@@ -154,7 +154,7 @@
 
 -(NSArray *)createRightButtons
 {
-    UIColor *colors[2] = {[UIColor redColor], [UIColor lightGrayColor]};
+    UIColor *colors[2] = {[UIColor myRedColor], [UIColor lightGrayColor]};
     MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@"Delete" backgroundColor:colors[0] padding:15];
     MGSwipeButton *moreButton = [MGSwipeButton buttonWithTitle:@"Details" backgroundColor:colors[1] padding:15];
     return @[deleteButton, moreButton];

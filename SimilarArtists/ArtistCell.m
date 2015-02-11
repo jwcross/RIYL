@@ -11,6 +11,7 @@
 #import <SpinKit/RTSpinKitView.h>
 #import <libextobjc/EXTScope.h>
 #import "ArtistCell.h"
+#import "UIColor+HexColors.h"
 
 @interface ArtistCell ()
 @property RTSpinKitView *progressView;
@@ -68,8 +69,8 @@ const float LABEL_MARGIN = 12.0f;
 -(void)setArtist:(Artist *)artist {
     _artist = artist;
     _label.text = artist.name;
-    _label.textColor = artist.liked.intValue ==  1 ? [UIColor greenColor]
-                     : artist.liked.intValue == -1 ? [UIColor redColor]
+    _label.textColor = artist.liked.intValue ==  1 ? [UIColor myLightGreenColor]
+                     : artist.liked.intValue == -1 ? [UIColor myRedColor]
                      : [UIColor whiteColor];
     
     // clear cached image

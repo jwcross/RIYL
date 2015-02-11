@@ -29,4 +29,20 @@
     return [UIColor colorWithHexString:@"#0099cc"];
 }
 
++ (UIColor*)myLightGreenColor {
+    return [UIColor colorWithHexString:@"#95bf74"];
+}
+
++ (UIColor*)myGreenColor {
+    return [UIColor colorWithHexString:@"#68a357"];
+}
+
++ (UIColor*)myDarkGreenColor {
+    return [UIColor colorWithHexString:@"#32965d"];
+}
+
++ (UIColor*)myRedColor {
+    return [UIColor colorWithHexString:@"#da4167"];
+}
+
 @end

@@ -12,6 +12,7 @@
 #import "Image.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import <SpinKit/RTSpinKitView.h>
 
 @interface DetailViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 
@@ -22,9 +23,14 @@
 #pragma mark - Managing the detail item
 
 -(void)viewDidLoad {
-    // 1. If there is no artist, create new Artist
+    // 1. If there is no artist, show Alert to create new artist
     if (!self.artist) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Artist" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Artist"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"OK", nil];
+     
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alert textFieldAtIndex:0].returnKeyType = UIReturnKeyDone;
         [alert textFieldAtIndex:0].delegate = self;
@@ -59,7 +65,7 @@
 }
 
 -(void)cancelAdd {
-    [self.artist deleteEntity];
+    [self.artist MR_deleteEntity];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -79,34 +85,37 @@
 
 -(void)saveArtistForResponse:(NSDictionary*)artistDict {
     if (!self.artist) {
-        self.artist = [Artist createEntity];
+        NSString *name = artistDict[@"name"];
+        self.artist = [Artist MR_findFirstOrCreateByAttribute:@"name" withValue:name];
     }
     
     self.artist.name = artistDict[@"name"];
     self.artist.mbid = artistDict[@"mbid"];
     self.artist.bio = artistDict[@"bio"][@"content"];
-    
+    self.artist.nowListening = @YES; // default `now listening` for added artists
+    if (!self.artist.liked) {
+      self.artist.liked = @NO; // default not-`liked` for added artists
+    }
+  
     if ([artistDict[@"image"] count] > 0) {
-        Image *image = [Image createEntity];
+        Image *image = [Image MR_createEntity];
         image.text = [artistDict[@"image"] lastObject][@"#text"];
         image.size = [artistDict[@"image"] lastObject][@"size"];
         image.artist = self.artist;
         
         [self.artist addImagesObject:image];
     }
-    
-    [self refreshView];
 }
 
 -(void)saveContext {
-    [[NSManagedObjectContext defaultContext]
-     saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+    [[NSManagedObjectContext MR_defaultContext]
+     MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
          if (success) {
              NSLog(@"Artist successfully saved.");
          } else if (error) {
              NSLog(@"Error saving artist: %@", error.description);
          }
-    }];
+     }];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -133,9 +142,23 @@
 #pragma - Private helper methods
 
 -(void)getArtist:(NSString*)artistName {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading artist";
+    if ([self hasSavedArtist:artistName]) {
+        self.artist = [Artist MR_findFirstByAttribute:@"name" withValue:artistName];
+        [self refreshView];
+    }
     
+    if (self.artist.bio) {
+        NSLog(@"Already have details for this artist - returning early");
+        return;
+    }
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:[UIColor whiteColor]];
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.customView = spinner;
+    hud.labelText = NSLocalizedString(@"Loading artist", @"Loading artist");
+    [spinner startAnimating];
+
     // get artist details
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
     [api getInfoForArtist:artistName autocorrect:YES
@@ -143,11 +166,16 @@
                       NSLog(@"Success -- %@", responseObject);
                       [hud hide:YES];
                       [self saveArtistForResponse:responseObject[@"artist"]];
+                      [self refreshView];
                       
                   } failure:^(NSURLSessionDataTask *task, NSError *error) {
                       NSLog(@"Failure -- %@", error.description);
                       [hud hide:YES];
                   }];
+}
+
+-(BOOL)hasSavedArtist:(NSString*)artistName {
+    return [Artist MR_findByAttribute:@"name" withValue:artistName] != nil;
 }
 
 -(void)refreshView {

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		28287F628602409F9BD74726 /* libPods-SimilarArtists.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */; };
+		AB28870F19BB9C7F00AAB3A3 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB28870E19BB9C7F00AAB3A3 /* Image.m */; };
+		AB28871219BB9C8000AAB3A3 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB28871119BB9C8000AAB3A3 /* Artist.m */; };
 		AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2D956A19B6C83900955CF2 /* ArtistCell.m */; };
 		AB44F26219B123560094722E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26119B123560094722E /* main.m */; };
 		AB44F26519B123560094722E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F26419B123560094722E /* AppDelegate.m */; };
@@ -18,8 +20,9 @@
 		AB44F27319B123560094722E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB44F27219B123560094722E /* Images.xcassets */; };
 		AB44F27F19B123560094722E /* SimilarArtistsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F27E19B123560094722E /* SimilarArtistsTests.m */; };
 		AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F29119B17CF40094722E /* LastfmAPIClient.m */; };
-		AB44F2A619B25F050094722E /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A519B25F050094722E /* Image.m */; };
-		AB44F2A919B25F060094722E /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB44F2A819B25F060094722E /* Artist.m */; };
+		ABDF04B21A8AEDC1003CD76E /* SpotifyAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */; };
+		ABDF04B61A8AFF35003CD76E /* InitialDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */; };
+		ABDF04B91A8B0F06003CD76E /* UIColor+HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDF04B81A8B0F06003CD76E /* UIColor+HexColors.m */; };
 		ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE83219B7EE550029CCCB /* SimilarViewController.m */; };
 		ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */; };
 		ABFAE86719B821040029CCCB /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */; };
@@ -36,11 +39,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimilarArtists.xcconfig"; path = "Pods/Pods-SimilarArtists.xcconfig"; sourceTree = "<group>"; };
+		186304792E7EEF8B043CD69B /* Pods-SimilarArtists.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimilarArtists.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimilarArtists/Pods-SimilarArtists.debug.xcconfig"; sourceTree = "<group>"; };
 		47BCFFD46724498C8F2B04F4 /* libPods-SimilarArtists.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimilarArtists.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0558E11A10C18900FC28C7 /* SimilarArtists 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SimilarArtists 3.xcdatamodel"; sourceTree = "<group>"; };
+		AB28870C19BB95D900AAB3A3 /* SimilarArtists 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SimilarArtists 2.xcdatamodel"; sourceTree = "<group>"; };
+		AB28870D19BB9C7F00AAB3A3 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		AB28870E19BB9C7F00AAB3A3 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		AB28871019BB9C8000AAB3A3 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
+		AB28871119BB9C8000AAB3A3 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		AB2D956919B6C83900955CF2 /* ArtistCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCell.h; sourceTree = "<group>"; };
 		AB2D956A19B6C83900955CF2 /* ArtistCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCell.m; sourceTree = "<group>"; };
-		AB44F25C19B123560094722E /* SimilarArtists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimilarArtists.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB44F25C19B123560094722E /* RIYL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RIYL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB44F26019B123560094722E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB44F26119B123560094722E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AB44F26319B123560094722E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,16 +66,19 @@
 		AB44F27E19B123560094722E /* SimilarArtistsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimilarArtistsTests.m; sourceTree = "<group>"; };
 		AB44F29019B17CF40094722E /* LastfmAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastfmAPIClient.h; sourceTree = "<group>"; };
 		AB44F29119B17CF40094722E /* LastfmAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastfmAPIClient.m; sourceTree = "<group>"; };
-		AB44F2A419B25F050094722E /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		AB44F2A519B25F050094722E /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
-		AB44F2A719B25F060094722E /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
-		AB44F2A819B25F060094722E /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		AB44F2AC19B26A6A0094722E /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		ABDF04B01A8AEDC1003CD76E /* SpotifyAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifyAPIClient.h; sourceTree = "<group>"; };
+		ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyAPIClient.m; sourceTree = "<group>"; };
+		ABDF04B41A8AFF35003CD76E /* InitialDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialDataHelper.h; sourceTree = "<group>"; };
+		ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialDataHelper.m; sourceTree = "<group>"; };
+		ABDF04B71A8B0F06003CD76E /* UIColor+HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColors.h"; sourceTree = "<group>"; };
+		ABDF04B81A8B0F06003CD76E /* UIColor+HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColors.m"; sourceTree = "<group>"; };
 		ABFAE83119B7EE550029CCCB /* SimilarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimilarViewController.h; sourceTree = "<group>"; };
 		ABFAE83219B7EE550029CCCB /* SimilarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimilarViewController.m; sourceTree = "<group>"; };
 		ABFAE86319B8168C0029CCCB /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
 		ABFAE86419B8168C0029CCCB /* ArtistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCollectionViewCell.m; sourceTree = "<group>"; };
 		ABFAE86619B821040029CCCB /* ArtistCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistCollectionViewCell.xib; sourceTree = "<group>"; };
+		C2B93420C8534791C7E2AA66 /* Pods-SimilarArtists.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimilarArtists.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimilarArtists/Pods-SimilarArtists.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +100,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A29AF0B6F2F51F08B66F187 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				186304792E7EEF8B043CD69B /* Pods-SimilarArtists.debug.xcconfig */,
+				C2B93420C8534791C7E2AA66 /* Pods-SimilarArtists.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9C201C7904234603B2C8EDBF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,14 +125,14 @@
 				AB44F25D19B123560094722E /* Products */,
 				AB44F28F19B124AD0094722E /* Resources */,
 				9C201C7904234603B2C8EDBF /* Frameworks */,
-				0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */,
+				1A29AF0B6F2F51F08B66F187 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		AB44F25D19B123560094722E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB44F25C19B123560094722E /* SimilarArtists.app */,
+				AB44F25C19B123560094722E /* RIYL.app */,
 				AB44F27819B123560094722E /* SimilarArtistsTests.xctest */,
 			);
 			name = Products;
@@ -120,6 +141,7 @@
 		AB44F25E19B123560094722E /* SimilarArtists */ = {
 			isa = PBXGroup;
 			children = (
+				ABDF04B31A8AFF05003CD76E /* Data */,
 				AB44F28B19B123D90094722E /* Application */,
 				AB44F28C19B123E90094722E /* Controllers */,
 				AB44F28919B123C20094722E /* Models */,
@@ -127,8 +149,6 @@
 				AB44F28D19B123FB0094722E /* Library */,
 				AB44F28A19B123C90094722E /* Support */,
 				AB44F25F19B123560094722E /* Supporting Files */,
-				AB44F29019B17CF40094722E /* LastfmAPIClient.h */,
-				AB44F29119B17CF40094722E /* LastfmAPIClient.m */,
 			);
 			path = SimilarArtists;
 			sourceTree = "<group>";
@@ -177,10 +197,10 @@
 			isa = PBXGroup;
 			children = (
 				AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */,
-				AB44F2A719B25F060094722E /* Artist.h */,
-				AB44F2A819B25F060094722E /* Artist.m */,
-				AB44F2A419B25F050094722E /* Image.h */,
-				AB44F2A519B25F050094722E /* Image.m */,
+				AB28871019BB9C8000AAB3A3 /* Artist.h */,
+				AB28871119BB9C8000AAB3A3 /* Artist.m */,
+				AB28870D19BB9C7F00AAB3A3 /* Image.h */,
+				AB28870E19BB9C7F00AAB3A3 /* Image.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -188,6 +208,8 @@
 		AB44F28A19B123C90094722E /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				ABDF04B71A8B0F06003CD76E /* UIColor+HexColors.h */,
+				ABDF04B81A8B0F06003CD76E /* UIColor+HexColors.m */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -229,6 +251,19 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		ABDF04B31A8AFF05003CD76E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				AB44F29019B17CF40094722E /* LastfmAPIClient.h */,
+				AB44F29119B17CF40094722E /* LastfmAPIClient.m */,
+				ABDF04B01A8AEDC1003CD76E /* SpotifyAPIClient.h */,
+				ABDF04B11A8AEDC1003CD76E /* SpotifyAPIClient.m */,
+				ABDF04B41A8AFF35003CD76E /* InitialDataHelper.h */,
+				ABDF04B51A8AFF35003CD76E /* InitialDataHelper.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -248,7 +283,7 @@
 			);
 			name = SimilarArtists;
 			productName = SimilarArtists;
-			productReference = AB44F25C19B123560094722E /* SimilarArtists.app */;
+			productReference = AB44F25C19B123560094722E /* RIYL.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AB44F27719B123560094722E /* SimilarArtistsTests */ = {
@@ -280,6 +315,7 @@
 				TargetAttributes = {
 					AB44F25B19B123560094722E = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = R5T7RC2T53;
 					};
 					AB44F27719B123560094722E = {
 						CreatedOnToolsVersion = 6.0;
@@ -339,7 +375,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-SimilarArtists-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimilarArtists/Pods-SimilarArtists-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BBE72FDBB65F48DDA2238602 /* Check Pods Manifest.lock */ = {
@@ -367,14 +403,17 @@
 				ABFAE83319B7EE550029CCCB /* SimilarViewController.m in Sources */,
 				AB44F26E19B123560094722E /* DetailViewController.m in Sources */,
 				AB44F26B19B123560094722E /* ArtistsTableViewController.m in Sources */,
-				AB44F2A919B25F060094722E /* Artist.m in Sources */,
 				AB44F29219B17CF40094722E /* LastfmAPIClient.m in Sources */,
 				AB44F26819B123560094722E /* SimilarArtists.xcdatamodeld in Sources */,
 				AB44F26519B123560094722E /* AppDelegate.m in Sources */,
+				ABDF04B61A8AFF35003CD76E /* InitialDataHelper.m in Sources */,
 				AB2D956B19B6C83900955CF2 /* ArtistCell.m in Sources */,
 				ABFAE86519B8168C0029CCCB /* ArtistCollectionViewCell.m in Sources */,
+				ABDF04B21A8AEDC1003CD76E /* SpotifyAPIClient.m in Sources */,
+				AB28870F19BB9C7F00AAB3A3 /* Image.m in Sources */,
+				ABDF04B91A8B0F06003CD76E /* UIColor+HexColors.m in Sources */,
+				AB28871219BB9C8000AAB3A3 /* Artist.m in Sources */,
 				AB44F26219B123560094722E /* main.m in Sources */,
-				AB44F2A619B25F050094722E /* Image.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,17 +525,20 @@
 		};
 		AB44F28319B123560094722E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */;
+			baseConfigurationReference = 186304792E7EEF8B043CD69B /* Pods-SimilarArtists.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SimilarArtists/PrefixHeader.pch;
 				INFOPLIST_FILE = SimilarArtists/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RIYL;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SimilarArtists/SimilarArtists-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -504,17 +546,20 @@
 		};
 		AB44F28419B123560094722E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0FDD6748EF2C466F95A3E9AA /* Pods-SimilarArtists.xcconfig */;
+			baseConfigurationReference = C2B93420C8534791C7E2AA66 /* Pods-SimilarArtists.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SimilarArtists/PrefixHeader.pch;
 				INFOPLIST_FILE = SimilarArtists/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RIYL;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SimilarArtists/SimilarArtists-Bridging-Header.h";
 			};
 			name = Release;
@@ -589,9 +634,11 @@
 		AB44F26619B123560094722E /* SimilarArtists.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AB0558E11A10C18900FC28C7 /* SimilarArtists 3.xcdatamodel */,
+				AB28870C19BB95D900AAB3A3 /* SimilarArtists 2.xcdatamodel */,
 				AB44F26719B123560094722E /* SimilarArtists.xcdatamodel */,
 			);
-			currentVersion = AB44F26719B123560094722E /* SimilarArtists.xcdatamodel */;
+			currentVersion = AB0558E11A10C18900FC28C7 /* SimilarArtists 3.xcdatamodel */;
 			path = SimilarArtists.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

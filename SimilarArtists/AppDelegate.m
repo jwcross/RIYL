@@ -11,9 +11,13 @@
 #import "ArtistsTableViewController.h"
 #import "Artist.h"
 #import "Image.h"
+#import "InitialDataHelper.h"
+#import "UIColor+HexColors.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
+#import <MagicalRecord/MagicalRecord+Options.h>
 
-@interface AppDelegate ()
+@implementation UIColor (Extensions)
+
 
 @end
 
@@ -21,87 +25,30 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window.tintColor = [UIColor whiteColor];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.22f green:0.17f blue:0.13f alpha:1.00f]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor myDarkGrayColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
-    // Setup CoreData with MagicalRecord
-    [MagicalRecord setupCoreDataStack];
-    
-    // Setup App with prefilled Artist items.
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledArtists"]) {
-        
-        [self setupSampleData];
-        
-        // Save Managed Object Context
-        [[NSManagedObjectContext defaultContext] saveToPersistentStoreWithCompletion:nil];
-        
-        // Set User Default to prevent another preload of data on startup.
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MR_HasPrefilledArtists"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    [self setupMagicalRecord];
     
     return YES;
 }
 
--(void)setupSampleData {
-    NSString *url;
+-(void)setupMagicalRecord
+{
+    // Setup CoreData with MagicalRecord
+    [MagicalRecord setupAutoMigratingCoreDataStack];
     
-    // Create Nujabes
-    Artist *nujabes = [Artist createEntity];
-    nujabes.name = @"Nujabes";
-    url = @"http://userserve-ak.last.fm/serve/_/44041763/Nujabes+_.jpg";
-    [nujabes addImagesObject:[Image createEntityWithUrl:url]];
+    // Define MagicalRecord logging level
+    [MagicalRecord setLoggingLevel:MagicalRecordLoggingLevelWarn];
     
-    // Create Modest Mouse
-    Artist *modestMouse = [Artist createEntity];
-    modestMouse.name = @"Modest Mouse";
-    url = @"http://userserve-ak.last.fm/serve/500/886281/Modest+Mouse.jpg";
-    [modestMouse addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create Nightmares on Wax
-    Artist *nightmaresOnWax = [Artist createEntity];
-    nightmaresOnWax.name = @"Nightmares on Wax";
-    url = @"http://userserve-ak.last.fm/serve/_/2162189/Nightmares+on+Wax.jpg";
-    [nightmaresOnWax addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create Tokyo Police Club
-    Artist *tokyoPoliceClub = [Artist createEntity];
-    tokyoPoliceClub.name = @"Tokyo Police Club";
-    url = @"http://userserve-ak.last.fm/serve/_/4855404/Tokyo+Police+Club+tokyopolice_cover.jpg";
-    [tokyoPoliceClub addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create Why?
-    Artist *why = [Artist createEntity];
-    why.name = @"Why?";
-    url = @"http://userserve-ak.last.fm/serve/_/28744645/Why+Live+Dublab+Session+PROPER.png";
-    [why addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create The Hotelier
-    Artist *theHotelier = [Artist createEntity];
-    theHotelier.name = @"The Hotelier";
-    url = @"http://userserve-ak.last.fm/serve/500/98412025/The+Hotelier+TheHotelier5.png";
-    [theHotelier addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create Grouper
-    Artist *grouper = [Artist createEntity];
-    grouper.name = @"Grouper";
-    url = @"http://userserve-ak.last.fm/serve/_/69589066/Grouper+Liz6.jpg";
-    [grouper addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create Cass McCombs
-    Artist *cassMccombs = [Artist createEntity];
-    cassMccombs.name = @"Cass McCombs";
-    url = @"http://userserve-ak.last.fm/serve/_/32726321/Cass+McCombs+CASS.jpg";
-    [cassMccombs addImagesObject:[Image createEntityWithUrl:url]];
-    
-    // Create Kanye West
-    Artist *yeezus = [Artist createEntity];
-    yeezus.name = @"Kanye West";
-    url = @"http://userserve-ak.last.fm/serve/500/91770519/Kanye+West+Yeezus+PNG.png";
-    [yeezus addImagesObject:[Image createEntityWithUrl:url]];
+    // If necessary, initialize with sample Artist items.
+    if ([[InitialDataHelper sharedInstance] hasPrefilledArtists] == NO) {
+        [[InitialDataHelper sharedInstance] initializeData];
+    }
 }
+
 
 @end

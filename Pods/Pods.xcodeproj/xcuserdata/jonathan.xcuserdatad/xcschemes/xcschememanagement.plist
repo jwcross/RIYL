@@ -14,7 +14,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SimilarArtists-MGSwipeTableCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SimilarArtists-MagicalRecord.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-SimilarArtists-SpinKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-SimilarArtists-libextobjc.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,22 +42,62 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>00B9B3C44B884065BC4A0AF3</key>
+		<key>04DDCBA745FE8AD6A7758F4E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2ABD12E696E04B279A82C779</key>
+		<key>12989C29FF1AAB8CCF831C33</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>85631149B009417C911CF312</key>
+		<key>28F417CD40BA7E7D5C3D875D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C38122488544457CA6A19D6B</key>
+		<key>42C7C944FB71C378FFF060EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>57CE06FEE29375B6437FE3E1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7687F3F34A716F00B4A7FE2B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>80CCDAEDB99F097B93B14C2C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8A20E774C096C36FEE181590</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8D7F9686822C6AD3AED3F26D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C4CA3045AE0A9E299C104790</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D4FFB1A2AEE7ABF9CF748B47</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F13A48488CDC75CA86CF2CC0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

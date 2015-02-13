@@ -22,7 +22,7 @@
 }
 
 - (BOOL)hasPrefilledArtists {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledArtists"];
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledArtists"] boolValue];
 }
 
 - (void)initializeData {

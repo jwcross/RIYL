@@ -12,6 +12,7 @@
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
 #import "SpotifyAPIClient.h"
+#import <libextobjc/EXTScope.h>
 #import "Image.h"
 
 @interface SimilarViewController ()
@@ -152,14 +153,16 @@ CGFloat CELL_MARGIN = 20.0f;
 #pragma mark - Private helpers
 -(void)saveContext
 {
+    @weakify(self)
     [[NSManagedObjectContext MR_defaultContext]
      MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+         @strongify(self)
          if (success) {
-             NSLog(@"%tu similar artists successfully saved.", _similarArtists.count);
+             NSLog(@"%tu similar artists successfully saved.", self.similarArtists.count);
          } else if (error) {
-             NSLog(@"Error saving %tu similar artists: %@", _similarArtists.count, error.description);
+             NSLog(@"Error saving %tu similar artists: %@", self.similarArtists.count, error.description);
          }
-    }];
+     }];
 }
 
 -(void)getSimilarArtists

@@ -23,6 +23,8 @@
 #pragma mark - Managing the detail item
 
 -(void)viewDidLoad {
+    [super viewDidLoad];
+    
     // 1. If there is no artist, show Alert to create new artist
     if (!self.artist) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Artist"

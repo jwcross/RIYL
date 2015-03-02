@@ -186,14 +186,14 @@
         DetailViewController *upcoming = segue.destinationViewController;
         UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
         cancel.title = @"Cancel";
-        cancel.style = UIBarButtonItemStyleBordered;
+        cancel.style = UIBarButtonItemStylePlain;
         cancel.target = upcoming;
         cancel.action = @selector(cancelAdd);
         upcoming.navigationItem.leftBarButtonItem = cancel;
         
         UIBarButtonItem *done = [[UIBarButtonItem alloc] init];
         done.title = @"Done";
-        done.style = UIBarButtonItemStyleBordered;
+        done.style = UIBarButtonItemStylePlain;
         done.target = upcoming;
         done.action = @selector(addNewArtist);
         upcoming.navigationItem.rightBarButtonItem = done;

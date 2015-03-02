@@ -1,11 +1,3 @@
-//
-//  InitialDataHelper.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 2/10/15.
-//  Copyright (c) 2015 CCS. All rights reserved.
-//
-
 #import "InitialDataHelper.h"
 #import "Image.h"
 #import "Artist.h"

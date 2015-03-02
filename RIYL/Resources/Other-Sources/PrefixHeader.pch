@@ -1,11 +1,3 @@
-//
-//  PrefixHeader.pch
-//  RIYL
-//
-//  Created by Jonathan Crossley on 2/27/15.
-//  Copyright (c) 2015 CCS. All rights reserved.
-//
-
 #ifndef RIYL_PrefixHeader_pch
 #define RIYL_PrefixHeader_pch
 

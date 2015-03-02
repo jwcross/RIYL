@@ -1,11 +1,3 @@
-//
-//  AppDelegate.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 8/29/14.
-//  Copyright (c) 2014 CCS. All rights reserved.
-//
-
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "ArtistsTableViewController.h"

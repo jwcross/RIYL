@@ -1,11 +1,3 @@
-//
-//  LastfmAPIClient.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 8/29/14.
-//  Copyright (c) 2014 CCS. All rights reserved.
-//
-
 #import "LastfmAPIClient.h"
 
 NSString * const kLastfmAPIKey = @"92bfae0198f438e318ef4917ed38bd41";

@@ -1,11 +1,3 @@
-//
-//  ArtistCell.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 9/2/14.
-//  Copyright (c) 2014 CCS. All rights reserved.
-//
-
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <MGSwipeTableCell/MGSwipeButton.h>
 #import <SpinKit/RTSpinKitView.h>

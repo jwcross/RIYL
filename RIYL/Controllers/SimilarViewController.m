@@ -1,11 +1,3 @@
-//
-//  SimilarViewController.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 9/3/14.
-//  Copyright (c) 2014 CCS. All rights reserved.
-//
-
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <SpinKit/RTSpinKitView.h>
 #import "SimilarViewController.h"

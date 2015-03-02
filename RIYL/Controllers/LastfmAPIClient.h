@@ -1,11 +1,3 @@
-//
-//  LastfmAPIClient.h
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 8/29/14.
-//  Copyright (c) 2014 CCS. All rights reserved.
-//
-
 #import <AFNetworking/AFNetworking.h>
 
 @interface LastfmAPIClient : AFHTTPSessionManager

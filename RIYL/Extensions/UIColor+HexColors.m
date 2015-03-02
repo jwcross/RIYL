@@ -1,11 +1,3 @@
-//
-//  UIColor+HexColors.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 2/10/15.
-//  Copyright (c) 2015 CCS. All rights reserved.
-//
-
 #import "UIColor+HexColors.h"
 
 @implementation UIColor (HexColors)

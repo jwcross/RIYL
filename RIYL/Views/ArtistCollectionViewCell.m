@@ -1,11 +1,3 @@
-//
-//  ArtistCollectionViewCell.m
-//  SimilarArtists
-//
-//  Created by Jonathan Crossley on 9/3/14.
-//  Copyright (c) 2014 CCS. All rights reserved.
-//
-
 #import "ArtistCollectionViewCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 

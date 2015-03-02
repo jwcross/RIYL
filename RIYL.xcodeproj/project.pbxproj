@@ -15,7 +15,7 @@
 		ABEF54E11AA0748F0072C37D /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54DE1AA0748F0072C37D /* ArtistCell.m */; };
 		ABEF54E21AA0748F0072C37D /* ArtistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54E01AA0748F0072C37D /* ArtistCollectionViewCell.m */; };
 		ABEF54E41AA074A60072C37D /* ArtistCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABEF54E31AA074A60072C37D /* ArtistCollectionViewCell.xib */; };
-		ABEF54E71AA074CB0072C37D /* ArtistsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54E61AA074CB0072C37D /* ArtistsTableViewController.m */; };
+		ABEF54E71AA074CB0072C37D /* MyArtistsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54E61AA074CB0072C37D /* MyArtistsTableViewController.m */; };
 		ABEF54EA1AA074D50072C37D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54E91AA074D50072C37D /* DetailViewController.m */; };
 		ABEF54F01AA0751A0072C37D /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54EF1AA0751A0072C37D /* Image.m */; };
 		ABEF54F31AA0759F0072C37D /* InitialDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54F21AA0759F0072C37D /* InitialDataHelper.m */; };
@@ -59,8 +59,8 @@
 		ABEF54DF1AA0748F0072C37D /* ArtistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistCollectionViewCell.h; sourceTree = "<group>"; };
 		ABEF54E01AA0748F0072C37D /* ArtistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistCollectionViewCell.m; sourceTree = "<group>"; };
 		ABEF54E31AA074A60072C37D /* ArtistCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtistCollectionViewCell.xib; sourceTree = "<group>"; };
-		ABEF54E51AA074CB0072C37D /* ArtistsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistsTableViewController.h; sourceTree = "<group>"; };
-		ABEF54E61AA074CB0072C37D /* ArtistsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistsTableViewController.m; sourceTree = "<group>"; };
+		ABEF54E51AA074CB0072C37D /* MyArtistsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyArtistsTableViewController.h; sourceTree = "<group>"; };
+		ABEF54E61AA074CB0072C37D /* MyArtistsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyArtistsTableViewController.m; sourceTree = "<group>"; };
 		ABEF54E81AA074D50072C37D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		ABEF54E91AA074D50072C37D /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		ABEF54EE1AA0751A0072C37D /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
@@ -277,8 +277,8 @@
 			children = (
 				ABEF54D71AA074540072C37D /* AppDelegate.h */,
 				ABEF54D81AA074540072C37D /* AppDelegate.m */,
-				ABEF54E51AA074CB0072C37D /* ArtistsTableViewController.h */,
-				ABEF54E61AA074CB0072C37D /* ArtistsTableViewController.m */,
+				ABEF54E51AA074CB0072C37D /* MyArtistsTableViewController.h */,
+				ABEF54E61AA074CB0072C37D /* MyArtistsTableViewController.m */,
 				ABEF54E81AA074D50072C37D /* DetailViewController.h */,
 				ABEF54E91AA074D50072C37D /* DetailViewController.m */,
 				ABEF54FD1AA076730072C37D /* SimilarViewController.h */,
@@ -511,7 +511,7 @@
 				ABEF54D91AA074540072C37D /* AppDelegate.m in Sources */,
 				ABEF55021AA076730072C37D /* SpotifyAPIClient.m in Sources */,
 				ABEF55071AA079380072C37D /* main.m in Sources */,
-				ABEF54E71AA074CB0072C37D /* ArtistsTableViewController.m in Sources */,
+				ABEF54E71AA074CB0072C37D /* MyArtistsTableViewController.m in Sources */,
 				ABEF54EA1AA074D50072C37D /* DetailViewController.m in Sources */,
 				ABEF54FC1AA076640072C37D /* SimilarArtists.xcdatamodeld in Sources */,
 				ABEF54DC1AA0747F0072C37D /* Artist.m in Sources */,

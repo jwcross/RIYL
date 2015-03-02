@@ -7,8 +7,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *artistImage;
 @property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 
--(void)cancelAdd;
--(void)addNewArtist;
+- (void)prepareForAddArtist;
+- (void)cancelAdd;
+- (void)addNewArtist;
 
 @end
 

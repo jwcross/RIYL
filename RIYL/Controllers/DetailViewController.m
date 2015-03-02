@@ -52,6 +52,26 @@
     self.artistDetailsView.delegate = self;
 }
 
+- (void)prepareForAddArtist {
+    self.navigationItem.leftBarButtonItem = ({
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
+        cancel.title = @"Cancel";
+        cancel.style = UIBarButtonItemStylePlain;
+        cancel.target = self;
+        cancel.action = @selector(cancelAdd);
+        cancel;
+    });
+    
+    self.navigationItem.rightBarButtonItem = ({
+        UIBarButtonItem *done = [[UIBarButtonItem alloc] init];
+        done.title = @"Done";
+        done.style = UIBarButtonItemStylePlain;
+        done.target = self;
+        done.action = @selector(addNewArtist);
+        done;
+    });
+}
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     // Save context as view disappears.

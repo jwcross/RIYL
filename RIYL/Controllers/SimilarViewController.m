@@ -10,6 +10,7 @@
 
 @interface SimilarViewController ()
 @property NSMutableArray *similarArtists;
+@property (nonatomic, assign) BOOL userHasSpotifyInstalled;
 @end
 
 @implementation SimilarViewController
@@ -42,9 +43,8 @@ static NSString * const reuseIdentifier = @"Cell";
     [self saveContext];
 }
 
-
-#pragma mark - UICollectionViewDataSource
-
+#pragma mark -
+#pragma mark UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
@@ -74,43 +74,37 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (UIAlertController*)alertControllerForArtist:(Artist*)artist {
-    if (![self userHasSpotifyInstalled]) {
-        return nil;
-    }
 
-    // Create the action sheet
     UIAlertController *actionSheet = ({
         UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
         [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:style];
     });
     
-    // Define the spotify and cancel actions
-    UIAlertAction *spotifyAction = ({
-        NSString *title = @"Spotify";
-        UIAlertActionStyle style = UIAlertActionStyleDefault;
-        @weakify(self)
-        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-            @strongify(self)
-            [self spotifyTapped:artist];
-        }];
-    });
-    UIAlertAction *cancelAction = ({
-        NSString *title = @"Cancel";
-        UIAlertActionStyle style = UIAlertActionStyleCancel;
-        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-            [actionSheet dismissViewControllerAnimated:YES completion:nil];
-        }];
-    });
+    // Add To My Artists
+    [actionSheet addAction:[self addToMyArtistsActionForArtist:artist]];
     
-    // Add the actions
-    [actionSheet addAction:spotifyAction];
-    [actionSheet addAction:cancelAction];
+    // Spotify action
+    if (self.userHasSpotifyInstalled) {
+        [actionSheet addAction:[self spotifyActionForArtist:artist]];
+    }
+    
+    // Cancel action
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                    style:UIAlertActionStyleCancel
+                                                  handler:nil]];
     
     return actionSheet;
 }
 
 - (BOOL)userHasSpotifyInstalled {
-    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"spotify:"]];
+    static dispatch_once_t token;
+    @weakify(self)
+    dispatch_once(&token, ^{
+        @strongify(self)
+        NSURL *spotifyURL = [NSURL URLWithString:@"spotify:"];
+        self.userHasSpotifyInstalled = [[UIApplication sharedApplication] canOpenURL:spotifyURL];
+    });
+    return _userHasSpotifyInstalled;
 }
 
 - (void)spotifyTapped:(Artist*)artist {
@@ -180,12 +174,14 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
                                                     color:[UIColor whiteColor]];
     [(RTSpinKitView*)hud.customView startAnimating];
     
-    // get artist details
+    // get similar artists
+    @weakify(self)
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
     [api getSimilarArtistsForArtist:self.artist.name limit:20 autocorrect:YES
          success:^(NSURLSessionDataTask *task, id responseObject) {
+             @strongify(self)
              NSArray *similar = responseObject[@"similarartists"][@"artist"];
-             NSLog(@"Success -- %tu artists", similar.count);
+             NSLog(@"Success -- %lu artists", similar.count);
              [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];
              [hud hide:YES];
@@ -196,42 +192,76 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
          }];
 }
 
--(void)saveSimilarArtistsForResponse:(NSArray*)similarArtists
+-(void)saveSimilarArtistsForResponse:(NSArray*)similarDicts
 {
     NSMutableArray *newSimilar = [NSMutableArray array];
-    for (NSDictionary *artistDict in similarArtists) {
+    for (NSDictionary *artistDict in similarDicts) {
+        NSLog(@"Processing artist: %@", artistDict[@"name"]);
+        
         // 1. Check if artist already exists in table
         Artist *similar;
-        if ([artistDict[@"mbid"] length] > 0) {
-            similar = [Artist MR_findFirstByAttribute:@"mbid"
-                                            withValue:artistDict[@"mbid"]];
+        if ([artistDict[@"mbid"] length] == 0) {
+            NSLog(@"ERROR: Artist has empty mbid.");
         } else {
-            NSLog(@"ERROR: Artist has empty mbid.\nname = %@\nid = %@",
-                   artistDict[@"name"], artistDict[@"id"]);
+            similar = [Artist MR_findFirstByAttribute:@"mbid" withValue:artistDict[@"mbid"]];
         }
         
-        if (similar) {
-            NSLog(@"Found similar artist in table");
-            
-        } else {
-            similar = [Artist MR_createEntity]; //todo! save, add relationship to seed
-            similar.name = artistDict[@"name"];
-            similar.mbid = artistDict[@"mbid"];
-
-            if ([artistDict[@"image"] count] > 0) {
-                Image *image = [Image MR_createEntity];
-                image.text = [artistDict[@"image"] lastObject][@"#text"];
-                image.size = [artistDict[@"image"] lastObject][@"size"];
-                image.artist = self.artist;
-                
-                [similar addImagesObject:image];
-            }
+        // 2. If no matching artist found, create a new one
+        if (!similar) {
+            NSLog(@"Artist not found, creating new entity");
+            similar = [self createSimilarArtistForDictionary:artistDict];
         }
+        
+        // 3. Add to results
         [newSimilar addObject:similar];
     }
     self.artist.similarArtists = [[NSOrderedSet alloc] initWithArray:newSimilar];
     self.similarArtists = newSimilar;
     [self.collectionView reloadData];
+}
+
+- (Artist *)createSimilarArtistForDictionary:(NSDictionary *)artistDict
+{
+    Artist *similar = [Artist MR_createEntity]; //todo! save, add relationship to seed
+    similar.name = artistDict[@"name"];
+    similar.mbid = artistDict[@"mbid"];
+    
+    NSDictionary *bestImage = [artistDict[@"image"] lastObject];
+    if (bestImage) {
+        Image *image = [Image MR_createEntity];
+        image.text = bestImage[@"#text"];
+        image.size = bestImage[@"size"];
+        image.artist = self.artist;
+        [similar addImagesObject:image];
+    }
+    return similar;
+}
+
+- (UIAlertAction *)spotifyActionForArtist:(Artist *)artist
+{
+    return ({
+        NSString *title = @"Spotify";
+        UIAlertActionStyle style = UIAlertActionStyleDefault;
+        @weakify(self)
+        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+            @strongify(self)
+            [self spotifyTapped:artist];
+        }];
+    });
+}
+
+- (UIAlertAction *)addToMyArtistsActionForArtist:(Artist *)artist
+{
+    NSString *title = @"Add to My Artists";
+    UIAlertActionStyle style = UIAlertActionStyleDefault;
+    
+    @weakify(self)
+    return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+        @strongify(self)
+        artist.nowListening = @YES;
+        [self saveContext];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
 }
 
 @end

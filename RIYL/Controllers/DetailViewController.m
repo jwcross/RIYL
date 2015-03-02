@@ -31,7 +31,7 @@
         [alert show];
     }
     // 2. If we have an artist, but no details, fetch from API
-    else if (!self.artist.mbid) {
+    else if (!self.artist.mbid || !self.artist.bio) {
         [self getArtist:self.artist.name];
     }
     

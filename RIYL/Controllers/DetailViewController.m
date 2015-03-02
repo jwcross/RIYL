@@ -16,9 +16,11 @@ typedef enum {
 
 @implementation DetailViewController
             
-#pragma mark - Managing the detail item
+#pragma mark - 
+#pragma mark Managing the detail item
 
--(void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // 1. If there is no artist, show Alert to create new artist
@@ -46,17 +48,25 @@ typedef enum {
     self.artistDetailsView.editable = NO;
     
     // 4. If there is an image url, show it
-    if (self.artist.images.count > 0) {
+    NSString *imageUrl = [self.artist.images.lastObject text];
+    if (imageUrl) {
         // Image setup
-        NSString *urlString = [[self.artist.images lastObject] text];
-        [self.artistImage setImageWithURL:[NSURL URLWithString:urlString]];
+        [self.artistImage setImageWithURL:[NSURL URLWithString:imageUrl]];
     }
     
     // 5. Set delegates
     self.artistDetailsView.delegate = self;
 }
 
-- (void)prepareForAddArtist {
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    // Save context as view disappears.
+    [self saveContext];
+}
+
+- (void)prepareForAddArtist
+{
     self.mode = AddArtist;
     self.navigationItem.leftBarButtonItem = ({
         UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
@@ -83,32 +93,62 @@ typedef enum {
     self.navigationItem.rightBarButtonItem = nil;
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    // Save context as view disappears.
-    [self saveContext];
-}
-
--(void)cancelAdd {
+- (void)cancelAdd
+{
     [self.artist MR_deleteEntity];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)addNewArtist {
+- (void)addNewArtist
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - Navigation
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+#pragma mark -
+#pragma mark Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
+{
     SimilarViewController *upcoming = segue.destinationViewController;
     if ([segue.identifier isEqualToString:@"viewSimilar"]) {
         upcoming.artist = self.artist;
     }
 }
 
-#pragma mark - Private methods
+#pragma mark -
+#pragma mark UITextFieldDelegate
 
--(void)saveArtistForResponse:(NSDictionary*)artistDict {
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField.text.length > 0) {
+        self.title = textField.text;
+        self.artist.name = textField.text;
+    }
+}
+
+#pragma mark - 
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    // cancel
+    if (buttonIndex == 0) {
+        [[alertView textFieldAtIndex:0] endEditing:YES];
+        [self cancelAdd];
+    // ok
+    } else if (buttonIndex == 1) {
+        NSString *name = [alertView textFieldAtIndex:0].text;
+        [self getArtist:name];
+    }
+}
+
+#pragma mark - 
+#pragma mark Private helper methods
+
+- (void)saveArtistForResponse:(NSDictionary*)artistDict
+{
     if (!self.artist) {
         NSString *name = artistDict[@"name"];
         self.artist = [Artist MR_findFirstOrCreateByAttribute:@"name" withValue:name];
@@ -136,7 +176,8 @@ typedef enum {
     }
 }
 
--(void)saveContext {
+- (void)saveContext
+{
     [[NSManagedObjectContext MR_defaultContext]
      MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
          if (success) {
@@ -147,32 +188,8 @@ typedef enum {
      }];
 }
 
-#pragma mark - UITextFieldDelegate
-
--(void)textFieldDidEndEditing:(UITextField *)textField {
-    if (textField.text.length > 0) {
-        self.title = textField.text;
-        self.artist.name = textField.text;
-    }
-}
-
-#pragma mark - UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    UITextField *field = [alertView textFieldAtIndex:0];
-    
-    // cancel?
-    if (buttonIndex == 0) {
-        [field endEditing:YES];
-        [self cancelAdd];
-    // ok
-    } else if (buttonIndex == 1) {
-        [self getArtist:field.text];
-    }
-}
-
-#pragma - Private helper methods
-
--(void)getArtist:(NSString*)artistName {
+- (void)getArtist:(NSString*)artistName
+{
     if ([self hasSavedArtist:artistName]) {
         self.artist = [Artist MR_findFirstByAttribute:@"name" withValue:artistName];
         [self refreshView];
@@ -205,11 +222,13 @@ typedef enum {
                   }];
 }
 
--(BOOL)hasSavedArtist:(NSString*)artistName {
+- (BOOL)hasSavedArtist:(NSString*)artistName
+{
     return [Artist MR_findByAttribute:@"name" withValue:artistName] != nil;
 }
 
--(void)refreshView {
+- (void)refreshView
+{
     self.title = self.artist.name;
     self.artistDetailsView.text = [self formatBio:self.artist.bio];
     
@@ -219,7 +238,8 @@ typedef enum {
     }
 }
 
--(NSString*)formatBio:(NSString*)htmlString {
+- (NSString*)formatBio:(NSString*)htmlString
+{
     if (!htmlString) {
         return nil;
     }
@@ -232,8 +252,8 @@ typedef enum {
     }
     
     // trim Creative Commons
-    NSString *creativeCommons = @"User-contributed text is available under the Creative Commons By-SA License "
-                                  "and may also be available under the GNU FDL.";
+    NSString *creativeCommons = @"User-contributed text is available under the Creative Commons "
+        "By-SA License and may also be available under the GNU FDL.";
     s = [s stringByReplacingOccurrencesOfString:creativeCommons withString:@""];
     
     // replace occurances of &quot;

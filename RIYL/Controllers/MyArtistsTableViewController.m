@@ -5,6 +5,7 @@
 #import "Artist.h"
 #import "ArtistCell.h"
 #import "UIColor+HexColors.h"
+#import "ArtistCell+Artist.h"
 
 @interface MyArtistsTableViewController () <MGSwipeTableCellDelegate>
 @end
@@ -43,7 +44,9 @@ static NSString *AddArtistIdentifier = @"addArtist";
 {
     ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     cell.delegate = self;
-    cell.artist = [self artistForIndexPath:indexPath];
+    
+    Artist *artist = [self artistForIndexPath:indexPath];
+    [cell updateWithArtist:artist];
     
     return cell;
 }

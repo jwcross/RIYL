@@ -10,6 +10,7 @@
 		0D400AC7FF1C4BAF307052BF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D247E16A68BFD1618E6F1842 /* libPods.a */; };
 		306C4417B6177CCEB3EDB06F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57508E0BED9B45A6C8FFF2DF /* Images.xcassets */; };
 		A8610880E9841BCF917CA022 /* libPods-unit_tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D13F0625F127F67ABB70085D /* libPods-unit_tests.a */; };
+		AB8BE42B1AA517D10036B322 /* ArtistCell+Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8BE42A1AA517D10036B322 /* ArtistCell+Artist.m */; };
 		ABEF54D91AA074540072C37D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54D81AA074540072C37D /* AppDelegate.m */; };
 		ABEF54DC1AA0747F0072C37D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54DB1AA0747F0072C37D /* Artist.m */; };
 		ABEF54E11AA0748F0072C37D /* ArtistCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEF54DE1AA0748F0072C37D /* ArtistCell.m */; };
@@ -49,6 +50,8 @@
 		673645C690B4D9AAA1665D77 /* LaunchScreen.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		7BF3DB5B8E9DA8A2F5E7F6B8 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FA43666A7C7960921982D6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		AB8BE4281AA517500036B322 /* ArtistCell+Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ArtistCell+Artist.h"; sourceTree = "<group>"; };
+		AB8BE42A1AA517D10036B322 /* ArtistCell+Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ArtistCell+Artist.m"; sourceTree = "<group>"; };
 		ABEF54D61AA074530072C37D /* RIYL-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RIYL-Bridging-Header.h"; sourceTree = "<group>"; };
 		ABEF54D71AA074540072C37D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ABEF54D81AA074540072C37D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -245,6 +248,8 @@
 			children = (
 				ABEF55031AA076830072C37D /* UIColor+HexColors.h */,
 				ABEF55041AA076830072C37D /* UIColor+HexColors.m */,
+				AB8BE4281AA517500036B322 /* ArtistCell+Artist.h */,
+				AB8BE42A1AA517D10036B322 /* ArtistCell+Artist.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 				ABEF55021AA076730072C37D /* SpotifyAPIClient.m in Sources */,
 				ABEF55071AA079380072C37D /* main.m in Sources */,
 				ABEF54E71AA074CB0072C37D /* MyArtistsTableViewController.m in Sources */,
+				AB8BE42B1AA517D10036B322 /* ArtistCell+Artist.m in Sources */,
 				ABEF54EA1AA074D50072C37D /* DetailViewController.m in Sources */,
 				ABEF54FC1AA076640072C37D /* SimilarArtists.xcdatamodeld in Sources */,
 				ABEF54DC1AA0747F0072C37D /* Artist.m in Sources */,

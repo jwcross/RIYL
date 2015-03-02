@@ -2,16 +2,7 @@
 #import "Artist.h"
 #import "UIColor+HexColors.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import <SpinKit/RTSpinKitView.h>
 #import <libextobjc/EXTScope.h>
-
-@interface ArtistCell ()
-
-@property (nonatomic) RTSpinKitView *progressView;
-@property (nonatomic) UIImageView *backgroundImageView;
-@property (nonatomic) UILabel *label;
-
-@end
 
 @implementation ArtistCell
 
@@ -25,10 +16,10 @@ static const float LABEL_PADDING_Y = 2.0f;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSArray *subviews = @[self.backgroundImageView, self.label, self.progressView];
-        for (UIView *subview in subviews) {
-            [self.contentView addSubview:subview];
-        }
+        // Add subviews
+        [self.contentView addSubview:self.backgroundImageView];
+        [self.contentView addSubview:self.label];
+        [self.contentView addSubview:self.progressView];
         
         // Clear background
         self.backgroundColor = [UIColor clearColor];
@@ -53,25 +44,15 @@ static const float LABEL_PADDING_Y = 2.0f;
     self.progressView.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     
     self.label.frame = ({
+//        CGSize textSize = self.label.frame.size;
         NSDictionary *attrs = @{ NSFontAttributeName : self.label.font };
-        CGSize textSize = [self.artist.name sizeWithAttributes:attrs];
+        CGSize textSize = [self.label.text sizeWithAttributes:attrs];
+        CGFloat x = 0;
         CGFloat y = bounds.size.height - textSize.height - 2*LABEL_PADDING_Y;
         CGFloat w = textSize.width + 2*LABEL_PADDING_X;
         CGFloat h = textSize.height + 2*LABEL_PADDING_Y;
-        CGRectMake(0, y, w, h);
+        CGRectMake(x, y, w, h);
     });
-}
-
-#pragma mark - Public
-
-- (void)setArtist:(Artist *)artist
-{
-    _artist = artist;
-    
-    self.label.text = artist.name;
-    self.label.backgroundColor = [self labelColorForArtist:artist];
-    
-    [self fetchBackgroundImageForArtist:artist];
 }
 
 #pragma mark - Subviews
@@ -108,51 +89,6 @@ static const float LABEL_PADDING_Y = 2.0f;
         _progressView.color = [UIColor whiteColor];
     }
     return _progressView;
-}
-
-#pragma mark - Private
-
-- (UIColor *)labelColorForArtist:(Artist *)artist
-{
-    switch (artist.liked.intValue) {
-        case 1:  return [UIColor myTransparentLightGreenColor];  // liked
-        case 3:  return [UIColor myTransparentRedColor];         // disliked
-        default: return [UIColor myTransparentDarkGrayColor];    // no opinion
-    }
-}
-
-typedef void (^ImageSuccess)(NSURLRequest*, NSHTTPURLResponse*, UIImage*);
-typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
-
-- (void)fetchBackgroundImageForArtist:(Artist*)artist
-{
-    // Clear background image
-    self.backgroundImageView.image = nil;
-    
-    // Return early if artist has no images
-    if (artist.images.count == 0) {
-        return;
-    }
-    
-    // Define callbacks
-    @weakify(self)
-    ImageSuccess success = ^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        @strongify(self)
-        [self.progressView stopAnimating];
-        self.backgroundImageView.image = image;
-    };
-    ImageError failure = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        @strongify(self)
-        [self.progressView stopAnimating];
-    };
-    
-    // Fetch artist image and clear spinner on success
-    [self.progressView startAnimating];
-    NSURL *imageUrl = [NSURL URLWithString:[artist.images.firstObject text]];
-    [self.backgroundImageView setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
-                                    placeholderImage:nil
-                                             success:success
-                                             failure:failure];
 }
 
 @end

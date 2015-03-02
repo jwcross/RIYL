@@ -1,10 +1,12 @@
 @import UIKit;
 @class Artist;
+#import <SpinKit/RTSpinKitView.h>
 #import <MGSwipeTableCell/MGSwipeTableCell.h>
 
 @interface ArtistCell : MGSwipeTableCell
 
-// The Artist that this cell renders.
-@property (nonatomic) Artist *artist;
+@property (nonatomic) RTSpinKitView *progressView;
+@property (nonatomic) UIImageView *backgroundImageView;
+@property (nonatomic) UILabel *label;
 
 @end

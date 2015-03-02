@@ -8,6 +8,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 
 - (void)prepareForAddArtist;
+- (void)prepareForSimilarArtist;
 - (void)cancelAdd;
 - (void)addNewArtist;
 

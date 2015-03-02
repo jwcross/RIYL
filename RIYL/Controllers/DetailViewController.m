@@ -6,8 +6,12 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
 
-@interface DetailViewController () <UITextFieldDelegate, UIAlertViewDelegate>
+typedef enum {
+    Normal, AddArtist, ViewSimilar
+} DetailMode;
 
+@interface DetailViewController () <UITextFieldDelegate, UIAlertViewDelegate>
+@property (nonatomic, assign) DetailMode mode;
 @end
 
 @implementation DetailViewController
@@ -53,6 +57,7 @@
 }
 
 - (void)prepareForAddArtist {
+    self.mode = AddArtist;
     self.navigationItem.leftBarButtonItem = ({
         UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
         cancel.title = @"Cancel";
@@ -70,6 +75,12 @@
         done.action = @selector(addNewArtist);
         done;
     });
+}
+
+- (void)prepareForSimilarArtist
+{
+    self.mode = ViewSimilar;
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -106,7 +117,11 @@
     self.artist.name = artistDict[@"name"];
     self.artist.mbid = artistDict[@"mbid"];
     self.artist.bio = artistDict[@"bio"][@"content"];
-    self.artist.nowListening = @YES; // default `now listening` for added artists
+    
+    // default `now listening` for added artists, except when launched from Similar
+    if (self.mode != ViewSimilar) {
+        self.artist.nowListening = @YES;
+    }
     if (!self.artist.liked) {
       self.artist.liked = @NO; // default not-`liked` for added artists
     }

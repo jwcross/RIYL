@@ -167,6 +167,9 @@
                             <outlet property="delegate" destination="ys0-5c-0IF" id="Jf5-S3-Bpg"/>
                         </connections>
                     </collectionView>
+                    <connections>
+                        <segue destination="Ah7-4n-0Wa" kind="show" identifier="viewDetail" id="gEl-rW-utp"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fd7-XX-8La" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -174,7 +177,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ACs-P7-vbG"/>
+        <segue reference="gEl-rW-utp"/>
         <segue reference="P9K-0R-Muc"/>
     </inferredMetricsTieBreakers>
 </document>

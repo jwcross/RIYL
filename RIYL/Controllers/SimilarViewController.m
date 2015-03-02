@@ -1,4 +1,5 @@
 #import "SimilarViewController.h"
+#import "DetailViewController.h"
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
 #import "SpotifyAPIClient.h"
@@ -43,6 +44,19 @@ static NSString * const reuseIdentifier = @"Cell";
     [self saveContext];
 }
 
+#pragma mark - 
+#pragma mark Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqual:@"viewDetail"]) {
+        DetailViewController *detailViewController = segue.destinationViewController;
+        NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] firstObject];
+        detailViewController.artist = self.artist.similarArtists[indexPath.row];
+        [detailViewController prepareForSimilarArtist];
+    }
+}
+
 #pragma mark -
 #pragma mark UICollectionViewDataSource
 
@@ -65,15 +79,17 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView
-didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Artist *selectedArtist = self.artist.similarArtists[indexPath.row];
-    UIAlertController *actionSheet = [self alertControllerForArtist:selectedArtist];
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIAlertController *actionSheet = [self alertControllerForArtistAtIndexPath:indexPath];
     if (actionSheet) {
         [self presentViewController:actionSheet animated:YES completion:nil];
     }
 }
 
-- (UIAlertController*)alertControllerForArtist:(Artist*)artist {
+- (UIAlertController*)alertControllerForArtistAtIndexPath:(NSIndexPath *)indexPath
+{
+    Artist *artist = self.artist.similarArtists[indexPath.row];
 
     UIAlertController *actionSheet = ({
         UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
@@ -82,6 +98,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     // Add To My Artists
     [actionSheet addAction:[self addToMyArtistsActionForArtist:artist]];
+    
+    // View Details
+    [actionSheet addAction:[self viewDetailsActionForCellAtIndexPath:indexPath]];
     
     // Spotify action
     if (self.userHasSpotifyInstalled) {
@@ -96,18 +115,17 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     return actionSheet;
 }
 
-- (BOOL)userHasSpotifyInstalled {
-    static dispatch_once_t token;
-    @weakify(self)
-    dispatch_once(&token, ^{
-        @strongify(self)
+- (BOOL)userHasSpotifyInstalled
+{
+    if (!_userHasSpotifyInstalled) {
         NSURL *spotifyURL = [NSURL URLWithString:@"spotify:"];
-        self.userHasSpotifyInstalled = [[UIApplication sharedApplication] canOpenURL:spotifyURL];
-    });
+        _userHasSpotifyInstalled = [[UIApplication sharedApplication] canOpenURL:spotifyURL];
+    }
     return _userHasSpotifyInstalled;
 }
 
-- (void)spotifyTapped:(Artist*)artist {
+- (void)spotifyTapped:(Artist*)artist
+{
     SuccessCallback success = ^(NSURLSessionDataTask *task, id response) {
         BOOL didReturnArtist = [response[@"artists"][@"items"] count] > 0;
         if (didReturnArtist) {
@@ -181,7 +199,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
          success:^(NSURLSessionDataTask *task, id responseObject) {
              @strongify(self)
              NSArray *similar = responseObject[@"similarartists"][@"artist"];
-             NSLog(@"Success -- %lu artists", similar.count);
+             NSLog(@"Success -- %tu artists", similar.count);
              [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];
              [hud hide:YES];
@@ -192,7 +210,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
          }];
 }
 
--(void)saveSimilarArtistsForResponse:(NSArray*)similarDicts
+- (void)saveSimilarArtistsForResponse:(NSArray*)similarDicts
 {
     NSMutableArray *newSimilar = [NSMutableArray array];
     for (NSDictionary *artistDict in similarDicts) {
@@ -261,6 +279,19 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         artist.nowListening = @YES;
         [self saveContext];
         [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+}
+
+- (UIAlertAction *)viewDetailsActionForCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *title = @"View Details";
+    UIAlertActionStyle style = UIAlertActionStyleDefault;
+    
+    return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+        [self.collectionView selectItemAtIndexPath:indexPath
+                                          animated:NO
+                                    scrollPosition:UICollectionViewScrollPositionNone];
+        [self performSegueWithIdentifier:@"viewDetail" sender:self];
     }];
 }
 

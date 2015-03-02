@@ -198,10 +198,13 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     Artist *artist = [self artistForIndexPath:indexPath];
+    
+    // Archive artist by marking as not-listening
+    artist.nowListening = @NO;
+    
     [self.artists removeObject:artist];
     [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                           withRowAnimation:UITableViewRowAnimationFade];
-    [artist MR_deleteEntity];
     [self saveContext];
     return YES;
 }
@@ -209,7 +212,7 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 - (BOOL)updateLikedForArtistAtCell:(UITableViewCell *)cell
 {
     Artist *artist = [self artistForCell:cell];
-    artist.liked = @((artist.liked.integerValue + 1) % 4);
+    artist.liked = @((artist.liked.integerValue + 1) % 4); // meh, liked, meh, disliked
     [self saveContext];
     [self.tableView reloadData];
     return YES;

@@ -12,6 +12,8 @@
 @interface ArtistsTableViewController () <MGSwipeTableCellDelegate>
 @end
 
+static NSString *ArtistCellIdentifier = @"ArtistCell";
+
 @implementation ArtistsTableViewController
 
 - (void)viewWillAppear:(BOOL)animated
@@ -29,6 +31,9 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.backgroundColor = [UIColor blackColor];
+    
+    [self.tableView registerClass:[ArtistCell class]
+           forCellReuseIdentifier:ArtistCellIdentifier];
 }
 
 #pragma mark - UITableViewDatasource
@@ -36,15 +41,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"ArtistCell";
-    ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[ArtistCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
+    ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:ArtistCellIdentifier];
     cell.delegate = self;
-    
     cell.artist = self.artists[indexPath.row];
-    [cell.label setUserInteractionEnabled:NO];
+    cell.label.userInteractionEnabled = NO;
+    
     return cell;
 }
 
@@ -52,11 +53,6 @@
  numberOfRowsInSection:(NSInteger)section
 {
     return self.artists.count;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
 }
 
 #pragma mark - UITableViewDelegate
@@ -79,6 +75,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"viewSimilar" sender:self];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView

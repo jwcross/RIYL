@@ -19,9 +19,10 @@ static const float LABEL_CORNER_RADIUS = 2.0f;
 static const float LABEL_PADDING_X = 8.0f;
 static const float LABEL_PADDING_Y = 2.0f;
 
-- (id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithCoder:aDecoder];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // create background image view
         _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectNull];

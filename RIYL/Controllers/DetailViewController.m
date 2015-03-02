@@ -158,12 +158,14 @@ typedef enum {
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    UITextField *field = [alertView textFieldAtIndex:0];
+    
     // cancel?
     if (buttonIndex == 0) {
+        [field endEditing:YES];
         [self cancelAdd];
     // ok
     } else if (buttonIndex == 1) {
-        UITextField *field = [alertView textFieldAtIndex:0];
         [self getArtist:field.text];
     }
 }

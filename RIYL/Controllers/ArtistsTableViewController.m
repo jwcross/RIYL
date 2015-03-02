@@ -9,8 +9,7 @@
 #import "ArtistCell.h"
 #import "UIColor+HexColors.h"
 
-@interface ArtistsTableViewController ()
-@property NSMutableArray *artists;
+@interface ArtistsTableViewController () <MGSwipeTableCellDelegate>
 @end
 
 @implementation ArtistsTableViewController
@@ -34,7 +33,8 @@
 
 #pragma mark - UITableViewDatasource
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"ArtistCell";
     ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -48,19 +48,22 @@
     return cell;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
     return self.artists.count;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
 #pragma mark - UITableViewDelegate
 
--(void) tableView:(UITableView *)tableView willDisplayCell:(ArtistCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+  willDisplayCell:(ArtistCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Remove separator inset
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -78,20 +81,24 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView
+heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80.0f;
 }
 
 #pragma mark - MGSwipeTableCellDelegate
 
--(BOOL)swipeTableCell:(MGSwipeTableCell *)cell canSwipe:(MGSwipeDirection)direction
+- (BOOL)swipeTableCell:(MGSwipeTableCell *)cell
+              canSwipe:(MGSwipeDirection)direction
 {
     return YES;
 }
 
--(NSArray *)swipeTableCell:(MGSwipeTableCell *)cell swipeButtonsForDirection:(MGSwipeDirection)direction
-             swipeSettings:(MGSwipeSettings *)swipeSettings expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
+- (NSArray *)swipeTableCell:(MGSwipeTableCell *)cell
+   swipeButtonsForDirection:(MGSwipeDirection)direction
+              swipeSettings:(MGSwipeSettings *)swipeSettings
+          expansionSettings:(MGSwipeExpansionSettings *)expansionSettings
 {
     swipeSettings.transition = MGSwipeTransitionBorder;
     expansionSettings.buttonIndex = 0;
@@ -105,10 +112,10 @@
     : nil;
 }
 
--(BOOL)swipeTableCell:(ArtistCell *)cell
-  tappedButtonAtIndex:(NSInteger)index
-            direction:(MGSwipeDirection)direction
-        fromExpansion:(BOOL)fromExpansion
+- (BOOL)swipeTableCell:(ArtistCell *)cell
+   tappedButtonAtIndex:(NSInteger)index
+             direction:(MGSwipeDirection)direction
+         fromExpansion:(BOOL)fromExpansion
 {
     // Get corresponding artist and cell row
     Artist *artist = cell.artist;
@@ -142,7 +149,8 @@
     return YES;
 }
 
--(NSArray *)createLeftButtons:(Artist*)artist {
+- (NSArray *)createLeftButtons:(Artist*)artist
+{
     UIColor *colors[] = { [UIColor myGreenColor], [UIColor myBlueColor], [UIColor myRedColor], [UIColor myBlueColor] };
     NSString *titles[] = { @"Like", @"Unlike", @"Dislike", @"Undislike" };
     
@@ -153,7 +161,7 @@
     return @[likeUnlikeButton];
 }
 
--(NSArray *)createRightButtons
+- (NSArray *)createRightButtons
 {
     UIColor *colors[2] = {[UIColor myRedColor], [UIColor lightGrayColor]};
     MGSwipeButton *deleteButton = [MGSwipeButton buttonWithTitle:@"Delete" backgroundColor:colors[0] padding:15];
@@ -164,7 +172,8 @@
 
 #pragma mark - Navigation methods
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"viewSimilar"]) {
         SimilarViewController *upcoming = segue.destinationViewController;
@@ -190,32 +199,31 @@
         done.action = @selector(addNewArtist);
         upcoming.navigationItem.rightBarButtonItem = done;
     }
-    
 }
 
 #pragma mark - Private helper methods
 
--(void)fetchAllArtists
+- (void)fetchAllArtists
 {
     // Fetch all artists with MagicalRecord, sorted by ascending name
     self.artists = [[Artist MR_findAllSortedBy:@"name" ascending:YES] mutableCopy];
 }
 
--(void)fetchAllNowListeningArtists
+- (void)fetchAllNowListeningArtists
 {
     // Fetch all `nowListening` artists with MagicalRecord, sorted by ascending name
     NSPredicate *nowListening = [NSPredicate predicateWithFormat:@"nowListening == YES"];
     self.artists = [[Artist MR_findAllSortedBy:@"name" ascending:YES withPredicate:nowListening] mutableCopy];
 }
 
--(void)fetchAllLikedArtists
+- (void)fetchAllLikedArtists
 {
     // Fetch `liked` artists with MagicalRecord, sorted by ascending name
     NSPredicate *liked = [NSPredicate predicateWithFormat:@"liked == YES"];
     self.artists = [[Artist MR_findAllSortedBy:@"name" ascending:YES withPredicate:liked] mutableCopy];
 }
 
--(void)saveContext
+- (void)saveContext
 {
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 }

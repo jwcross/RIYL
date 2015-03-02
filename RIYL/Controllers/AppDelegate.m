@@ -1,25 +1,19 @@
 #import "AppDelegate.h"
-#import "DetailViewController.h"
-#import "ArtistsTableViewController.h"
-#import "Artist.h"
-#import "Image.h"
 #import "InitialDataHelper.h"
 #import "UIColor+HexColors.h"
 #import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <MagicalRecord/MagicalRecord+Options.h>
 
-@implementation UIColor (Extensions)
-
-
-@end
-
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor myDarkGrayColor]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    [UINavigationBar appearance].tintColor = [UIColor whiteColor];
+    [UINavigationBar appearance].barTintColor = [UIColor myDarkGrayColor];
+    [UINavigationBar appearance].titleTextAttributes = ({
+        @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    });
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
@@ -37,8 +31,9 @@
     [MagicalRecord setLoggingLevel:MagicalRecordLoggingLevelWarn];
     
     // If necessary, initialize with sample Artist items.
-    if ([[InitialDataHelper sharedInstance] hasPrefilledArtists] == NO) {
-        [[InitialDataHelper sharedInstance] initializeData];
+    InitialDataHelper *dataHelper = [InitialDataHelper sharedInstance];
+    if ([dataHelper hasPrefilledArtists] == NO) {
+        [dataHelper initializeData];
     }
 }
 

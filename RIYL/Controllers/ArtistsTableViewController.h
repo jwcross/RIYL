@@ -1,8 +1,9 @@
-#import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
-#import <MGSwipeTableCell/MGSwipeTableCell.h>
 
-@interface ArtistsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate, MGSwipeTableCellDelegate>
+@interface ArtistsTableViewController : UITableViewController
+<UITableViewDataSource, UITableViewDelegate>
+
+// A mutable array of Artist objects, to be displayed by the table view.
+@property (nonatomic, strong) NSMutableArray *artists;
 
 @end
 

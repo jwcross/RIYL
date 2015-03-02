@@ -1,5 +1,4 @@
-#import <UIKit/UIKit.h>
-#import "Artist.h"
+@class Artist;
 
 @interface SimilarViewController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 

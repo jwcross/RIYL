@@ -1,11 +1,12 @@
-#import <MBProgressHUD/MBProgressHUD.h>
-#import <SpinKit/RTSpinKitView.h>
 #import "SimilarViewController.h"
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
 #import "SpotifyAPIClient.h"
-#import <libextobjc/EXTScope.h>
+#import "Artist.h"
 #import "Image.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <SpinKit/RTSpinKitView.h>
+#import <libextobjc/EXTScope.h>
 
 @interface SimilarViewController ()
 @property NSMutableArray *similarArtists;
@@ -34,27 +35,24 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:reuseIdentifier];
 }
 
--(void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     // Save context as view disappears.
     [self saveContext];
 }
 
+
 #pragma mark - UICollectionViewDataSource
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
 
--(NSInteger)collectionView:(UICollectionView *)collectionView
+- (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
     return [self.artist.similarArtists count];
 }
 
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ArtistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
@@ -63,9 +61,11 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-#pragma mark - UICollectionViewDelegate
+#pragma mark -
+#pragma mark UICollectionViewDelegate
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)collectionView:(UICollectionView *)collectionView
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Artist *selectedArtist = self.artist.similarArtists[indexPath.row];
     UIAlertController *actionSheet = [self alertControllerForArtist:selectedArtist];
     if (actionSheet) {
@@ -73,76 +73,90 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // todo!
-}
-
--(UIAlertController*)alertControllerForArtist:(Artist*)artist {
-    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil
-                                                                         message:nil
-                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
-    typedef void (^AlertHandler)(UIAlertAction*);
-    AlertHandler spotify = ^(UIAlertAction *action) {
-        [self spotifyTapped:artist];
-    };
-    AlertHandler cancel = ^(UIAlertAction *action) {
-        [actionSheet dismissViewControllerAnimated:YES completion:nil];
-    };
-    
-    if ([self userHasSpotifyInstalled]) {
-        [actionSheet addAction:[UIAlertAction actionWithTitle:@"Spotify" style:UIAlertActionStyleDefault handler:spotify]];
-        [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:cancel]];
-        return actionSheet;
+- (UIAlertController*)alertControllerForArtist:(Artist*)artist {
+    if (![self userHasSpotifyInstalled]) {
+        return nil;
     }
+
+    // Create the action sheet
+    UIAlertController *actionSheet = ({
+        UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
+        [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:style];
+    });
     
-    return nil;
+    // Define the spotify and cancel actions
+    UIAlertAction *spotifyAction = ({
+        NSString *title = @"Spotify";
+        UIAlertActionStyle style = UIAlertActionStyleDefault;
+        @weakify(self)
+        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+            @strongify(self)
+            [self spotifyTapped:artist];
+        }];
+    });
+    UIAlertAction *cancelAction = ({
+        NSString *title = @"Cancel";
+        UIAlertActionStyle style = UIAlertActionStyleCancel;
+        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+            [actionSheet dismissViewControllerAnimated:YES completion:nil];
+        }];
+    });
+    
+    // Add the actions
+    [actionSheet addAction:spotifyAction];
+    [actionSheet addAction:cancelAction];
+    
+    return actionSheet;
 }
 
--(BOOL)userHasSpotifyInstalled {
+- (BOOL)userHasSpotifyInstalled {
     return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"spotify:"]];
 }
 
--(void)spotifyTapped:(Artist*)artist {
+- (void)spotifyTapped:(Artist*)artist {
     SuccessCallback success = ^(NSURLSessionDataTask *task, id response) {
         BOOL didReturnArtist = [response[@"artists"][@"items"] count] > 0;
         if (didReturnArtist) {
             NSString *spotifyID = response[@"artists"][@"items"][0][@"id"];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"spotify:artist:%@", spotifyID]];
+            NSString *spotifyURI = [NSString stringWithFormat:@"spotify:artist:%@", spotifyID];
+            NSURL *url = [NSURL URLWithString:spotifyURI];
             [[UIApplication sharedApplication] openURL:url];
         }
     };
     [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:success failure:nil];
 }
 
-#pragma mark - UICollectionViewFlowLayoutDelegate
+#pragma mark -
+#pragma mark UICollectionViewFlowLayoutDelegate
 
 CGFloat CELL_MARGIN = 20.0f;
 
--(CGSize)collectionView:(UICollectionView *)collectionView
-                 layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // square size for equally-spaced two-column layout
     CGFloat cellWidth = (self.view.bounds.size.width - 3 * CELL_MARGIN) / 2;
     return CGSizeMake(cellWidth, cellWidth);
 }
 
--(CGFloat)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return CELL_MARGIN;
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                       layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+                       layout:(UICollectionViewLayout *)collectionViewLayout
+       insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN);
 }
 
-#pragma mark - UIAlertController
+#pragma mark -
+#pragma mark Private helpers
 
-
-
-#pragma mark - Private helpers
 -(void)saveContext
 {
     @weakify(self)
@@ -160,11 +174,11 @@ CGFloat CELL_MARGIN = 20.0f;
 -(void)getSimilarArtists
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:[UIColor whiteColor]];
     hud.mode = MBProgressHUDModeCustomView;
-    hud.customView = spinner;
     hud.labelText = NSLocalizedString(@"Loading similar artists", @"Loading similar artists");
-    [spinner startAnimating];
+    hud.customView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave
+                                                    color:[UIColor whiteColor]];
+    [(RTSpinKitView*)hud.customView startAnimating];
     
     // get artist details
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
@@ -172,9 +186,9 @@ CGFloat CELL_MARGIN = 20.0f;
          success:^(NSURLSessionDataTask *task, id responseObject) {
              NSArray *similar = responseObject[@"similarartists"][@"artist"];
              NSLog(@"Success -- %tu artists", similar.count);
-             [hud hide:YES];
              [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];
+             [hud hide:YES];
              
          } failure:^(NSURLSessionDataTask *task, NSError *error) {
              NSLog(@"Failure -- %@", error.description);
@@ -196,12 +210,8 @@ CGFloat CELL_MARGIN = 20.0f;
                    artistDict[@"name"], artistDict[@"id"]);
         }
         
-        if (similar != nil) {
+        if (similar) {
             NSLog(@"Found similar artist in table");
-            NSLog(@"debug: artistDict[@\"mbid\"] = %@", artistDict[@"mbid"]);
-            NSLog(@"debug: similar.mbid = %@", similar.mbid);
-            NSLog(@"debug: artistDict[@\"name\"] = %@", artistDict[@"name"]);
-            NSLog(@"debug: similar.name = %@", similar.name);
             
         } else {
             similar = [Artist MR_createEntity]; //todo! save, add relationship to seed

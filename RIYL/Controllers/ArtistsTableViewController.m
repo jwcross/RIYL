@@ -44,7 +44,6 @@ static NSString *ArtistCellIdentifier = @"ArtistCell";
     ArtistCell *cell = [tableView dequeueReusableCellWithIdentifier:ArtistCellIdentifier];
     cell.delegate = self;
     cell.artist = self.artists[indexPath.row];
-    cell.label.userInteractionEnabled = NO;
     
     return cell;
 }
@@ -56,26 +55,6 @@ static NSString *ArtistCellIdentifier = @"ArtistCell";
 }
 
 #pragma mark - UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView
-  willDisplayCell:(ArtistCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Remove separator inset
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    // Prevent the cell from inheriting the Table View's margin settings
-    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
-        [cell setPreservesSuperviewLayoutMargins:NO];
-    }
-    
-    // Explicitly set your cell's layout margins
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-}
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath

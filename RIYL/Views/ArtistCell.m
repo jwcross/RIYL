@@ -1,20 +1,21 @@
+#import "ArtistCell.h"
+#import "Artist.h"
+#import "UIColor+HexColors.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
-#import <MGSwipeTableCell/MGSwipeButton.h>
 #import <SpinKit/RTSpinKitView.h>
 #import <libextobjc/EXTScope.h>
-#import "ArtistCell.h"
-#import "UIColor+HexColors.h"
 
 @interface ArtistCell ()
 
-@property RTSpinKitView *progressView;
-@property UIImageView *backgroundImageView;
+@property (nonatomic) RTSpinKitView *progressView;
+@property (nonatomic) UIImageView *backgroundImageView;
+@property (nonatomic) UILabel *label;
 
 @end
 
 @implementation ArtistCell
 
-#define LABEL_FONT [UIFont boldSystemFontOfSize:16.0f]
+static const float LABEL_FONT_SIZE = 16.0f;
 static const float LABEL_CORNER_RADIUS = 2.0f;
 static const float LABEL_PADDING_X = 8.0f;
 static const float LABEL_PADDING_Y = 2.0f;
@@ -24,86 +25,130 @@ static const float LABEL_PADDING_Y = 2.0f;
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // create background image view
-        _backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectNull];
-        _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.contentView addSubview:_backgroundImageView];
-
-        // create a label that renders the artist name
-        _label = [[UILabel alloc] initWithFrame:CGRectNull];
-        _label.textColor = [UIColor whiteColor];
-        _label.backgroundColor = [UIColor clearColor];
-        _label.font = LABEL_FONT;
-        _label.layer.cornerRadius = LABEL_CORNER_RADIUS;
-        _label.clipsToBounds = YES;
-        _label.textAlignment = NSTextAlignmentCenter;
-        [self.contentView addSubview:_label];
+        NSArray *subviews = @[self.backgroundImageView, self.label, self.progressView];
+        for (UIView *subview in subviews) {
+            [self.contentView addSubview:subview];
+        }
         
-        // add SpinKit view
-        _progressView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave];
-        [self.contentView addSubview:_progressView];
-        
-        // clear background
+        // Clear background
         self.backgroundColor = [UIColor clearColor];
         
-        // clip to bounds for the image view
-        self.clipsToBounds = YES;
-        self.backgroundView.clipsToBounds = YES;
-        
-        // remove the default highlight for selected cells
+        // Remove the default highlight for selected cells
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        // Remove default separator insets
+        self.separatorInset = UIEdgeInsetsZero;
+        self.layoutMargins = UIEdgeInsetsZero;
+        self.preservesSuperviewLayoutMargins = NO;
     }
     return self;   
 }
 
--(void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
+    CGRect bounds = self.bounds;
     
-    CGSize size = [self.artist.name sizeWithAttributes:@{NSFontAttributeName: LABEL_FONT}];
-    _label.frame = CGRectMake(0, self.bounds.size.height - size.height - 2*LABEL_PADDING_Y - 0,
-                              size.width + 2*LABEL_PADDING_X, size.height + 2*LABEL_PADDING_Y);
+    self.backgroundImageView.frame = bounds;
+    self.progressView.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     
-    _progressView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    _progressView.color = [UIColor whiteColor];
-    _backgroundImageView.frame = self.bounds;
+    self.label.frame = ({
+        NSDictionary *attrs = @{ NSFontAttributeName : self.label.font };
+        CGSize textSize = [self.artist.name sizeWithAttributes:attrs];
+        CGFloat y = bounds.size.height - textSize.height - 2*LABEL_PADDING_Y;
+        CGFloat w = textSize.width + 2*LABEL_PADDING_X;
+        CGFloat h = textSize.height + 2*LABEL_PADDING_Y;
+        CGRectMake(0, y, w, h);
+    });
 }
 
-#pragma mark - setter
+#pragma mark - Public
 
--(void)setArtist:(Artist *)artist {
+- (void)setArtist:(Artist *)artist
+{
     _artist = artist;
-    _label.text = artist.name;
     
-    _label.backgroundColor = artist.liked.intValue ==  1 ? [UIColor myTransparentLightGreenColor]
-                           : artist.liked.intValue ==  3 ? [UIColor myTransparentRedColor]
-                           : [UIColor myTransparentDarkGrayColor];
-    // clear cached image
-    _backgroundImageView.image = nil;
+    self.label.text = artist.name;
+    self.label.backgroundColor = [self labelColorForArtist:artist];
     
-    if (artist.images.count > 0) {
-        [self setBackgroundImageForArtist:artist];
+    [self fetchBackgroundImageForArtist:artist];
+}
+
+#pragma mark - Subviews
+
+- (UIImageView *)backgroundImageView
+{
+    if (!_backgroundImageView) {
+        _backgroundImageView = [[UIImageView alloc] init];
+        _backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _backgroundImageView.clipsToBounds = YES;
+    }
+    return _backgroundImageView;
+}
+
+- (UILabel *)label
+{
+    if (!_label) {
+        _label = [[UILabel alloc] init];
+        _label.textColor = [UIColor whiteColor];
+        _label.backgroundColor = [UIColor clearColor];
+        _label.layer.cornerRadius = LABEL_CORNER_RADIUS;
+        _label.textAlignment = NSTextAlignmentCenter;
+        _label.userInteractionEnabled = NO;
+        _label.font = [UIFont boldSystemFontOfSize:LABEL_FONT_SIZE];
+        _label.clipsToBounds = YES;
+    }
+    return _label;
+}
+
+- (RTSpinKitView *)progressView
+{
+    if (!_progressView) {
+        _progressView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave];
+        _progressView.color = [UIColor whiteColor];
+    }
+    return _progressView;
+}
+
+#pragma mark - Private
+
+- (UIColor *)labelColorForArtist:(Artist *)artist
+{
+    switch (artist.liked.intValue) {
+        case 1:  return [UIColor myTransparentLightGreenColor];  // liked
+        case 3:  return [UIColor myTransparentRedColor];         // disliked
+        default: return [UIColor myTransparentDarkGrayColor];    // no opinion
     }
 }
 
 typedef void (^ImageSuccess)(NSURLRequest*, NSHTTPURLResponse*, UIImage*);
 typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
 
--(void)setBackgroundImageForArtist:(Artist*)artist {
-    [_progressView startAnimating];
+- (void)fetchBackgroundImageForArtist:(Artist*)artist
+{
+    // Clear background image
+    self.backgroundImageView.image = nil;
     
-    NSURL *imageUrl = [NSURL URLWithString:[artist.images[0] text]]; //todo!
+    // Return early if artist has no images
+    if (artist.images.count == 0) {
+        return;
+    }
     
+    // Define callbacks
     @weakify(self)
     ImageSuccess success = ^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         @strongify(self)
         [self.progressView stopAnimating];
-        [self.backgroundImageView setImage:image];
+        self.backgroundImageView.image = image;
     };
     ImageError failure = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         @strongify(self)
         [self.progressView stopAnimating];
     };
     
+    // Fetch artist image and clear spinner on success
+    [self.progressView startAnimating];
+    NSURL *imageUrl = [NSURL URLWithString:[artist.images.firstObject text]];
     [self.backgroundImageView setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
                                     placeholderImage:nil
                                              success:success

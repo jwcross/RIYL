@@ -28,7 +28,7 @@
         return nil;
     }
     [_currentCell hideSwipeAnimated:YES];
-    return self;
+    return nil; //return nil to allow swipping a new cell while the current one is hidding
 }
 
 @end
@@ -213,7 +213,7 @@
 
 #pragma mark Trigger Actions
 
--(void) handleClick: (id) sender fromExpansion:(BOOL) fromExpansion
+-(BOOL) handleClick: (id) sender fromExpansion:(BOOL) fromExpansion
 {
     bool autoHide = false;
 #pragma clang diagnostic push
@@ -232,13 +232,15 @@
         autoHide|= [_cell.delegate swipeTableCell:_cell tappedButtonAtIndex:index direction:_fromLeft ? MGSwipeDirectionLeftToRight : MGSwipeDirectionRightToLeft fromExpansion:fromExpansion];
     }
     
-    if (fromExpansion) {
+    if (fromExpansion && autoHide) {
         _expandedButton = nil;
         _cell.swipeOffset = 0;
     }
     else if (autoHide) {
         [_cell hideSwipeAnimated:YES];
     }
+    
+    return autoHide;
 
 }
 //button listener
@@ -379,6 +381,7 @@ static NSMutableSet * singleSwipePerTable;
     __weak MGSwipeButtonsView * _activeExpansion;
 
     MGSwipeTableInputOverlay * _tableInputOverlay;
+    bool _overlayEnabled;
     __weak UITableView * _cachedParentTable;
     UITableViewCellSelectionStyle _previusSelectionStyle;
     NSMutableSet * _previusHiddenViews;
@@ -526,9 +529,12 @@ static NSMutableSet * singleSwipePerTable;
 
 - (void) showSwipeOverlayIfNeeded
 {
-    if (_tableInputOverlay) {
+    if (_overlayEnabled) {
         return;
     }
+    _overlayEnabled = YES;
+    
+    self.selected = NO;
     if (_swipeContentView)
         [_swipeContentView removeFromSuperview];
     _swipeView.image = [self imageFromView:self];
@@ -536,11 +542,13 @@ static NSMutableSet * singleSwipePerTable;
     if (_swipeContentView)
         [_swipeView addSubview:_swipeContentView];
     
-    //input overlay on the whole table
-    UITableView * table = [self parentTable];
-    _tableInputOverlay = [[MGSwipeTableInputOverlay alloc] initWithFrame:table.bounds];
-    _tableInputOverlay.currentCell = self;
-    [table addSubview:_tableInputOverlay];
+    if (!_allowsMultipleSwipe) {
+        //input overlay on the whole table
+        UITableView * table = [self parentTable];
+        _tableInputOverlay = [[MGSwipeTableInputOverlay alloc] initWithFrame:table.bounds];
+        _tableInputOverlay.currentCell = self;
+        [table addSubview:_tableInputOverlay];
+    }
 
     _previusSelectionStyle = self.selectionStyle;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -554,10 +562,10 @@ static NSMutableSet * singleSwipePerTable;
 
 -(void) hideSwipeOverlayIfNeeded
 {
-    if (!_tableInputOverlay) {
+    if (!_overlayEnabled) {
         return;
     }
-
+    _overlayEnabled = NO;
     _swipeOverlay.hidden = YES;
     _swipeView.image = nil;
     if (_swipeContentView) {
@@ -565,10 +573,16 @@ static NSMutableSet * singleSwipePerTable;
         [self.contentView addSubview:_swipeContentView];
     }
     
-    [_tableInputOverlay removeFromSuperview];
-    _tableInputOverlay = nil;
+    if (_tableInputOverlay) {
+        [_tableInputOverlay removeFromSuperview];
+        _tableInputOverlay = nil;
+    }
     
     self.selectionStyle = _previusSelectionStyle;
+    NSArray * selectedRows = self.parentTable.indexPathsForSelectedRows;
+    if ([selectedRows containsObject:[self.parentTable indexPathForCell:self]]) {
+        self.selected = YES;
+    }
     [self setAccesoryViewsHidden:NO];
     
     if (_tapRecognizer) {
@@ -902,7 +916,6 @@ static NSMutableSet * singleSwipePerTable;
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
         self.highlighted = NO;
-        self.selected = NO;
         [self createSwipeViewIfNeeded];
         _panStartPoint = current;
         _panStartOffset = _swipeOffset;
@@ -917,8 +930,10 @@ static NSMutableSet * singleSwipePerTable;
         if (expansion) {
             UIView * expandedButton = [expansion getExpandedButton];
             [self setSwipeOffset:_targetOffset animated:YES completion:^{
-                [expansion endExpansioAnimated:NO];
-                [expansion handleClick:expandedButton fromExpansion:YES];
+                BOOL autoHide = [expansion handleClick:expandedButton fromExpansion:YES];
+                if (autoHide) {
+                    [expansion endExpansioAnimated:NO];
+                }
             }];
         }
         else {

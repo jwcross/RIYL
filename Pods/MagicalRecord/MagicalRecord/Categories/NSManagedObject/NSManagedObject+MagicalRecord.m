@@ -20,8 +20,10 @@ static NSUInteger defaultBatchSize = kMagicalRecordDefaultBatchSize;
         entityName = [self performSelector:@selector(entityName)];
     }
 
-    if ([entityName length] == 0) {
-        entityName = NSStringFromClass(self);
+    if ([entityName length] == 0)
+    {
+        // Remove module prefix from Swift subclasses
+        entityName = [NSStringFromClass(self) componentsSeparatedByString:@"."].lastObject;
     }
 
     return entityName;

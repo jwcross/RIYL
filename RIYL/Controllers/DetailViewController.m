@@ -50,7 +50,7 @@ typedef enum {
     self.artistDetailsView.editable = NO;
     
     // 4. If there is an image url, show it
-    NSString *imageUrl = [self.artist.images.lastObject text];
+    NSString *imageUrl = [self.artist.images.firstObject text];
     if (imageUrl) {
         // Image setup
         [self configureViewWithImageURL:[NSURL URLWithString:imageUrl]];
@@ -238,7 +238,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.artistDetailsView.text = [self formatBio:self.artist.bio];
     
     if (self.artist.images.count > 0) {
-        NSString *url = [[self.artist.images lastObject] text];
+        NSString *url = [[self.artist.images firstObject] text];
         [self configureViewWithImageURL:[NSURL URLWithString:url]];
     }
 }

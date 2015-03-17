@@ -24,6 +24,13 @@ static NSString *AddArtistIdentifier = @"addArtist";
     [self.tableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refreshNavigationBarColorScheme];
+    [self refreshStatusBarColorScheme];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,9 +39,25 @@ static NSString *AddArtistIdentifier = @"addArtist";
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.backgroundColor = [UIColor blackColor];
-    
     [self.tableView registerClass:[ArtistCell class]
            forCellReuseIdentifier:CellIdentifier];
+    
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)refreshNavigationBarColorScheme
+{
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.tintColor = [UIColor whiteColor];
+    navigationBar.barTintColor = [UIColor myDarkGrayColor];
+    navigationBar.titleTextAttributes = ({
+        @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    });
+}
+
+- (void)refreshStatusBarColorScheme
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 #pragma mark - UITableViewDatasource

@@ -127,6 +127,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="acknowledgementsLabel" destination="Yte-Ty-e2P" id="9UC-if-Zri"/>
                         <outlet property="artistDetailsView" destination="CGb-qT-aaP" id="SGJ-VW-jte"/>
                         <outlet property="artistImage" destination="3QN-Q7-wvh" id="8fD-AS-wxd"/>
                     </connections>

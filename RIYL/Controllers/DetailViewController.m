@@ -301,7 +301,8 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     SLColorArt *colorArt = [image colorArt];
     
     self.view.backgroundColor = colorArt.backgroundColor;
-    self.artistDetailsView.textColor = colorArt.detailColor;
+    self.artistDetailsView.textColor = colorArt.secondaryColor;
+    self.acknowledgementsLabel.textColor = colorArt.detailColor;
     
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     navigationBar.barTintColor = colorArt.backgroundColor;

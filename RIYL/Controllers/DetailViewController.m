@@ -348,7 +348,7 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     SLColorArt *colorArt = [self.artistImage.image colorArt];
     const CGFloat * components = CGColorGetComponents(colorArt.backgroundColor.CGColor);
     CGFloat R = components[0], G = components[1], B = components[2];
-    BOOL darkText = (R*299 + G*587 + B*114) > 200;
+    BOOL darkText = (R*299 + G*587 + B*114) > 250;
     return darkText ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
 

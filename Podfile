@@ -10,6 +10,7 @@ pod 'MBProgressHUD', '~> 0.8'
 pod 'MGSwipeTableCell', :head
 pod 'SpinKit', '~> 1.0.1'
 pod 'libextobjc', '~> 0.4.1'
+pod 'ColorArt', '~> 0.1'
 
 target :unit_tests, :exclusive => true do
   link_with 'UnitTests'

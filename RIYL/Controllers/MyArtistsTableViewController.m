@@ -6,6 +6,7 @@
 #import "ArtistCell.h"
 #import "UIColor+HexColors.h"
 #import "ArtistCell+Artist.h"
+#import <libextobjc/EXTScope.h>
 
 @interface MyArtistsTableViewController () <MGSwipeTableCellDelegate>
 @end
@@ -22,13 +23,22 @@ static NSString *AddArtistIdentifier = @"addArtist";
     [super viewWillAppear:animated];
     [self fetchAllNowListeningArtists];
     [self.tableView reloadData];
+    
+    @weakify(self)
+    [self.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        @strongify(self)
+        [self refreshNavigationBarColorScheme];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (![context isCancelled]) {
+            [self refreshNavigationBarTintColor];
+            [self refreshStatusBarColorScheme];
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self refreshNavigationBarColorScheme];
-    [self refreshStatusBarColorScheme];
 }
 
 - (void)viewDidLoad
@@ -48,8 +58,13 @@ static NSString *AddArtistIdentifier = @"addArtist";
 - (void)refreshNavigationBarColorScheme
 {
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    navigationBar.tintColor = [UIColor whiteColor];
     navigationBar.barTintColor = [UIColor myDarkGrayColor];
+}
+
+- (void)refreshNavigationBarTintColor
+{
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.tintColor = [UIColor whiteColor];
     navigationBar.titleTextAttributes = ({
         @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     });

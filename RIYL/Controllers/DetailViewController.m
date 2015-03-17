@@ -63,6 +63,13 @@ typedef enum {
     [self refreshStatusBar];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refreshNavigationBar];
+    [self refreshStatusBar];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -304,13 +311,21 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.artistDetailsView.textColor = colorArt.secondaryColor;
     self.acknowledgementsLabel.textColor = colorArt.detailColor;
     
+    // colorize status bar
+    [self refreshNavigationBar];
+    [self refreshStatusBar];
+}
+
+- (void)refreshNavigationBar
+{
+    if (!self.artistImage.image) {
+        return;
+    }
+    SLColorArt *colorArt = [self.artistImage.image colorArt];
     UINavigationBar *navigationBar = self.navigationController.navigationBar;
     navigationBar.barTintColor = colorArt.backgroundColor;
     navigationBar.tintColor = colorArt.secondaryColor;
     navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : colorArt.primaryColor};
-    
-    // colorize status bar
-    [self refreshStatusBar];
 }
 
 - (void)refreshStatusBar

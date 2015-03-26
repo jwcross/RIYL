@@ -100,7 +100,8 @@ static NSString *AddArtistIdentifier = @"addArtist";
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self performSegueWithIdentifier:ViewSimilarIdentifier sender:self];
+    [self performSegueWithIdentifier:ViewDetailsIdentifier
+                              sender:self];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView

@@ -121,6 +121,17 @@ typedef enum {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - 
+#pragma mark Actions
+
+- (IBAction)readMoreAction:(id)sender
+{
+    NSLog(@"Read more clicked");
+    NSString *name = [self.artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+    NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+}
+
 #pragma mark -
 #pragma mark Navigation
 
@@ -249,6 +260,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.title = self.artist.name;
     self.artistDetailsView.text = [self formatBio:self.artist.bio];
     self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm", self.artist.name];
+    
+    self.acknowledgementsLabel.hidden = NO;
+    self.readMoreLabel.hidden = NO;
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images firstObject] text];

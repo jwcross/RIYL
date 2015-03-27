@@ -14,6 +14,7 @@
 - (void)prepareForSimilarArtist;
 - (void)cancelAdd;
 - (void)addNewArtist;
+- (IBAction)readMoreAction:(id)sender;
 
 @end
 

@@ -329,13 +329,13 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     
     // background
     UIColor *tintColor = [colorArt.backgroundColor colorWithAlphaComponent:0.7f];
-    UIImage *blurImage = [image applyBlurWithRadius:10
+    UIImage *blurImage = [image applyBlurWithRadius:15
                                           tintColor:tintColor
                               saturationDeltaFactor:1.8f
                                           maskImage:nil];
     self.backgroundImageView.image = blurImage;
     
-    self.artistDetailsView.textColor = colorArt.primaryColor;
+    self.artistDetailsView.textColor = [self primaryTextColorForImage:image colorArt:colorArt];
     self.readMoreLabel.textColor = colorArt.secondaryColor;
     self.acknowledgementsLabel.textColor = colorArt.detailColor;
     
@@ -384,6 +384,84 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     
     return darkText ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
     
+}
+
+#pragma mark -
+#pragma mark Contrasting Colors
+
+- (UIColor *)primaryTextColorForImage:(UIImage *)artistImage
+                             colorArt:(SLColorArt *)colorArt
+{
+    if (!colorArt) {
+        colorArt = [artistImage colorArt];
+    }
+    UIColor *background = colorArt.backgroundColor;
+    
+    if ([self isLegible:colorArt.primaryColor onBackground:background]) {
+        return colorArt.primaryColor;
+        
+    } else if ([self isLegible:colorArt.secondaryColor onBackground:background]) {
+        return colorArt.secondaryColor;
+        
+    } else if ([self isLegible:colorArt.detailColor onBackground:background]) {
+        return colorArt.detailColor;
+        
+    } else if ([self preferredStatusBarStyle] == UIStatusBarStyleDefault) {
+        
+        UIColor *darkerPrimary = [self darkenColor:colorArt.primaryColor];
+        BOOL legible = [self isLegible:darkerPrimary onBackground:background];
+        return legible ? darkerPrimary : [UIColor blackColor];
+        
+    } else {
+        UIColor *lighterPrimary = [self lightenColor:colorArt.primaryColor];
+        BOOL legible = [self isLegible:lighterPrimary onBackground:background];
+        return legible ? lighterPrimary : [UIColor whiteColor];
+    }
+}
+
+- (BOOL)isLegible:(UIColor *)foregroundColor onBackground:(UIColor *)backgroundColor
+{
+    CGFloat brightness = ABS([self brightness:foregroundColor] - [self brightness:backgroundColor]);
+    CGFloat difference = [self colorDifference:foregroundColor against:backgroundColor];
+    NSLog(@"Debug: %f", brightness);
+    NSLog(@"Debug: %f", difference);
+    return brightness > 125 && difference > 400;
+}
+
+- (CGFloat)brightness:(UIColor *)color
+{
+    const CGFloat * components = CGColorGetComponents(color.CGColor);
+    CGFloat R = components[0], G = components[1], B = components[2];
+    return 299*R + 587*G + 114*B;
+}
+
+- (CGFloat)colorDifference:(UIColor *)color1 against:(UIColor *)color2
+{
+    const CGFloat * components = CGColorGetComponents(color1.CGColor);
+    CGFloat R1 = components[0], G1 = components[1], B1 = components[2];
+    
+    components = CGColorGetComponents(color2.CGColor);
+    CGFloat R2 = components[0], G2 = components[1], B2 = components[2];
+    
+    return 256*(MAX(R1,R2) + MAX(B1,B2) + MAX(G1,G2)) - 256*(MIN(R1,R2) + MIN(B1,B2) + MIN(G1,G2));
+}
+
+- (UIColor *)darkenColor:(UIColor *)color
+{
+    const CGFloat * components = CGColorGetComponents(color.CGColor);
+    CGFloat R = components[0], G = components[1], B = components[2];
+    
+    CGFloat adjust = 0.10;
+    return [UIColor colorWithRed:R*adjust green:G*adjust blue:B*adjust alpha:1];
+}
+
+- (UIColor *)lightenColor:(UIColor *)color
+{
+    const CGFloat * components = CGColorGetComponents(color.CGColor);
+    CGFloat R = components[0], G = components[1], B = components[2];
+    
+    CGFloat adjust = 0.90;
+    return [UIColor colorWithRed:(R+adjust*(1-R)) green:(G+adjust*(1-G)) blue:(B+adjust*(1-B)) alpha:1];
 }
 
 @end

@@ -288,8 +288,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         "By-SA License and may also be available under the GNU FDL.";
     s = [s stringByReplacingOccurrencesOfString:creativeCommons withString:@""];
     
-    // replace occurances of &quot;
+    // replace occurrences of &quot;
     s = [s stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
+    
+    // replace occurrences of %amp;
+    s = [s stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
     
     // remove "read more on last.fm"
     NSString *readMore = [NSString stringWithFormat:@"Read more about %@ on Last.fm.", self.artist.name];

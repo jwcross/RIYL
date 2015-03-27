@@ -29,10 +29,11 @@ static BOOL _iCloudEnabled = NO;
     }
 }
 
-+ (void) setupCoreDataStackWithiCloudContainer:(NSString *)containerID localStoreNamed:(NSString *)localStore;
++ (void) setupCoreDataStackWithiCloudContainer:(NSString *)icloudBucket localStoreNamed:(NSString *)localStore;
 {
-    [self setupCoreDataStackWithiCloudContainer:containerID
-                                 contentNameKey:nil
+    NSString *contentNameKey = [[[NSBundle mainBundle] infoDictionary] objectForKey:(id)kCFBundleIdentifierKey];
+    [self setupCoreDataStackWithiCloudContainer:icloudBucket
+                                 contentNameKey:contentNameKey
                                 localStoreNamed:localStore
                         cloudStorePathComponent:nil];
 }
@@ -57,10 +58,10 @@ static BOOL _iCloudEnabled = NO;
     [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:coordinator];
 }
 
-+ (void) setupCoreDataStackWithiCloudContainer:(NSString *)containerID localStoreAtURL:(NSURL *)storeURL
++ (void) setupCoreDataStackWithiCloudContainer:(NSString *)icloudBucket localStoreAtURL:(NSURL *)storeURL
 {
     NSString *contentNameKey = [[[NSBundle mainBundle] infoDictionary] objectForKey:(id)kCFBundleIdentifierKey];
-    [self setupCoreDataStackWithiCloudContainer:containerID
+    [self setupCoreDataStackWithiCloudContainer:icloudBucket
                                  contentNameKey:contentNameKey
                                 localStoreAtURL:storeURL
                         cloudStorePathComponent:nil];

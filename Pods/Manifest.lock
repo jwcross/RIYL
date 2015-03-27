@@ -74,7 +74,8 @@ DEPENDENCIES:
   - ColorArt (~> 0.1)
   - Expecta
   - libextobjc (~> 0.4.1)
-  - MagicalRecord (from `https://github.com/magicalpanda/MagicalRecord.git`, branch `develop`)
+  - MagicalRecord (from `https://github.com/magicalpanda/MagicalRecord.git`, branch
+    `develop`)
   - MBProgressHUD (~> 0.8)
   - MGSwipeTableCell (HEAD)
   - OCMock
@@ -97,7 +98,7 @@ SPEC CHECKSUMS:
   ColorArt: f734aa2f988b2be4e9a064c1818d8f8320488110
   Expecta: ee641011fe10aa1855d487b40e4976dac50ec342
   libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
-  MagicalRecord: 6017a9417d767e75eb8132b8cb2c399fc4c0c80f
+  MagicalRecord: 32760b04d86a961b38fb29413780443212a1f62d
   MBProgressHUD: f3747dcbd45a9e855a6b0674550651e0b7ed250c
   MGSwipeTableCell: 59643a884736a0a2fb0f07258b7a97b4f4f9000f
   OCMock: ecdd510b73ef397f2f97274785c1e87fd147c49f
@@ -105,4 +106,4 @@ SPEC CHECKSUMS:
   Specta: 1df326d6ec48603c77f507a0ab1f89ad2df1c582
   SpinKit: 563a00196a87d789b16e3592265f0dfa9c3fb9db
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.1

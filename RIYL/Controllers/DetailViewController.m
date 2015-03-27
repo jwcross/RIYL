@@ -2,6 +2,7 @@
 #import "SimilarViewController.h"
 #import "LastfmAPIClient.h"
 #import "Image.h"
+#import "UIImage+ImageEffects.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -307,8 +308,15 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
 {
     SLColorArt *colorArt = [image colorArt];
     
-    self.view.backgroundColor = colorArt.backgroundColor;
-    self.artistDetailsView.textColor = colorArt.secondaryColor;
+    // background
+    UIColor *tintColor = [colorArt.backgroundColor colorWithAlphaComponent:0.7f];
+    UIImage *blurImage = [image applyBlurWithRadius:10
+                                          tintColor:tintColor
+                              saturationDeltaFactor:1.8f
+                                          maskImage:nil];
+    self.backgroundImageView.image = blurImage;
+    
+    self.artistDetailsView.textColor = colorArt.primaryColor;
     self.acknowledgementsLabel.textColor = colorArt.detailColor;
     
     // colorize status bar

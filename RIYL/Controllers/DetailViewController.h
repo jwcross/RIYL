@@ -5,6 +5,7 @@
 
 @property (strong, nonatomic) Artist *artist;
 @property (weak, nonatomic) IBOutlet UIImageView *artistImage;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 @property (weak, nonatomic) IBOutlet UILabel *acknowledgementsLabel;
 

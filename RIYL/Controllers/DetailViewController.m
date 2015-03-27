@@ -5,6 +5,8 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
+#import <libextobjc/EXTScope.h>
+#import <ColorArt/UIImage+ColorArt.h>
 
 typedef enum {
     Normal, AddArtist, ViewSimilar
@@ -48,14 +50,24 @@ typedef enum {
     self.artistDetailsView.editable = NO;
     
     // 4. If there is an image url, show it
-    NSString *imageUrl = [self.artist.images.lastObject text];
+    NSString *imageUrl = [self.artist.images.firstObject text];
     if (imageUrl) {
         // Image setup
-        [self.artistImage setImageWithURL:[NSURL URLWithString:imageUrl]];
+        [self configureViewWithImageURL:[NSURL URLWithString:imageUrl]];
     }
     
     // 5. Set delegates
     self.artistDetailsView.delegate = self;
+    
+    // 6. Refresh status bar
+    [self refreshStatusBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refreshNavigationBar];
+    [self refreshStatusBar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -233,8 +245,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.artistDetailsView.text = [self formatBio:self.artist.bio];
     
     if (self.artist.images.count > 0) {
-        NSString *url = [[self.artist.images lastObject] text];
-        [self.artistImage setImageWithURL:[NSURL URLWithString:url]];
+        NSString *url = [[self.artist.images firstObject] text];
+        [self configureViewWithImageURL:[NSURL URLWithString:url]];
     }
 }
 
@@ -264,6 +276,86 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
     
     return [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+# pragma mark - LEColorPicker
+
+typedef void (^ImageSuccess)(NSURLRequest*, NSHTTPURLResponse*, UIImage*);
+typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
+
+- (void)configureViewWithImageURL:(NSURL *)imageUrl
+{
+    // Define callbacks
+    @weakify(self)
+    ImageSuccess success = ^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        @strongify(self)
+        self.artistImage.image = image;
+        [self colorizeForImage:image];
+    };
+    ImageError failure = ^(NSURLRequest* request, NSHTTPURLResponse* response, NSError* error){
+        NSLog(@"Error fetching artist image");
+    };
+    
+    // Fetch artist image and clear spinner on success
+    [self.artistImage setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
+                                    placeholderImage:nil
+                                             success:success
+                                             failure:failure];
+}
+
+- (void)colorizeForImage:(UIImage *)image
+{
+    SLColorArt *colorArt = [image colorArt];
+    
+    self.view.backgroundColor = colorArt.backgroundColor;
+    self.artistDetailsView.textColor = colorArt.secondaryColor;
+    self.acknowledgementsLabel.textColor = colorArt.detailColor;
+    
+    // colorize status bar
+    [self refreshNavigationBar];
+    [self refreshStatusBar];
+}
+
+- (void)refreshNavigationBar
+{
+    if (!self.artistImage.image) {
+        return;
+    }
+    SLColorArt *colorArt = [self.artistImage.image colorArt];
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.barTintColor = colorArt.backgroundColor;
+    navigationBar.tintColor = colorArt.secondaryColor;
+    navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : colorArt.primaryColor};
+}
+
+- (void)refreshStatusBar
+{
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    if ([self preferredStatusBarStyle] == UIStatusBarStyleLightContent) {
+        navigationBar.barStyle = UIBarStyleBlack;
+    } else {
+        navigationBar.barStyle = UIBarStyleDefault;
+    }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (!self.artistImage.image) {
+        return UIStatusBarStyleLightContent;
+    }
+    
+    SLColorArt *colorArt = [self.artistImage.image colorArt];
+    const CGFloat * components = CGColorGetComponents(colorArt.backgroundColor.CGColor);
+    CGFloat R = components[0], G = components[1], B = components[2];
+    
+    // http://stackoverflow.com/a/2509596
+    // BOOL darkText = (R*299 + G*587 + B*114) > 500;
+    
+    // Copied from SLColorArt.m
+    BOOL darkText = (0.2126*R + 0.7152*G + 0.0722*B) > 0.5;
+    
+    return darkText ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    
 }
 
 @end

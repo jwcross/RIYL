@@ -374,6 +374,11 @@
 				CLASSPREFIX = JWC;
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = CCS;
+				TargetAttributes = {
+					58CB613A9BE7714D62EADAFE = {
+						DevelopmentTeam = R5T7RC2T53;
+					};
+				};
 			};
 			buildConfigurationList = 0AF07CD227B82CB23265C968 /* Build configuration list for PBXProject "RIYL" */;
 			compatibilityVersion = "Xcode 3.2";

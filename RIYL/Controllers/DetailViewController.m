@@ -344,12 +344,18 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
         return UIStatusBarStyleLightContent;
     }
     
-    // http://stackoverflow.com/a/2509596
     SLColorArt *colorArt = [self.artistImage.image colorArt];
     const CGFloat * components = CGColorGetComponents(colorArt.backgroundColor.CGColor);
     CGFloat R = components[0], G = components[1], B = components[2];
-    BOOL darkText = (R*299 + G*587 + B*114) > 250;
+    
+    // http://stackoverflow.com/a/2509596
+    // BOOL darkText = (R*299 + G*587 + B*114) > 500;
+    
+    // Copied from SLColorArt.m
+    BOOL darkText = (0.2126*R + 0.7152*G + 0.0722*B) > 0.5;
+    
     return darkText ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    
 }
 
 @end

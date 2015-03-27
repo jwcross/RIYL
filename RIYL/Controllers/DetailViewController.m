@@ -13,7 +13,8 @@ typedef enum {
     Normal, AddArtist, ViewSimilar
 } DetailMode;
 
-@interface DetailViewController () <UITextFieldDelegate, UIAlertViewDelegate>
+@interface DetailViewController ()
+<UITextFieldDelegate, UIAlertViewDelegate>
 @property (nonatomic, assign) DetailMode mode;
 @end
 
@@ -49,6 +50,9 @@ typedef enum {
     self.title = self.artist.name ? self.artist.name : @"New Artist";
     self.artistDetailsView.text = self.artist.bio ? [self formatBio:self.artist.bio] : @"";
     self.artistDetailsView.editable = NO;
+    self.readMoreLabel.hidden = !self.artist.name;
+    self.acknowledgementsLabel.hidden = !self.artist.name;
+    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm", self.artist.name];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -244,6 +248,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     self.title = self.artist.name;
     self.artistDetailsView.text = [self formatBio:self.artist.bio];
+    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm", self.artist.name];
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images firstObject] text];
@@ -317,6 +322,7 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.backgroundImageView.image = blurImage;
     
     self.artistDetailsView.textColor = colorArt.primaryColor;
+    self.readMoreLabel.textColor = colorArt.secondaryColor;
     self.acknowledgementsLabel.textColor = colorArt.detailColor;
     
     // colorize status bar

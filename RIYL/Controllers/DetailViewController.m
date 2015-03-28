@@ -298,6 +298,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     NSString *readMore = [NSString stringWithFormat:@"Read more about %@ on Last.fm.", self.artist.name];
     s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
     
+    // remove "artist on last.fm"
+    readMore = [NSString stringWithFormat:@"%@ on Last.fm.", self.artist.name];
+    s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
+    
     return [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
@@ -391,6 +395,7 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
 
 #pragma mark -
 #pragma mark Contrasting Colors
+// TODO: Split out into a category on UIColor
 
 - (UIColor *)primaryTextColorForImage:(UIImage *)artistImage
                              colorArt:(SLColorArt *)colorArt
@@ -426,8 +431,6 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
 {
     CGFloat brightness = ABS([self brightness:foregroundColor] - [self brightness:backgroundColor]);
     CGFloat difference = [self colorDifference:foregroundColor against:backgroundColor];
-    NSLog(@"Debug: %f", brightness);
-    NSLog(@"Debug: %f", difference);
     return brightness > 125 && difference > 400;
 }
 

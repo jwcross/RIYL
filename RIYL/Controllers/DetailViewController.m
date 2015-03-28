@@ -260,7 +260,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     self.title = self.artist.name;
     self.artistDetailsView.text = [self formatBio:self.artist.bio];
-    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm", self.artist.name];
+    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
+                               self.artist.name];
     
     self.acknowledgementsLabel.hidden = NO;
     self.readMoreLabel.hidden = NO;
@@ -331,16 +332,16 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     
     // Fetch artist image and clear spinner on success
     [self.artistImage setImageWithURLRequest:[NSURLRequest requestWithURL:imageUrl]
-                                    placeholderImage:nil
-                                             success:success
-                                             failure:failure];
+                            placeholderImage:nil
+                                     success:success
+                                     failure:failure];
 }
 
 - (void)colorizeForImage:(UIImage *)image
 {
     SLColorArt *colorArt = [image colorArt];
     
-    // background
+    // set blurred background image
     UIColor *tintColor = [colorArt.backgroundColor colorWithAlphaComponent:0.7f];
     UIImage *blurImage = [image applyBlurWithRadius:15
                                           tintColor:tintColor
@@ -348,7 +349,13 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
                                           maskImage:nil];
     self.backgroundImageView.image = blurImage;
     
-    self.artistDetailsView.textColor = [self primaryTextColorForImage:image colorArt:colorArt];
+    // set artist text color: see http://stackoverflow.com/a/19168661
+    self.artistDetailsView.editable = YES;
+    self.artistDetailsView.textColor = [self primaryTextColorForImage:image
+                                                             colorArt:colorArt];
+    self.artistDetailsView.editable = NO;
+    
+    // set detail colors
     self.readMoreLabel.textColor = colorArt.secondaryColor;
     self.acknowledgementsLabel.textColor = colorArt.detailColor;
     

@@ -130,8 +130,9 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     if (direction == MGSwipeDirectionRightToLeft) {
         return [self createRightButtons];
     } else {
-        Artist *artist = [self artistForCell:cell];
-        return [self createLeftButtons:artist];
+        return nil;
+//        Artist *artist = [self artistForCell:cell];
+//        return [self createLeftButtons:artist];
     }
 }
 
@@ -182,16 +183,17 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     
     MGSwipeButton *delete = ({
         NSString *title = @"Delete";
-        UIColor *color = [UIColor myRedColor];
+        UIColor *color = [UIColor redColor];
         [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
     });
-    MGSwipeButton *more = ({
-        NSString *title = @"Details";
-        UIColor *color = [UIColor lightGrayColor];
-        [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
-    });
+    return @[delete];
     
-    return @[delete, more];
+//    MGSwipeButton *more = ({
+//        NSString *title = @"Details";
+//        UIColor *color = [UIColor lightGrayColor];
+//        [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
+//    });
+//    return @[delete, more];
 }
 
 #pragma mark - Navigation methods

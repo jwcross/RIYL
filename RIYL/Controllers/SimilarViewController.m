@@ -195,7 +195,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     // get similar artists
     @weakify(self)
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
-    [api getSimilarArtistsForArtist:self.artist.name limit:20 autocorrect:YES
+    [api getSimilarArtistsForArtist:self.artist.name limit:20 autocorrect:NO
          success:^(NSURLSessionDataTask *task, id responseObject) {
              @strongify(self)
              NSArray *similar = responseObject[@"similarartists"][@"artist"];

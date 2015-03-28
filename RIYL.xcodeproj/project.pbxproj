@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B7370051AC5489400828D83 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */; };
+		0B7370051AC5489400828D83 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		0BDC53F61AC65C880099E0E9 /* UIColor+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */; };
 		0D400AC7FF1C4BAF307052BF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D247E16A68BFD1618E6F1842 /* libPods.a */; };
 		306C4417B6177CCEB3EDB06F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57508E0BED9B45A6C8FFF2DF /* Images.xcassets */; };

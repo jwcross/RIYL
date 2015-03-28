@@ -288,11 +288,16 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         "By-SA License and may also be available under the GNU FDL.";
     s = [s stringByReplacingOccurrencesOfString:creativeCommons withString:@""];
     
-    // replace occurrences of &quot;
-    s = [s stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
-    
-    // replace occurrences of %amp;
-    s = [s stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+    // replace occurrences of html codes
+    NSDictionary *codes = @{ @"&quot;" : @"\"",
+                             @"&amp;"  : @"&",
+                             @"&lt;"  : @"<",
+                             @"&gt;"  : @">",
+                             @"&nbsp;"  : @"\u00a0",
+                             @"&micro;"  : @"µ", };
+    for (NSString *code in codes.keyEnumerator) {
+        s = [s stringByReplacingOccurrencesOfString:code withString:codes[code]];
+    }
     
     // remove "read more on last.fm"
     NSString *readMore = [NSString stringWithFormat:@"Read more about %@ on Last.fm.", self.artist.name];

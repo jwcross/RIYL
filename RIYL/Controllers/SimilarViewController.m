@@ -199,6 +199,18 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
          success:^(NSURLSessionDataTask *task, id responseObject) {
              @strongify(self)
              NSArray *similar = responseObject[@"similarartists"][@"artist"];
+             
+             if (![similar isKindOfClass:[NSArray class]]) {
+                 NSLog(@"Failure -- API returned a string instead of an array of artists");
+                 NSLog(@"Failure -- %@", responseObject);
+                 
+                 // Show error dialog
+                 [(RTSpinKitView*)hud.customView stopAnimating];
+                 hud.mode = MBProgressHUDModeText;
+                 hud.labelText = @"Error loading artists";
+                 
+                 return;
+             }
              NSLog(@"Success -- %tu artists", similar.count);
              [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];

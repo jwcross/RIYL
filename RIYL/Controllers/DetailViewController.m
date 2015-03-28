@@ -3,6 +3,7 @@
 #import "LastfmAPIClient.h"
 #import "Image.h"
 #import "UIImage+ImageEffects.h"
+#import "UIColor+Util.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -194,12 +195,12 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
       self.artist.liked = @NO; // default not-`liked` for added artists
     }
   
+    // save highest-resolution image
     if ([artistDict[@"image"] count] > 0) {
         Image *image = [Image MR_createEntity];
         image.text = [artistDict[@"image"] lastObject][@"#text"];
         image.size = [artistDict[@"image"] lastObject][@"size"];
         image.artist = self.artist;
-        
         [self.artist addImagesObject:image];
     }
 }
@@ -383,24 +384,21 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     if (!self.artistImage.image) {
         return UIStatusBarStyleLightContent;
     }
-    
     SLColorArt *colorArt = [self.artistImage.image colorArt];
-    const CGFloat * components = CGColorGetComponents(colorArt.backgroundColor.CGColor);
-    CGFloat R = components[0], G = components[1], B = components[2];
+    
+    CGFloat R, G, B, A;
+    [colorArt.backgroundColor getRed:&R green:&G blue:&B alpha:&A];
     
     // http://stackoverflow.com/a/2509596
     // BOOL darkText = (R*299 + G*587 + B*114) > 500;
     
     // Copied from SLColorArt.m
     BOOL darkText = (0.2126*R + 0.7152*G + 0.0722*B) > 0.5;
-    
     return darkText ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
-    
 }
 
 #pragma mark -
 #pragma mark Contrasting Colors
-// TODO: Split out into a category on UIColor
 
 - (UIColor *)primaryTextColorForImage:(UIImage *)artistImage
                              colorArt:(SLColorArt *)colorArt
@@ -410,69 +408,25 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     }
     UIColor *background = colorArt.backgroundColor;
     
-    if ([self isLegible:colorArt.primaryColor onBackground:background]) {
+    if ([colorArt.primaryColor isLegibleAgainst:background]) {
         return colorArt.primaryColor;
         
-    } else if ([self isLegible:colorArt.secondaryColor onBackground:background]) {
+    } else if ([colorArt.secondaryColor isLegibleAgainst:background]) {
         return colorArt.secondaryColor;
         
-    } else if ([self isLegible:colorArt.detailColor onBackground:background]) {
+    } else if ([colorArt.detailColor isLegibleAgainst:background]) {
         return colorArt.detailColor;
         
     } else if ([self preferredStatusBarStyle] == UIStatusBarStyleDefault) {
-        
-        UIColor *darkerPrimary = [self darkenColor:colorArt.primaryColor];
-        BOOL legible = [self isLegible:darkerPrimary onBackground:background];
-        return legible ? darkerPrimary : [UIColor blackColor];
+        UIColor *darker = [colorArt.primaryColor darken];
+        BOOL legible = [darker isLegibleAgainst:background];
+        return legible ? darker : [UIColor blackColor];
         
     } else {
-        UIColor *lighterPrimary = [self lightenColor:colorArt.primaryColor];
-        BOOL legible = [self isLegible:lighterPrimary onBackground:background];
-        return legible ? lighterPrimary : [UIColor whiteColor];
+        UIColor *lighter = [colorArt.primaryColor lighten];
+        BOOL legible = [lighter isLegibleAgainst:background];
+        return legible ? lighter : [UIColor whiteColor];
     }
-}
-
-- (BOOL)isLegible:(UIColor *)foregroundColor onBackground:(UIColor *)backgroundColor
-{
-    CGFloat brightness = ABS([self brightness:foregroundColor] - [self brightness:backgroundColor]);
-    CGFloat difference = [self colorDifference:foregroundColor against:backgroundColor];
-    return brightness > 125 && difference > 400;
-}
-
-- (CGFloat)brightness:(UIColor *)color
-{
-    const CGFloat * components = CGColorGetComponents(color.CGColor);
-    CGFloat R = components[0], G = components[1], B = components[2];
-    return 299*R + 587*G + 114*B;
-}
-
-- (CGFloat)colorDifference:(UIColor *)color1 against:(UIColor *)color2
-{
-    const CGFloat * components = CGColorGetComponents(color1.CGColor);
-    CGFloat R1 = components[0], G1 = components[1], B1 = components[2];
-    
-    components = CGColorGetComponents(color2.CGColor);
-    CGFloat R2 = components[0], G2 = components[1], B2 = components[2];
-    
-    return 256*(MAX(R1,R2) + MAX(B1,B2) + MAX(G1,G2)) - 256*(MIN(R1,R2) + MIN(B1,B2) + MIN(G1,G2));
-}
-
-- (UIColor *)darkenColor:(UIColor *)color
-{
-    const CGFloat * components = CGColorGetComponents(color.CGColor);
-    CGFloat R = components[0], G = components[1], B = components[2];
-    
-    CGFloat adjust = 0.10;
-    return [UIColor colorWithRed:R*adjust green:G*adjust blue:B*adjust alpha:1];
-}
-
-- (UIColor *)lightenColor:(UIColor *)color
-{
-    const CGFloat * components = CGColorGetComponents(color.CGColor);
-    CGFloat R = components[0], G = components[1], B = components[2];
-    
-    CGFloat adjust = 0.90;
-    return [UIColor colorWithRed:(R+adjust*(1-R)) green:(G+adjust*(1-G)) blue:(B+adjust*(1-B)) alpha:1];
 }
 
 @end

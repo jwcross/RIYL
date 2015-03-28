@@ -86,7 +86,7 @@ NSString * const kMagicalRecordPSCMismatchCouldNotRecreateStore = @"kMagicalReco
     {
         if ([MagicalRecord shouldDeleteStoreOnModelMismatch])
         {
-            BOOL isMigrationError = (([error code] == NSPersistentStoreIncompatibleVersionHashError) || ([error code] == NSMigrationMissingSourceModelError) || ([error code] == NSMigrationError));
+            BOOL isMigrationError = (([error code] == NSPersistentStoreIncompatibleVersionHashError) || ([error code] == NSMigrationMissingSourceModelError));
             if ([[error domain] isEqualToString:NSCocoaErrorDomain] && isMigrationError)
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:kMagicalRecordPSCMismatchWillDeleteStore object:nil];
@@ -133,8 +133,6 @@ NSString * const kMagicalRecordPSCMismatchCouldNotRecreateStore = @"kMagicalReco
 
 - (void) MR_addiCloudContainerID:(NSString *)containerID contentNameKey:(NSString *)contentNameKey storeIdentifier:(id)storeIdentifier cloudStorePathComponent:(NSString *)subPathComponent completion:(void(^)(void))completionBlock
 {
-    NSAssert([contentNameKey containsString:@"."] == NO, @"NSPersistentStoreUbiquitousContentNameKey cannot contain a period.");
-
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         NSURL *cloudURL = [NSPersistentStore MR_cloudURLForUbiqutiousContainer:containerID];
@@ -148,14 +146,9 @@ NSString * const kMagicalRecordPSCMismatchCouldNotRecreateStore = @"kMagicalReco
         NSDictionary *options = [[self class] MR_autoMigrationOptions];
         if (cloudURL)   //iCloud is available
         {
-            NSMutableDictionary *iCloudOptions = [[NSMutableDictionary alloc] init];
-            [iCloudOptions setObject:cloudURL forKey:NSPersistentStoreUbiquitousContentURLKey];
-
-            if ([contentNameKey length] > 0)
-            {
-                [iCloudOptions setObject:contentNameKey forKey:NSPersistentStoreUbiquitousContentNameKey];
-            }
-
+            NSDictionary *iCloudOptions = [NSDictionary dictionaryWithObjectsAndKeys:
+                                           contentNameKey, NSPersistentStoreUbiquitousContentNameKey,
+                                           cloudURL, NSPersistentStoreUbiquitousContentURLKey, nil];
             options = [options MR_dictionaryByMergingDictionary:iCloudOptions];
         }
         else
@@ -172,15 +165,9 @@ NSString * const kMagicalRecordPSCMismatchCouldNotRecreateStore = @"kMagicalReco
         }
         else
         {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [self lock];
-#pragma clang diagnostic pop
             [self MR_addSqliteStoreNamed:storeIdentifier withOptions:options];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [self unlock];
-#pragma clang diagnostic pop
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{

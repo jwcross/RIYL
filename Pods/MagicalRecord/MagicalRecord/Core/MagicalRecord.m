@@ -25,9 +25,9 @@ NSString * const kMagicalRecordCleanedUpNotification = @"kMagicalRecordCleanedUp
 
 @implementation MagicalRecord
 
-+ (MagicalRecordVersionTag) version
++ (MagicalRecordVersionNumber) version
 {
-    return MagicalRecordVersionTag2_3;
+    return MagicalRecordVersionNumber2_3;
 }
 
 + (void) cleanUp

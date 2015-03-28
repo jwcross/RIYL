@@ -1,5 +1,0 @@
-#include "Pods-SimilarArtists-libextobjc.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/libextobjc" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/MGSwipeTableCell" "${PODS_ROOT}/Headers/Public/MagicalRecord" "${PODS_ROOT}/Headers/Public/MagicalRecord/MagicalRecord" "${PODS_ROOT}/Headers/Public/SpinKit" "${PODS_ROOT}/Headers/Public/libextobjc"
-OTHER_LDFLAGS = -ObjC
-PODS_ROOT = ${SRCROOT}

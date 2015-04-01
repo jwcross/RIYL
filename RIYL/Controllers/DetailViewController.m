@@ -4,6 +4,7 @@
 #import "Image.h"
 #import "UIImage+ImageEffects.h"
 #import "UIColor+Util.h"
+#import "NSString+LastFm.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -49,11 +50,16 @@ typedef enum {
     // View setup
     // 3. Set the title, name, details field of the Artist
     self.title = self.artist.name ? self.artist.name : @"New Artist";
-    self.artistDetailsView.text = self.artist.bio ? [self formatBio:self.artist.bio] : @"";
+    self.artistDetailsView.text = ({
+        NSString *artist = self.artist.name;
+//        self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
+        [self.artist.bio formatBioWithArtist:artist];
+    });
     self.artistDetailsView.editable = NO;
     self.readMoreLabel.hidden = !self.artist.name;
     self.acknowledgementsLabel.hidden = !self.artist.name;
-    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm", self.artist.name];
+    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
+                               self.artist.name];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -230,7 +236,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:[UIColor whiteColor]];
+    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave
+                                                            color:[UIColor whiteColor]];
     hud.mode = MBProgressHUDModeCustomView;
     hud.customView = spinner;
     hud.labelText = NSLocalizedString(@"Loading artist", @"Loading artist");
@@ -259,7 +266,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)refreshView
 {
     self.title = self.artist.name;
-    self.artistDetailsView.text = [self formatBio:self.artist.bio];
+    self.artistDetailsView.text = [self.artist.bio formatBioWithArtist:self.artist.name];
     self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
                                self.artist.name];
     
@@ -270,46 +277,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         NSString *url = [[self.artist.images firstObject] text];
         [self configureViewWithImageURL:[NSURL URLWithString:url]];
     }
-}
-
-- (NSString*)formatBio:(NSString*)htmlString
-{
-    if (!htmlString) {
-        return nil;
-    }
-    
-    // strip html
-    NSRange r;
-    NSString *s = [htmlString copy];
-    while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-        s = [s stringByReplacingCharactersInRange:r withString:@""];
-    }
-    
-    // trim Creative Commons
-    NSString *creativeCommons = @"User-contributed text is available under the Creative Commons "
-        "By-SA License and may also be available under the GNU FDL.";
-    s = [s stringByReplacingOccurrencesOfString:creativeCommons withString:@""];
-    
-    // replace occurrences of html codes
-    NSDictionary *codes = @{ @"&quot;" : @"\"",
-                             @"&amp;"  : @"&",
-                             @"&lt;"  : @"<",
-                             @"&gt;"  : @">",
-                             @"&nbsp;"  : @"\u00a0",
-                             @"&micro;"  : @"µ", };
-    for (NSString *code in codes.keyEnumerator) {
-        s = [s stringByReplacingOccurrencesOfString:code withString:codes[code]];
-    }
-    
-    // remove "read more on last.fm"
-    NSString *readMore = [NSString stringWithFormat:@"Read more about %@ on Last.fm.", self.artist.name];
-    s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
-    
-    // remove "artist on last.fm"
-    readMore = [NSString stringWithFormat:@"%@ on Last.fm.", self.artist.name];
-    s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
-    
-    return [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 # pragma mark - LEColorPicker

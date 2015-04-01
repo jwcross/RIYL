@@ -233,9 +233,14 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)fetchAllNowListeningArtists
 {
     NSPredicate *nowListening = [NSPredicate predicateWithFormat:@"nowListening == YES"];
-    self.artists = [[Artist MR_findAllSortedBy:@"name"
-                                     ascending:YES
-                                 withPredicate:nowListening] mutableCopy];
+    NSArray *artists = [Artist MR_findAllSortedBy:@"name"
+                                        ascending:YES
+                                    withPredicate:nowListening];
+    
+    // case-insensitive sorting
+    self.artists = [[artists sortedArrayUsingComparator:^NSComparisonResult(Artist *a1, Artist *a2) {
+        return [a1.name caseInsensitiveCompare:a2.name];
+    }] mutableCopy];
 }
 
 - (BOOL)deleteArtistForCell:(UITableViewCell *)cell

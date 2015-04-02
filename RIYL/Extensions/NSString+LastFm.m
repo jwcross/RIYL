@@ -74,13 +74,11 @@
 {
     NSString *s = [self copy];
     
-    // strip newlines
-    NSCharacterSet *charSet = [NSCharacterSet newlineCharacterSet];
+    // strip whitespace and newlines
+    NSCharacterSet *charSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     s = [s stringByTrimmingCharactersInSet:charSet];
     
-    // strip whitespace
-    charSet = [NSCharacterSet whitespaceCharacterSet];
-    return [s stringByTrimmingCharactersInSet:charSet];
+    return s;
 }
 
 

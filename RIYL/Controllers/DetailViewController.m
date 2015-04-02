@@ -52,12 +52,10 @@ typedef enum {
     self.title = self.artist.name ? self.artist.name : @"New Artist";
     self.artistDetailsView.text = ({
         NSString *artist = self.artist.name;
-//        self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
-        [self.artist.bio formatBioWithArtist:artist];
+        self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
     });
     self.artistDetailsView.editable = NO;
     self.readMoreLabel.hidden = !self.artist.name;
-    self.acknowledgementsLabel.hidden = !self.artist.name;
     self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
                                self.artist.name];
     
@@ -270,7 +268,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
                                self.artist.name];
     
-    self.acknowledgementsLabel.hidden = NO;
     self.readMoreLabel.hidden = NO;
     
     if (self.artist.images.count > 0) {
@@ -324,7 +321,6 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     
     // set detail colors
     self.readMoreLabel.textColor = colorArt.secondaryColor;
-    self.acknowledgementsLabel.textColor = colorArt.detailColor;
     
     // colorize status bar
     [self refreshNavigationBar];

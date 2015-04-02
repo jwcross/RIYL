@@ -5,13 +5,16 @@
 @interface UIViewController (Integrations)
 
 - (BOOL)userHasSpotifyInstalled;
+- (BOOL)userHasPandoraInstalled;
 
 - (UIAlertAction *)spotifyActionForArtist:(Artist *)artist;
+- (UIAlertAction *)pandoraActionForArtist:(Artist *)artist;
 
 @end
 
 @implementation UIViewController (Integrations)
 
+#pragma mark - Spotify
 
 - (BOOL)userHasSpotifyInstalled
 {
@@ -42,6 +45,36 @@
         }
     };
     [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:success failure:nil];
+}
+
+#pragma mark - Pandora
+
+- (BOOL)userHasPandoraInstalled
+{
+    NSURL *pandoraURL = [NSURL URLWithString:@"pandorav2:"];
+    return [[UIApplication sharedApplication] canOpenURL:pandoraURL];
+}
+
+
+- (UIAlertAction *)pandoraActionForArtist:(Artist *)artist
+{
+    return ({
+        NSString *title = @"Pandora";
+        UIAlertActionStyle style = UIAlertActionStyleDefault;
+        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
+            [self pandoraTapped:artist];
+        }];
+    });
+}
+
+- (void)pandoraTapped:(Artist *)artist
+{
+    NSString *pandoraURI = ({
+        NSString *name = [artist.name stringByReplacingOccurrencesOfString:@" "
+                                                                withString:@"+"];
+        [NSString stringWithFormat:@"pandorav2:/createStation?artist=%@", name];
+    });
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:pandoraURI]];
 }
 
 @end

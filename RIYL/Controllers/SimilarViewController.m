@@ -107,6 +107,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         [actionSheet addAction:[self spotifyActionForArtist:artist]];
     }
     
+    // Pandora action
+    if ([self userHasPandoraInstalled]) {
+        [actionSheet addAction:[self pandoraActionForArtist:artist]];
+    }
+    
     // Cancel action
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                                     style:UIAlertActionStyleCancel

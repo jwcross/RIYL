@@ -5,13 +5,13 @@
 #import "SpotifyAPIClient.h"
 #import "Artist.h"
 #import "Image.h"
+#import "UIViewController+Integrations.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <SpinKit/RTSpinKitView.h>
 #import <libextobjc/EXTScope.h>
 
 @interface SimilarViewController ()
 @property NSMutableArray *similarArtists;
-@property (nonatomic, assign) BOOL userHasSpotifyInstalled;
 @end
 
 @implementation SimilarViewController
@@ -103,7 +103,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     [actionSheet addAction:[self viewDetailsActionForCellAtIndexPath:indexPath]];
     
     // Spotify action
-    if (self.userHasSpotifyInstalled) {
+    if ([self userHasSpotifyInstalled]) {
         [actionSheet addAction:[self spotifyActionForArtist:artist]];
     }
     
@@ -113,29 +113,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                                                   handler:nil]];
     
     return actionSheet;
-}
-
-- (BOOL)userHasSpotifyInstalled
-{
-    if (!_userHasSpotifyInstalled) {
-        NSURL *spotifyURL = [NSURL URLWithString:@"spotify:"];
-        _userHasSpotifyInstalled = [[UIApplication sharedApplication] canOpenURL:spotifyURL];
-    }
-    return _userHasSpotifyInstalled;
-}
-
-- (void)spotifyTapped:(Artist*)artist
-{
-    SuccessCallback success = ^(NSURLSessionDataTask *task, id response) {
-        BOOL didReturnArtist = [response[@"artists"][@"items"] count] > 0;
-        if (didReturnArtist) {
-            NSString *spotifyID = response[@"artists"][@"items"][0][@"id"];
-            NSString *spotifyURI = [NSString stringWithFormat:@"spotify:artist:%@", spotifyID];
-            NSURL *url = [NSURL URLWithString:spotifyURI];
-            [[UIApplication sharedApplication] openURL:url];
-        }
-    };
-    [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:success failure:nil];
 }
 
 #pragma mark -
@@ -265,19 +242,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         [similar addImagesObject:image];
     }
     return similar;
-}
-
-- (UIAlertAction *)spotifyActionForArtist:(Artist *)artist
-{
-    return ({
-        NSString *title = @"Spotify";
-        UIAlertActionStyle style = UIAlertActionStyleDefault;
-        @weakify(self)
-        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-            @strongify(self)
-            [self spotifyTapped:artist];
-        }];
-    });
 }
 
 - (UIAlertAction *)addToMyArtistsActionForArtist:(Artist *)artist

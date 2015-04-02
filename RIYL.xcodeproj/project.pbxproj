@@ -46,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Integrations.h"; sourceTree = "<group>"; };
 		0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LastFm.h"; sourceTree = "<group>"; };
 		0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastFm.m"; sourceTree = "<group>"; };
 		0B7370031AC5489400828D83 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
@@ -265,6 +266,7 @@
 				AB8BE42A1AA517D10036B322 /* ArtistCell+Artist.m */,
 				0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */,
 				0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */,
+				0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";

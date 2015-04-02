@@ -2,7 +2,6 @@
 #import "DetailViewController.h"
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
-#import "SpotifyAPIClient.h"
 #import "Artist.h"
 #import "Image.h"
 #import "UIViewController+Integrations.h"
@@ -81,19 +80,19 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIAlertController *actionSheet = [self alertControllerForArtistAtIndexPath:indexPath];
-    if (actionSheet) {
-        [self presentViewController:actionSheet animated:YES completion:nil];
-    }
+    id actionSheet = [self alertControllerForIndexPath:indexPath];
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
-- (UIAlertController*)alertControllerForArtistAtIndexPath:(NSIndexPath *)indexPath
+- (UIAlertController *)alertControllerForIndexPath:(NSIndexPath *)indexPath
 {
     Artist *artist = self.artist.similarArtists[indexPath.row];
-
+    
     UIAlertController *actionSheet = ({
         UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
-        [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:style];
+        [UIAlertController alertControllerWithTitle:nil
+                                            message:nil
+                                     preferredStyle:style];
     });
     
     // Add To My Artists
@@ -102,15 +101,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     // View Details
     [actionSheet addAction:[self viewDetailsActionForCellAtIndexPath:indexPath]];
     
-    // Spotify action
-    if ([self userHasSpotifyInstalled]) {
-        [actionSheet addAction:[self spotifyActionForArtist:artist]];
-    }
-    
-    // Pandora action
-    if ([self userHasPandoraInstalled]) {
-        [actionSheet addAction:[self pandoraActionForArtist:artist]];
-    }
+    // Open in...
+    [actionSheet addAction:[self openInActionForArtist:artist]];
     
     // Cancel action
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
@@ -261,6 +253,23 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         [self saveContext];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
+}
+
+- (UIAlertAction *)openInActionForArtist:(Artist *)artist
+{
+    NSString *title = @"Open in...";
+    UIAlertActionStyle style = UIAlertActionStyleDefault;
+    
+    void(^handler)() = ^{
+        id actions = [self integrationsSheetForArtist:artist];
+        [self presentViewController:actions
+                           animated:YES
+                         completion:nil];
+    };
+    
+    return [UIAlertAction actionWithTitle:title
+                                    style:style
+                                  handler:handler];
 }
 
 - (UIAlertAction *)viewDetailsActionForCellAtIndexPath:(NSIndexPath *)indexPath

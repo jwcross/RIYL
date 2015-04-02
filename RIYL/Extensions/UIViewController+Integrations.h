@@ -4,15 +4,74 @@
 
 @interface UIViewController (Integrations)
 
-- (BOOL)userHasSpotifyInstalled;
-- (BOOL)userHasPandoraInstalled;
-
-- (UIAlertAction *)spotifyActionForArtist:(Artist *)artist;
-- (UIAlertAction *)pandoraActionForArtist:(Artist *)artist;
+- (UIAlertController *)integrationsSheetForArtist:(Artist *)artist;
 
 @end
 
 @implementation UIViewController (Integrations)
+
+#pragma mark - Generic
+
+- (UIAlertController *)integrationsSheetForArtist:(Artist *)artist
+{
+    UIAlertController *actionSheet = ({
+        UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
+        [UIAlertController alertControllerWithTitle:nil
+                                            message:nil
+                                     preferredStyle:style];
+    });
+    
+    // iTunes action
+    [actionSheet addAction:[self itunesActionForArtist:artist]];
+    
+    // Spotify action
+    if ([self userHasSpotifyInstalled]) {
+        [actionSheet addAction:[self spotifyActionForArtist:artist]];
+    }
+    
+    // Pandora action
+    if ([self userHasPandoraInstalled]) {
+        [actionSheet addAction:[self pandoraActionForArtist:artist]];
+    }
+    
+    // Cancel action
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                    style:UIAlertActionStyleCancel
+                                                  handler:nil]];
+    
+    return actionSheet;
+}
+
+- (UIAlertAction *)actionWithTitle:(NSString *)title
+                           handler:(void(^)(UIAlertAction *action))handler
+{
+    return [UIAlertAction actionWithTitle:title
+                                    style:UIAlertActionStyleDefault
+                                  handler:handler];
+}
+
+#pragma mark - iTunes
+
+- (UIAlertAction *)itunesActionForArtist:(Artist *)artist
+{
+    return [self actionWithTitle:@"iTunes" handler:^(UIAlertAction *action) {
+        [self itunesTapped:artist];
+    }];
+}
+
+- (void)itunesTapped:(Artist*)artist
+{
+    NSString *base = @"itms://itunes.apple.com/WebObjects/MZStore.woa/wa/";
+    NSString *args = ({
+        NSString *format = @"media=music&entity=musicArtist&term=%@";
+        NSString *name = [artist.name stringByReplacingOccurrencesOfString:@" "
+                                                                withString:@"+"];
+        [NSString stringWithFormat:format, name];
+    });
+    NSString *url = [NSString stringWithFormat:@"%@/search?%@", base, args];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
 
 #pragma mark - Spotify
 
@@ -24,13 +83,9 @@
 
 - (UIAlertAction *)spotifyActionForArtist:(Artist *)artist
 {
-    return ({
-        NSString *title = @"Spotify";
-        UIAlertActionStyle style = UIAlertActionStyleDefault;
-        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-            [self spotifyTapped:artist];
-        }];
-    });
+    return [self actionWithTitle:@"Spotify" handler:^(UIAlertAction *action) {
+        [self spotifyTapped:artist];
+    }];
 }
 
 - (void)spotifyTapped:(Artist*)artist
@@ -58,13 +113,9 @@
 
 - (UIAlertAction *)pandoraActionForArtist:(Artist *)artist
 {
-    return ({
-        NSString *title = @"Pandora";
-        UIAlertActionStyle style = UIAlertActionStyleDefault;
-        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-            [self pandoraTapped:artist];
-        }];
-    });
+    return [self actionWithTitle:@"Pandora" handler:^(UIAlertAction *action) {
+        [self pandoraTapped:artist];
+    }];
 }
 
 - (void)pandoraTapped:(Artist *)artist

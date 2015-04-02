@@ -103,8 +103,14 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open in..." textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Us6-3S-nAg" userLabel="Open In... Label">
+                                                <rect key="frame" x="14" y="398" width="572" height="19"/>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKJ-eP-Yqm" userLabel="Read More Button">
-                                                <rect key="frame" x="12" y="364.5" width="572" height="14.5"/>
+                                                <rect key="frame" x="12" y="364" width="572" height="14.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="14.5" id="D7X-Oe-BuN"/>
                                                 </constraints>
@@ -115,6 +121,15 @@
                                                     <action selector="readMoreAction:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="3GU-RB-JRd"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6F1-pZ-7HM">
+                                                <rect key="frame" x="16" y="402" width="568" height="12.5"/>
+                                                <state key="normal">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="openArtistAction:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="tDu-4b-6xk"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -122,26 +137,34 @@
                                             <constraint firstItem="xU5-pl-q21" firstAttribute="top" secondItem="9OB-Ht-0CR" secondAttribute="bottom" constant="8" id="7mu-Gp-ek3"/>
                                             <constraint firstItem="o3X-gQ-6iB" firstAttribute="centerY" secondItem="OKJ-eP-Yqm" secondAttribute="centerY" constant="1.75" id="8wc-CH-xho"/>
                                             <constraint firstAttribute="trailing" secondItem="OKJ-eP-Yqm" secondAttribute="trailing" constant="16" id="DIl-d6-62X"/>
+                                            <constraint firstAttribute="bottom" secondItem="Us6-3S-nAg" secondAttribute="bottom" constant="9.5" id="HMy-cR-UDk"/>
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="12" id="Hx4-oa-lKf"/>
                                             <constraint firstItem="o3X-gQ-6iB" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="8" id="Ixi-vK-iqB"/>
                                             <constraint firstItem="o3X-gQ-6iB" firstAttribute="height" secondItem="OKJ-eP-Yqm" secondAttribute="height" constant="3.5" id="MuW-2A-B8n"/>
                                             <constraint firstItem="xU5-pl-q21" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="16" id="Pdo-ZZ-qe7"/>
+                                            <constraint firstAttribute="trailing" secondItem="6F1-pZ-7HM" secondAttribute="trailing" constant="16" id="TfE-6q-gfs"/>
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="top" secondItem="xU5-pl-q21" secondAttribute="bottom" constant="7" id="Xzb-6T-8UI"/>
                                             <constraint firstItem="o3X-gQ-6iB" firstAttribute="width" secondItem="OKJ-eP-Yqm" secondAttribute="width" id="aIs-7e-9mM"/>
                                             <constraint firstItem="9OB-Ht-0CR" firstAttribute="top" secondItem="7Cu-87-6Oi" secondAttribute="top" constant="16" id="bi8-EE-GER"/>
+                                            <constraint firstAttribute="trailing" secondItem="Us6-3S-nAg" secondAttribute="trailing" constant="14" id="c8h-wA-Ms1"/>
                                             <constraint firstItem="o3X-gQ-6iB" firstAttribute="top" secondItem="xU5-pl-q21" secondAttribute="bottom" constant="8" id="g6Z-Ex-sRp"/>
+                                            <constraint firstItem="Us6-3S-nAg" firstAttribute="top" secondItem="o3X-gQ-6iB" secondAttribute="bottom" constant="16" id="hRu-qO-52r"/>
                                             <constraint firstItem="o3X-gQ-6iB" firstAttribute="centerX" secondItem="OKJ-eP-Yqm" secondAttribute="centerX" constant="-4" id="iYb-9H-Fp6"/>
                                             <constraint firstAttribute="trailing" secondItem="xU5-pl-q21" secondAttribute="trailing" constant="16" id="o30-JX-lL4"/>
                                             <constraint firstAttribute="trailing" secondItem="9OB-Ht-0CR" secondAttribute="trailing" constant="8" id="ozn-mE-fTT"/>
+                                            <constraint firstItem="6F1-pZ-7HM" firstAttribute="top" secondItem="o3X-gQ-6iB" secondAttribute="bottom" constant="20" id="sGM-yT-bJp"/>
                                             <constraint firstAttribute="trailing" secondItem="o3X-gQ-6iB" secondAttribute="trailing" constant="20" id="swg-v7-jf4"/>
+                                            <constraint firstAttribute="bottom" secondItem="6F1-pZ-7HM" secondAttribute="bottom" constant="12" id="tqt-fv-ESO"/>
+                                            <constraint firstItem="6F1-pZ-7HM" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="16" id="xvA-hP-npp"/>
+                                            <constraint firstItem="Us6-3S-nAg" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="14" id="y29-kr-CVq"/>
                                             <constraint firstAttribute="bottom" secondItem="o3X-gQ-6iB" secondAttribute="bottom" constant="44.5" id="zrC-GC-UZK"/>
                                         </constraints>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="MuW-2A-B8n"/>
                                                 <exclude reference="DIl-d6-62X"/>
                                                 <exclude reference="Hx4-oa-lKf"/>
                                                 <exclude reference="Xzb-6T-8UI"/>
+                                                <exclude reference="MuW-2A-B8n"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -179,6 +202,7 @@
                         <outlet property="artistDetailsView" destination="xU5-pl-q21" id="QHN-Ag-Zyt"/>
                         <outlet property="artistImage" destination="9OB-Ht-0CR" id="DEr-ZR-Os3"/>
                         <outlet property="backgroundImageView" destination="cON-gu-0dg" id="ZmQ-nw-1g5"/>
+                        <outlet property="openInLabel" destination="Us6-3S-nAg" id="kbv-lM-7HS"/>
                         <outlet property="readMoreLabel" destination="o3X-gQ-6iB" id="gSw-N5-7VD"/>
                     </connections>
                 </viewController>

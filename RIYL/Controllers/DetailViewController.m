@@ -5,6 +5,7 @@
 #import "UIImage+ImageEffects.h"
 #import "UIColor+Util.h"
 #import "NSString+LastFm.h"
+#import "UIViewController+Integrations.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -56,6 +57,7 @@ typedef enum {
     });
     self.artistDetailsView.editable = NO;
     [self refreshReadMoreLabel];
+    [self refreshOpenInLabel];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -133,6 +135,42 @@ typedef enum {
     NSString *name = [self.artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+}
+
+- (IBAction)openArtistAction:(id)sender
+{
+    NSLog(@"Open Artist clicked");
+    
+    id actionSheet = [self integrationsSheetForArtist:self.artist];
+    [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
+- (UIAlertController*)alertControllerForArtist:(Artist *)artist
+{
+    UIAlertController *actionSheet = ({
+        UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
+        [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:style];
+    });
+    
+    // iTunes action
+    [actionSheet addAction:[self itunesActionForArtist:artist]];
+    
+    // Spotify action
+    if ([self userHasSpotifyInstalled]) {
+        [actionSheet addAction:[self spotifyActionForArtist:artist]];
+    }
+    
+    // Pandora action
+    if ([self userHasPandoraInstalled]) {
+        [actionSheet addAction:[self pandoraActionForArtist:artist]];
+    }
+    
+    // Cancel action
+    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                    style:UIAlertActionStyleCancel
+                                                  handler:nil]];
+    
+    return actionSheet;
 }
 
 #pragma mark -
@@ -264,6 +302,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.title = self.artist.name;
     self.artistDetailsView.text = [self.artist.bio formatBioWithArtist:self.artist.name];
     [self refreshReadMoreLabel];
+    [self refreshOpenInLabel];
     
     self.readMoreLabel.hidden = NO;
     
@@ -283,6 +322,18 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         BOOL isTruncatedBio = [self.artist.bio containsString:@"Read more about"];
         NSString *format = isTruncatedBio ? @"Read more about %@ on Last.fm" : @"%@ on Last.fm";
         self.readMoreLabel.text = [NSString stringWithFormat:format, self.artist.name];
+    }
+}
+
+- (void)refreshOpenInLabel
+{
+    self.openInLabel.hidden = !self.artist.name;
+    
+    if (!self.artist.bio) {
+        self.openInLabel.text = @"";
+    } else {
+        NSString *format = @"Open %@ in...";
+        self.openInLabel.text = [NSString stringWithFormat:format, self.artist.name];
     }
 }
 
@@ -331,6 +382,7 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     
     // set detail colors
     self.readMoreLabel.textColor = colorArt.secondaryColor;
+    self.openInLabel.textColor = colorArt.secondaryColor;
     
     // colorize status bar
     [self refreshNavigationBar];

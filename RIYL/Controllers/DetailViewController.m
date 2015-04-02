@@ -132,7 +132,6 @@ typedef enum {
 
 - (IBAction)readMoreAction:(id)sender
 {
-    NSLog(@"Read more clicked");
     NSString *name = [self.artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
@@ -140,38 +139,8 @@ typedef enum {
 
 - (IBAction)openArtistAction:(id)sender
 {
-    NSLog(@"Open Artist clicked");
-    
     UIAlertController *actionSheet = [self integrationsSheetForArtist:self.artist];
     [self presentViewController:actionSheet animated:YES completion:nil];
-}
-
-- (UIAlertController*)alertControllerForArtist:(Artist *)artist
-{
-    UIAlertController *actionSheet = ({
-        UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
-        [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:style];
-    });
-    
-    // iTunes action
-    [actionSheet addAction:[self itunesActionForArtist:artist]];
-    
-    // Spotify action
-    if ([self userHasSpotifyInstalled]) {
-        [actionSheet addAction:[self spotifyActionForArtist:artist]];
-    }
-    
-    // Pandora action
-    if ([self userHasPandoraInstalled]) {
-        [actionSheet addAction:[self pandoraActionForArtist:artist]];
-    }
-    
-    // Cancel action
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                    style:UIAlertActionStyleCancel
-                                                  handler:nil]];
-    
-    return actionSheet;
 }
 
 #pragma mark -

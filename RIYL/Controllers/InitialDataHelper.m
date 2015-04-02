@@ -84,7 +84,7 @@
     grouper.liked = @0;
     grouper.nowListening = @YES;
     grouper.name = @"Grouper";
-    url = @"http://userserve-ak.last.fm/serve/_/69589066/Grouper+Liz6.jpg";
+    url = @"http://userserve-ak.last.fm/serve/500/39859003/Grouper.png";
     [grouper addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Cass McCombs

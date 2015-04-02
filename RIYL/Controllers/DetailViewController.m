@@ -142,7 +142,7 @@ typedef enum {
 {
     NSLog(@"Open Artist clicked");
     
-    id actionSheet = [self integrationsSheetForArtist:self.artist];
+    UIAlertController *actionSheet = [self integrationsSheetForArtist:self.artist];
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
@@ -333,7 +333,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     if (!self.artist.bio) {
         self.openInLabel.text = @"";
     } else {
-        NSString *format = @"Open %@ in...";
+        NSString *format = @"Listen to %@";
         self.openInLabel.text = [NSString stringWithFormat:format, self.artist.name];
     }
 }

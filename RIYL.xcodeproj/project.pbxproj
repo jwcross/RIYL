@@ -47,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Integrations.h"; sourceTree = "<group>"; };
+		0B295A791ACD4FEB00AF1F61 /* NSAttributedString+Underline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Underline.h"; sourceTree = "<group>"; };
 		0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LastFm.h"; sourceTree = "<group>"; };
 		0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastFm.m"; sourceTree = "<group>"; };
 		0B7370031AC5489400828D83 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
@@ -267,6 +268,7 @@
 				0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */,
 				0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */,
 				0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */,
+				0B295A791ACD4FEB00AF1F61 /* NSAttributedString+Underline.h */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";

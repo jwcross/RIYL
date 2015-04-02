@@ -6,6 +6,7 @@
 #import "UIColor+Util.h"
 #import "NSString+LastFm.h"
 #import "UIViewController+Integrations.h"
+#import "NSAttributedString+Underline.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -381,8 +382,13 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.artistDetailsView.editable = NO;
     
     // set detail colors
-    self.readMoreLabel.textColor = colorArt.secondaryColor;
-    self.openInLabel.textColor = colorArt.secondaryColor;
+    self.readMoreLabel.attributedText = [NSAttributedString stringWithText:self.readMoreLabel.text
+                                                                 textColor:colorArt.primaryColor
+                                                            underlineColor:colorArt.secondaryColor];
+    // colorize openIn
+    self.openInLabel.attributedText = [NSAttributedString stringWithText:self.openInLabel.text
+                                                                 textColor:colorArt.primaryColor
+                                                            underlineColor:colorArt.secondaryColor];
     
     // colorize status bar
     [self refreshNavigationBar];

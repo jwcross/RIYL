@@ -55,9 +55,7 @@ typedef enum {
         self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
     });
     self.artistDetailsView.editable = NO;
-    self.readMoreLabel.hidden = !self.artist.name;
-    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
-                               self.artist.name];
+    [self refreshReadMoreLabel];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -265,14 +263,26 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     self.title = self.artist.name;
     self.artistDetailsView.text = [self.artist.bio formatBioWithArtist:self.artist.name];
-    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
-                               self.artist.name];
+    [self refreshReadMoreLabel];
     
     self.readMoreLabel.hidden = NO;
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images firstObject] text];
         [self configureViewWithImageURL:[NSURL URLWithString:url]];
+    }
+}
+
+- (void)refreshReadMoreLabel
+{
+    self.readMoreLabel.hidden = !self.artist.name;
+    
+    if (!self.artist.bio) {
+        self.readMoreLabel.text = @"";
+    } else {
+        BOOL isTruncatedBio = [self.artist.bio containsString:@"Read more about"];
+        NSString *format = isTruncatedBio ? @"Read more about %@ on Last.fm" : @"%@ on Last.fm";
+        self.readMoreLabel.text = [NSString stringWithFormat:format, self.artist.name];
     }
 }
 

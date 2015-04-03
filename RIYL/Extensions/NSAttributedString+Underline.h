@@ -17,7 +17,7 @@
     NSRange range = NSMakeRange(0, text.length);
     
     // faint underlines
-    underlineColor = [underlineColor colorWithAlphaComponent:0.4];
+    underlineColor = [underlineColor colorWithAlphaComponent:0.4f];
     
     NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:text];
     [string addAttribute:NSForegroundColorAttributeName value:textColor range:range];

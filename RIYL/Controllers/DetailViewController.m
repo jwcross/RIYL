@@ -156,17 +156,6 @@ typedef enum {
 }
 
 #pragma mark -
-#pragma mark UITextFieldDelegate
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField.text.length > 0) {
-        self.title = textField.text;
-        self.artist.name = textField.text;
-    }
-}
-
-#pragma mark - 
 #pragma mark UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView
@@ -230,12 +219,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)getArtist:(NSString*)artistName
 {
     if ([self hasSavedArtist:artistName]) {
-        self.artist = [Artist MR_findFirstByAttribute:@"name" withValue:artistName];
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"name ==[c] %@", artistName];
+        self.artist = [Artist MR_findFirstWithPredicate:p];
         [self refreshView];
     }
     
     if (self.artist.bio) {
         NSLog(@"Already have details for this artist - returning early");
+        self.artist.nowListening = @YES;
         return;
     }
 
@@ -264,7 +255,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 
 - (BOOL)hasSavedArtist:(NSString*)artistName
 {
-    return [Artist MR_findByAttribute:@"name" withValue:artistName] != nil;
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"name ==[c] %@", artistName];
+    return [Artist MR_findFirstWithPredicate:p] != nil;
 }
 
 - (void)refreshView

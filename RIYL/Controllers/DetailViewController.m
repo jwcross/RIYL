@@ -118,7 +118,7 @@ typedef enum {
 
 - (void)cancelAdd
 {
-    [self.artist MR_deleteEntity];
+    self.artist.nowListening = @NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -233,9 +233,38 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)fetchAllNowListeningArtists
 {
     NSPredicate *nowListening = [NSPredicate predicateWithFormat:@"nowListening == YES"];
-    self.artists = [[Artist MR_findAllSortedBy:@"name"
-                                     ascending:YES
-                                 withPredicate:nowListening] mutableCopy];
+    NSArray *artists = [Artist MR_findAllSortedBy:@"name"
+                                        ascending:YES
+                                    withPredicate:nowListening];
+    
+    // case-insensitive sorting
+    self.artists = [[artists sortedArrayUsingComparator:[self artistComparator]] mutableCopy];
+}
+
+- (NSComparator)artistComparator
+{
+    return ^NSComparisonResult(id obj1, id obj2) {
+        NSString *a1 = [obj1 name];
+        NSString *a2 = [obj2 name];
+        
+        // Ignore "The"
+        if ([a1 hasPrefix:@"The "] || [a1 hasPrefix:@"the "]) {
+            a1 = [a1 substringFromIndex:4];
+        }
+        if ([a2 hasPrefix:@"The "] || [a2 hasPrefix:@"the "]) {
+            a2 = [a2 substringFromIndex:4];
+        }
+        
+        // Ignore "A "
+        if ([a1 hasPrefix:@"A "] || [a1 hasPrefix:@"a "]) {
+            a1 = [a1 substringFromIndex:4];
+        }
+        if ([a2 hasPrefix:@"A "] || [a2 hasPrefix:@"a "]) {
+            a2 = [a2 substringFromIndex:4];
+        }
+        
+        return [a1 caseInsensitiveCompare:a2];
+    };
 }
 
 - (BOOL)deleteArtistForCell:(UITableViewCell *)cell

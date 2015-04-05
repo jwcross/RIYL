@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B6A441F1ACC898500F2FF59 /* NSString+LastFm.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */; };
 		0B7370051AC5489400828D83 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		0BDC53F61AC65C880099E0E9 /* UIColor+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */; };
 		0D400AC7FF1C4BAF307052BF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D247E16A68BFD1618E6F1842 /* libPods.a */; };
@@ -45,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Integrations.h"; sourceTree = "<group>"; };
+		0B295A791ACD4FEB00AF1F61 /* NSAttributedString+Underline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Underline.h"; sourceTree = "<group>"; };
+		0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LastFm.h"; sourceTree = "<group>"; };
+		0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastFm.m"; sourceTree = "<group>"; };
 		0B7370031AC5489400828D83 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		0BDC53F41AC65C880099E0E9 /* UIColor+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Util.h"; sourceTree = "<group>"; };
@@ -260,6 +265,10 @@
 				0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */,
 				AB8BE4281AA517500036B322 /* ArtistCell+Artist.h */,
 				AB8BE42A1AA517D10036B322 /* ArtistCell+Artist.m */,
+				0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */,
+				0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */,
+				0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */,
+				0B295A791ACD4FEB00AF1F61 /* NSAttributedString+Underline.h */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -516,6 +525,7 @@
 				ABEF54D91AA074540072C37D /* AppDelegate.m in Sources */,
 				ABEF55021AA076730072C37D /* SpotifyAPIClient.m in Sources */,
 				ABEF55071AA079380072C37D /* main.m in Sources */,
+				0B6A441F1ACC898500F2FF59 /* NSString+LastFm.m in Sources */,
 				ABEF54E71AA074CB0072C37D /* MyArtistsTableViewController.m in Sources */,
 				AB8BE42B1AA517D10036B322 /* ArtistCell+Artist.m in Sources */,
 				ABEF54EA1AA074D50072C37D /* DetailViewController.m in Sources */,

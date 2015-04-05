@@ -94,16 +94,16 @@ CHECKOUT OPTIONS:
     :git: https://github.com/magicalpanda/MagicalRecord.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 6d7b76aa5d04c8c37daad3eef4b7e3f2a7620da3
-  ColorArt: f734aa2f988b2be4e9a064c1818d8f8320488110
-  Expecta: ee641011fe10aa1855d487b40e4976dac50ec342
-  libextobjc: d6146fce3ebea986b7f75fcb4c967639200b88b0
+  AFNetworking: 05b9f6e3aa5ac45bc383b4bb108ef338080a26c7
+  ColorArt: de0ffb63da4acdde8e234ded62e200236ca3e7e4
+  Expecta: 8c507baf13211207b1e9d0a741480600e6b4ed15
+  libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   MagicalRecord: 32760b04d86a961b38fb29413780443212a1f62d
-  MBProgressHUD: f3747dcbd45a9e855a6b0674550651e0b7ed250c
-  MGSwipeTableCell: 59643a884736a0a2fb0f07258b7a97b4f4f9000f
-  OCMock: ecdd510b73ef397f2f97274785c1e87fd147c49f
-  OHHTTPStubs: e6ecc3fd4fa11b2cfb5f4823421bddc95a82913d
-  Specta: 1df326d6ec48603c77f507a0ab1f89ad2df1c582
-  SpinKit: 563a00196a87d789b16e3592265f0dfa9c3fb9db
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MGSwipeTableCell: 5983289f522859cb03a888dc321cc54720350515
+  OCMock: a10ea9f0a6e921651f96f78b6faee95ebc813b92
+  OHHTTPStubs: 5624a5d20d97d46d47e15a68ca8808b59ccf0512
+  Specta: a353759f073ffcc0a365b782fe4aaeac064c03c6
+  SpinKit: c6bc5164e430a7cb5314507a2ad287c2f4a674e3
 
 COCOAPODS: 0.36.1

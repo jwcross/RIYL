@@ -4,17 +4,20 @@
 @interface DetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) Artist *artist;
+
+@property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 @property (weak, nonatomic) IBOutlet UIImageView *artistImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
-@property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 @property (weak, nonatomic) IBOutlet UILabel *readMoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *acknowledgementsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *openInLabel;
+
+- (IBAction)readMoreAction:(id)sender;
+- (IBAction)openArtistAction:(id)sender;
 
 - (void)prepareForAddArtist;
 - (void)prepareForSimilarArtist;
 - (void)cancelAdd;
 - (void)addNewArtist;
-- (IBAction)readMoreAction:(id)sender;
 
 @end
 

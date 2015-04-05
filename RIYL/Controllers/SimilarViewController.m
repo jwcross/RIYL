@@ -2,16 +2,15 @@
 #import "DetailViewController.h"
 #import "ArtistCollectionViewCell.h"
 #import "LastfmAPIClient.h"
-#import "SpotifyAPIClient.h"
 #import "Artist.h"
 #import "Image.h"
+#import "UIViewController+Integrations.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <SpinKit/RTSpinKitView.h>
 #import <libextobjc/EXTScope.h>
 
 @interface SimilarViewController ()
 @property NSMutableArray *similarArtists;
-@property (nonatomic, assign) BOOL userHasSpotifyInstalled;
 @end
 
 @implementation SimilarViewController
@@ -81,19 +80,19 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIAlertController *actionSheet = [self alertControllerForArtistAtIndexPath:indexPath];
-    if (actionSheet) {
-        [self presentViewController:actionSheet animated:YES completion:nil];
-    }
+    id actionSheet = [self alertControllerForIndexPath:indexPath];
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
-- (UIAlertController*)alertControllerForArtistAtIndexPath:(NSIndexPath *)indexPath
+- (UIAlertController *)alertControllerForIndexPath:(NSIndexPath *)indexPath
 {
     Artist *artist = self.artist.similarArtists[indexPath.row];
-
+    
     UIAlertController *actionSheet = ({
         UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
-        [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:style];
+        [UIAlertController alertControllerWithTitle:nil
+                                            message:nil
+                                     preferredStyle:style];
     });
     
     // Add To My Artists
@@ -102,10 +101,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     // View Details
     [actionSheet addAction:[self viewDetailsActionForCellAtIndexPath:indexPath]];
     
-    // Spotify action
-    if (self.userHasSpotifyInstalled) {
-        [actionSheet addAction:[self spotifyActionForArtist:artist]];
-    }
+    // Open in...
+    [actionSheet addAction:[self openInActionForArtist:artist]];
     
     // Cancel action
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
@@ -113,29 +110,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                                                   handler:nil]];
     
     return actionSheet;
-}
-
-- (BOOL)userHasSpotifyInstalled
-{
-    if (!_userHasSpotifyInstalled) {
-        NSURL *spotifyURL = [NSURL URLWithString:@"spotify:"];
-        _userHasSpotifyInstalled = [[UIApplication sharedApplication] canOpenURL:spotifyURL];
-    }
-    return _userHasSpotifyInstalled;
-}
-
-- (void)spotifyTapped:(Artist*)artist
-{
-    SuccessCallback success = ^(NSURLSessionDataTask *task, id response) {
-        BOOL didReturnArtist = [response[@"artists"][@"items"] count] > 0;
-        if (didReturnArtist) {
-            NSString *spotifyID = response[@"artists"][@"items"][0][@"id"];
-            NSString *spotifyURI = [NSString stringWithFormat:@"spotify:artist:%@", spotifyID];
-            NSURL *url = [NSURL URLWithString:spotifyURI];
-            [[UIApplication sharedApplication] openURL:url];
-        }
-    };
-    [[SpotifyAPIClient sharedClient] getArtistByName:artist.name success:success failure:nil];
 }
 
 #pragma mark -
@@ -199,6 +173,18 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
          success:^(NSURLSessionDataTask *task, id responseObject) {
              @strongify(self)
              NSArray *similar = responseObject[@"similarartists"][@"artist"];
+             
+             if (![similar isKindOfClass:[NSArray class]]) {
+                 NSLog(@"Failure -- API returned a string instead of an array of artists");
+                 NSLog(@"Failure -- %@", responseObject);
+                 
+                 // Show error dialog
+                 [(RTSpinKitView*)hud.customView stopAnimating];
+                 hud.mode = MBProgressHUDModeText;
+                 hud.labelText = @"Error loading artists";
+                 
+                 return;
+             }
              NSLog(@"Success -- %tu artists", similar.count);
              [self saveSimilarArtistsForResponse:similar];
              [self.collectionView reloadData];
@@ -255,19 +241,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     return similar;
 }
 
-- (UIAlertAction *)spotifyActionForArtist:(Artist *)artist
-{
-    return ({
-        NSString *title = @"Spotify";
-        UIAlertActionStyle style = UIAlertActionStyleDefault;
-        @weakify(self)
-        [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-            @strongify(self)
-            [self spotifyTapped:artist];
-        }];
-    });
-}
-
 - (UIAlertAction *)addToMyArtistsActionForArtist:(Artist *)artist
 {
     NSString *title = @"Add to My Artists";
@@ -280,6 +253,23 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         [self saveContext];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
+}
+
+- (UIAlertAction *)openInActionForArtist:(Artist *)artist
+{
+    NSString *title = @"Open in...";
+    UIAlertActionStyle style = UIAlertActionStyleDefault;
+    
+    void(^handler)() = ^{
+        id actions = [self integrationsSheetForArtist:artist];
+        [self presentViewController:actions
+                           animated:YES
+                         completion:nil];
+    };
+    
+    return [UIAlertAction actionWithTitle:title
+                                    style:style
+                                  handler:handler];
 }
 
 - (UIAlertAction *)viewDetailsActionForCellAtIndexPath:(NSIndexPath *)indexPath

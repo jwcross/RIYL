@@ -4,6 +4,9 @@
 #import "Image.h"
 #import "UIImage+ImageEffects.h"
 #import "UIColor+Util.h"
+#import "NSString+LastFm.h"
+#import "UIViewController+Integrations.h"
+#import "NSAttributedString+Underline.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -49,11 +52,13 @@ typedef enum {
     // View setup
     // 3. Set the title, name, details field of the Artist
     self.title = self.artist.name ? self.artist.name : @"New Artist";
-    self.artistDetailsView.text = self.artist.bio ? [self formatBio:self.artist.bio] : @"";
+    self.artistDetailsView.text = ({
+        NSString *artist = self.artist.name;
+        self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
+    });
     self.artistDetailsView.editable = NO;
-    self.readMoreLabel.hidden = !self.artist.name;
-    self.acknowledgementsLabel.hidden = !self.artist.name;
-    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm", self.artist.name];
+    [self refreshReadMoreLabel];
+    [self refreshOpenInLabel];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -113,7 +118,7 @@ typedef enum {
 
 - (void)cancelAdd
 {
-    [self.artist MR_deleteEntity];
+    self.artist.nowListening = @NO;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -127,10 +132,15 @@ typedef enum {
 
 - (IBAction)readMoreAction:(id)sender
 {
-    NSLog(@"Read more clicked");
     NSString *name = [self.artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
     NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+}
+
+- (IBAction)openArtistAction:(id)sender
+{
+    UIAlertController *actionSheet = [self integrationsSheetForArtist:self.artist];
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 #pragma mark -
@@ -146,17 +156,6 @@ typedef enum {
 }
 
 #pragma mark -
-#pragma mark UITextFieldDelegate
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if (textField.text.length > 0) {
-        self.title = textField.text;
-        self.artist.name = textField.text;
-    }
-}
-
-#pragma mark - 
 #pragma mark UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView
@@ -220,17 +219,20 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)getArtist:(NSString*)artistName
 {
     if ([self hasSavedArtist:artistName]) {
-        self.artist = [Artist MR_findFirstByAttribute:@"name" withValue:artistName];
+        NSPredicate *p = [NSPredicate predicateWithFormat:@"name ==[c] %@", artistName];
+        self.artist = [Artist MR_findFirstWithPredicate:p];
         [self refreshView];
     }
     
     if (self.artist.bio) {
         NSLog(@"Already have details for this artist - returning early");
+        self.artist.nowListening = @YES;
         return;
     }
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:[UIColor whiteColor]];
+    RTSpinKitView *spinner = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave
+                                                            color:[UIColor whiteColor]];
     hud.mode = MBProgressHUDModeCustomView;
     hud.customView = spinner;
     hud.labelText = NSLocalizedString(@"Loading artist", @"Loading artist");
@@ -253,17 +255,17 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 
 - (BOOL)hasSavedArtist:(NSString*)artistName
 {
-    return [Artist MR_findByAttribute:@"name" withValue:artistName] != nil;
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"name ==[c] %@", artistName];
+    return [Artist MR_findFirstWithPredicate:p] != nil;
 }
 
 - (void)refreshView
 {
     self.title = self.artist.name;
-    self.artistDetailsView.text = [self formatBio:self.artist.bio];
-    self.readMoreLabel.text = [NSString stringWithFormat:@"Read more about %@ on Last.fm",
-                               self.artist.name];
+    self.artistDetailsView.text = [self.artist.bio formatBioWithArtist:self.artist.name];
+    [self refreshReadMoreLabel];
+    [self refreshOpenInLabel];
     
-    self.acknowledgementsLabel.hidden = NO;
     self.readMoreLabel.hidden = NO;
     
     if (self.artist.images.count > 0) {
@@ -272,44 +274,29 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 }
 
-- (NSString*)formatBio:(NSString*)htmlString
+- (void)refreshReadMoreLabel
 {
-    if (!htmlString) {
-        return nil;
+    self.readMoreLabel.hidden = !self.artist.name;
+    
+    if (!self.artist.bio) {
+        self.readMoreLabel.text = @"";
+    } else {
+        BOOL isTruncatedBio = [self.artist.bio containsString:@"Read more about"];
+        NSString *format = isTruncatedBio ? @"Read more about %@ on Last.fm" : @"%@ on Last.fm";
+        self.readMoreLabel.text = [NSString stringWithFormat:format, self.artist.name];
     }
+}
+
+- (void)refreshOpenInLabel
+{
+    self.openInLabel.hidden = !self.artist.name;
     
-    // strip html
-    NSRange r;
-    NSString *s = [htmlString copy];
-    while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
-        s = [s stringByReplacingCharactersInRange:r withString:@""];
+    if (!self.artist.bio) {
+        self.openInLabel.text = @"";
+    } else {
+        NSString *format = @"Listen to %@";
+        self.openInLabel.text = [NSString stringWithFormat:format, self.artist.name];
     }
-    
-    // trim Creative Commons
-    NSString *creativeCommons = @"User-contributed text is available under the Creative Commons "
-        "By-SA License and may also be available under the GNU FDL.";
-    s = [s stringByReplacingOccurrencesOfString:creativeCommons withString:@""];
-    
-    // replace occurrences of html codes
-    NSDictionary *codes = @{ @"&quot;" : @"\"",
-                             @"&amp;"  : @"&",
-                             @"&lt;"  : @"<",
-                             @"&gt;"  : @">",
-                             @"&nbsp;"  : @"\u00a0",
-                             @"&micro;"  : @"µ", };
-    for (NSString *code in codes.keyEnumerator) {
-        s = [s stringByReplacingOccurrencesOfString:code withString:codes[code]];
-    }
-    
-    // remove "read more on last.fm"
-    NSString *readMore = [NSString stringWithFormat:@"Read more about %@ on Last.fm.", self.artist.name];
-    s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
-    
-    // remove "artist on last.fm"
-    readMore = [NSString stringWithFormat:@"%@ on Last.fm.", self.artist.name];
-    s = [s stringByReplacingOccurrencesOfString:readMore withString:@""];
-    
-    return [s stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 # pragma mark - LEColorPicker
@@ -356,8 +343,13 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.artistDetailsView.editable = NO;
     
     // set detail colors
-    self.readMoreLabel.textColor = colorArt.secondaryColor;
-    self.acknowledgementsLabel.textColor = colorArt.detailColor;
+    self.readMoreLabel.attributedText = [NSAttributedString stringWithText:self.readMoreLabel.text
+                                                                 textColor:colorArt.primaryColor
+                                                            underlineColor:colorArt.secondaryColor];
+    // colorize openIn
+    self.openInLabel.attributedText = [NSAttributedString stringWithText:self.openInLabel.text
+                                                                 textColor:colorArt.primaryColor
+                                                            underlineColor:colorArt.secondaryColor];
     
     // colorize status bar
     [self refreshNavigationBar];

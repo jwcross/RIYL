@@ -239,18 +239,38 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     [spinner startAnimating];
 
     // get artist details
+    @weakify(self)
     LastfmAPIClient *api = [LastfmAPIClient sharedClient];
-    [api getInfoForArtist:artistName autocorrect:YES
+    [api getInfoForArtist:artistName
+              autocorrect:YES
                   success:^(NSURLSessionDataTask *task, id responseObject) {
+                      @strongify(self)
                       NSLog(@"Success -- %@", responseObject);
-                      [hud hide:YES];
-                      [self saveArtistForResponse:responseObject[@"artist"]];
-                      [self refreshView];
+                      
+                      // Check if response was successful, but returned error object
+                      if ([self artistNotFound:responseObject]) {
+                          hud.mode = MBProgressHUDModeText;
+                          hud.labelText = NSLocalizedString(@"Artist Not Found", @"Artist Not Found");
+                          return;
+                          
+                      // Otherwise, save artist and update UI
+                      } else {
+                          
+                          [hud hide:YES];
+                          [self saveArtistForResponse:responseObject[@"artist"]];
+                          [self refreshView];
+                      }
                       
                   } failure:^(NSURLSessionDataTask *task, NSError *error) {
                       NSLog(@"Failure -- %@", error.description);
                       [hud hide:YES];
                   }];
+}
+
+- (BOOL)artistNotFound:(id)responseObject
+{
+    return [responseObject isKindOfClass:[NSDictionary class]]
+        && [responseObject[@"error"] isEqualToNumber:@6];
 }
 
 - (BOOL)hasSavedArtist:(NSString*)artistName

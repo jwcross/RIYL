@@ -4,7 +4,8 @@
 
 @implementation InitialDataHelper
 
-+ (InitialDataHelper *)sharedInstance {
++ (InitialDataHelper *)sharedInstance
+{
     static InitialDataHelper *_sharedClient = nil;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
@@ -13,11 +14,13 @@
     return _sharedClient;
 }
 
-- (BOOL)hasPrefilledArtists {
+- (BOOL)hasPrefilledArtists
+{
     return [[[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledArtists"] boolValue];
 }
 
-- (void)initializeData {
+- (void)initializeData
+{
     [self setupSampleData];
     
     // Save Managed Object Context
@@ -28,80 +31,105 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
--(void)setupSampleData {
+- (void)setupSampleData
+{
     NSString *url;
     
-    // Create Nujabes
-    Artist *nujabes = [Artist MR_createEntity];
-    nujabes.name = @"Nujabes";
-    nujabes.liked = @0;
-    nujabes.nowListening = @YES;
-    url = @"http://userserve-ak.last.fm/serve/_/44041763/Nujabes+_.jpg";
-    [nujabes addImagesObject:[Image createEntityWithUrl:url]];
+    // Create Animal Collective
+    Artist *animalCollective = [Artist MR_createEntity];
+    animalCollective.name = @"Animal Collective";
+    animalCollective.liked = @0;
+    animalCollective.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/500/72740852/Animal+Collective.png";
+    [animalCollective addImagesObject:[Image createEntityWithUrl:url]];
     
-    // Create Modest Mouse
-    Artist *modestMouse = [Artist MR_createEntity];
-    modestMouse.liked = @0;
-    modestMouse.nowListening = @YES;
-    modestMouse.name = @"Modest Mouse";
-    url = @"http://userserve-ak.last.fm/serve/500/886281/Modest+Mouse.jpg";
-    [modestMouse addImagesObject:[Image createEntityWithUrl:url]];
+    // Create Azaelia Banks
+    Artist *azaeliaBanks = [Artist MR_createEntity];
+    azaeliaBanks.name = @"Azaelia Banks";
+    azaeliaBanks.liked = @0;
+    azaeliaBanks.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/103918225/Azealia+Banks++for+Playboy.png";
+    [azaeliaBanks addImagesObject:[Image createEntityWithUrl:url]];
     
-    // Create Nightmares on Wax
-    Artist *nightmaresOnWax = [Artist MR_createEntity];
-    nightmaresOnWax.liked = @0;
-    nightmaresOnWax.nowListening = @YES;
-    nightmaresOnWax.name = @"Nightmares on Wax";
-    url = @"http://userserve-ak.last.fm/serve/_/2162189/Nightmares+on+Wax.jpg";
-    [nightmaresOnWax addImagesObject:[Image createEntityWithUrl:url]];
+    // Create Cass McCombs
+    Artist *cassMcCombs = [Artist MR_createEntity];
+    cassMcCombs.name = @"Cass McCombs";
+    cassMcCombs.liked = @0;
+    cassMcCombs.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/32726321/Cass+McCombs+CASS.jpg";
+    [cassMcCombs addImagesObject:[Image createEntityWithUrl:url]];
     
-    // Create Tokyo Police Club
-    Artist *tokyoPoliceClub = [Artist MR_createEntity];
-    tokyoPoliceClub.liked = @0;
-    tokyoPoliceClub.nowListening = @YES;
-    tokyoPoliceClub.name = @"Tokyo Police Club";
-    url = @"http://userserve-ak.last.fm/serve/_/4855404/Tokyo+Police+Club+tokyopolice_cover.jpg";
-    [tokyoPoliceClub addImagesObject:[Image createEntityWithUrl:url]];
+    // Create Childish Gambino
+    Artist *childishGambino = [Artist MR_createEntity];
+    childishGambino.name = @"Childish Gambino";
+    childishGambino.liked = @0;
+    childishGambino.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/99444305/Childish+Gambino+5687920933682.png";
+    [childishGambino addImagesObject:[Image createEntityWithUrl:url]];
     
-    // Create Why?
-    Artist *why = [Artist MR_createEntity];
-    why.liked = @0;
-    why.nowListening = @YES;
-    why.name = @"Why?";
-    url = @"http://userserve-ak.last.fm/serve/_/28744645/Why+Live+Dublab+Session+PROPER.png";
-    [why addImagesObject:[Image createEntityWithUrl:url]];
+    // Create Django Reinhardt
+    Artist *djangoReinhardt = [Artist MR_createEntity];
+    djangoReinhardt.name = @"Django Reinhardt";
+    djangoReinhardt.liked = @0;
+    djangoReinhardt.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/2145863/Django+Reinhardt.jpg";
+    [djangoReinhardt addImagesObject:[Image createEntityWithUrl:url]];
     
-    // Create The Hotelier
-    Artist *theHotelier = [Artist MR_createEntity];
-    theHotelier.liked = @0;
-    theHotelier.nowListening = @YES;
-    theHotelier.name = @"The Hotelier";
-    url = @"http://userserve-ak.last.fm/serve/500/98412025/The+Hotelier+TheHotelier5.png";
-    [theHotelier addImagesObject:[Image createEntityWithUrl:url]];
+    // Create Flaming Lips
+    Artist *flamingLips = [Artist MR_createEntity];
+    flamingLips.name = @"The Flaming Lips";
+    flamingLips.liked = @0;
+    flamingLips.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/500/5923439/The+Flaming+Lips+frenzy.jpg";
+    [flamingLips addImagesObject:[Image createEntityWithUrl:url]];
     
     // Create Grouper
     Artist *grouper = [Artist MR_createEntity];
+    grouper.name = @"Grouper";
     grouper.liked = @0;
     grouper.nowListening = @YES;
-    grouper.name = @"Grouper";
     url = @"http://userserve-ak.last.fm/serve/500/39859003/Grouper.png";
     [grouper addImagesObject:[Image createEntityWithUrl:url]];
     
-    // Create Cass McCombs
-    Artist *cassMccombs = [Artist MR_createEntity];
-    cassMccombs.liked = @0;
-    cassMccombs.nowListening = @YES;
-    cassMccombs.name = @"Cass McCombs";
-    url = @"http://userserve-ak.last.fm/serve/_/32726321/Cass+McCombs+CASS.jpg";
-    [cassMccombs addImagesObject:[Image createEntityWithUrl:url]];
-    
     // Create Kanye West
-    Artist *yeezus = [Artist MR_createEntity];
-    yeezus.liked = @0;
-    yeezus.nowListening = @YES;
-    yeezus.name = @"Kanye West";
+    Artist *kanyeWest = [Artist MR_createEntity];
+    kanyeWest.name = @"Kanye West";
+    kanyeWest.liked = @0;
+    kanyeWest.nowListening = @YES;
     url = @"http://userserve-ak.last.fm/serve/_/52579947/Kanye+West+kanye+bet+awards.png";
-    [yeezus addImagesObject:[Image createEntityWithUrl:url]];
+    [kanyeWest addImagesObject:[Image createEntityWithUrl:url]];
+    
+    // Create Kendrick Lamar
+    Artist *kendrickLamar = [Artist MR_createEntity];
+    kendrickLamar.name = @"Kendrick Lamar";
+    kendrickLamar.liked = @0;
+    kendrickLamar.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/101348633/Kendrick+Lamar.png";
+    [kendrickLamar addImagesObject:[Image createEntityWithUrl:url]];
+    
+    // Create Purity Ring
+    Artist *purityRing = [Artist MR_createEntity];
+    purityRing.name = @"Purity Ring";
+    purityRing.liked = @0;
+    purityRing.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/500/80458637/Purity+Ring++900x800+PNG.png";
+    [purityRing addImagesObject:[Image createEntityWithUrl:url]];
+    
+    // Create Skrillex
+    Artist *skrillex = [Artist MR_createEntity];
+    skrillex.name = @"Skrillex";
+    skrillex.liked = @0;
+    skrillex.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/66655236/Skrillex+png.png";
+    [skrillex addImagesObject:[Image createEntityWithUrl:url]];
+    
+    // Create Taylor Swift
+    Artist *taylorSwift = [Artist MR_createEntity];
+    taylorSwift.name = @"Taylor Swift";
+    taylorSwift.liked = @0;
+    taylorSwift.nowListening = @YES;
+    url = @"http://userserve-ak.last.fm/serve/_/103340917/Taylor+Swift+Keds.png";
+    [taylorSwift addImagesObject:[Image createEntityWithUrl:url]];
 }
 
 @end

@@ -24,6 +24,7 @@ static NSString *AddArtistIdentifier = @"addArtist";
     [self fetchAllNowListeningArtists];
     [self.tableView reloadData];
     
+    // Animate the navigation bar tint color
     @weakify(self)
     [self.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         @strongify(self)

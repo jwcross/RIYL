@@ -34,6 +34,11 @@
         [actionSheet addAction:[self pandoraActionForArtist:artist]];
     }
     
+    // YouTube action
+    if ([self userHasYoutubeInstalled]) {
+        [actionSheet addAction:[self youtubeActionForArtist:artist]];
+    }
+    
     // Cancel action
     [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                                     style:UIAlertActionStyleCancel
@@ -69,6 +74,36 @@
         [NSString stringWithFormat:format, name];
     });
     NSString *url = [NSString stringWithFormat:@"%@/search?%@", base, args];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+#pragma mark - YouTube
+
+- (BOOL)userHasYoutubeInstalled
+{
+    NSURL *youtubeURL = [NSURL URLWithString:@"youtube:///"];
+    return [[UIApplication sharedApplication] canOpenURL:youtubeURL];
+}
+
+- (UIAlertAction *)youtubeActionForArtist:(Artist *)artist
+{
+    return [self actionWithTitle:@"YouTube" handler:^(UIAlertAction *action) {
+        [self youtubeTapped:artist];
+    }];
+}
+
+- (void)youtubeTapped:(Artist*)artist
+{
+    NSString *base = @"youtube:///results";
+    
+    NSString *args = ({
+        NSString *format = @"search_query=%@";
+        NSString *name = [artist.name stringByReplacingOccurrencesOfString:@" "
+                                                                withString:@"+"];
+        [NSString stringWithFormat:format, name];
+    });
+    NSString *url = [NSString stringWithFormat:@"%@?%@", base, args];
     
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }

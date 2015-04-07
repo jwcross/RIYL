@@ -162,21 +162,30 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 - (NSArray *)createLeftButtons:(Artist*)artist
 {
     MGSwipeButton *spotifyButton = ({
-        UIColor *color = [UIColor myDarkGrayColor];
-        NSString *title = @"Spotify";
-        NSInteger padding = 15;
-        [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
+        // Create properly sized icon
+        UIImage *icon = [UIImage imageNamed:@"ListenSpotify"];
+        CGSize iconSize = CGSizeMake(62.f, 80.0f);
+        UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+        [icon drawInRect:CGRectMake(0, 0, iconSize.width, iconSize.height)];
+        icon = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        UIColor *color = [UIColor blackColor];
+        UIEdgeInsets insets = UIEdgeInsetsMake(12, 5, 12, 5);
+        [MGSwipeButton buttonWithTitle:nil icon:icon backgroundColor:color insets:insets];
     });
+    [spotifyButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    spotifyButton.contentMode = UIViewContentModeScaleAspectFit;
+    
     return @[spotifyButton];
 }
 
 - (NSArray *)createRightButtons
 {
-    NSInteger padding = 15;
-    
     MGSwipeButton *delete = ({
         NSString *title = @"Delete";
         UIColor *color = [UIColor redColor];
+        NSInteger padding = 15;
         [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
     });
     return @[delete];

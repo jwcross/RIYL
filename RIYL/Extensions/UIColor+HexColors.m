@@ -33,6 +33,10 @@
     return [UIColor colorWithHexString:@"#68a357"];
 }
 
++ (UIColor*)mySpotifyGreenColor {
+    return [UIColor colorWithHexString:@"#638e00"];
+}
+
 + (UIColor*)myDarkGreenColor {
     return [UIColor colorWithHexString:@"#32965d"];
 }

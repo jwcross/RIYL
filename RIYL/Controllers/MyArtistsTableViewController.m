@@ -144,16 +144,19 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
              direction:(MGSwipeDirection)direction
          fromExpansion:(BOOL)fromExpansion
 {
-    BOOL isLike = direction == MGSwipeDirectionLeftToRight;
-    BOOL isDelete = !isLike && index == 0;
-    BOOL isDetails = !isLike && index == 1;
+    BOOL swipeRight = direction == MGSwipeDirectionLeftToRight;
+    BOOL isSpotify = swipeRight && index == 0;
+    BOOL isMore = swipeRight && index == 1;
+    BOOL isDelete = !swipeRight && index == 0;
     
     if (isDelete) {
         [self deleteArtistForCell:cell];
-    } else if (isLike) {
+    } else if (isSpotify) {
         [self launchSpotifyForArtistAtCell:cell];
-    } else if (isDetails) {
-        [self viewDetailsForArtistAtCell:cell];
+    } else if (isMore) {
+        Artist *artist = [self artistForCell:cell];
+        UIAlertController *actionSheet = [self integrationsSheetForArtist:artist];
+        [self presentViewController:actionSheet animated:YES completion:nil];
     }
     
     return YES;
@@ -163,20 +166,19 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MGSwipeButton *spotifyButton = ({
         // Create properly sized icon
-        UIImage *icon = [UIImage imageNamed:@"ListenSpotify"];
-        CGSize iconSize = CGSizeMake(62.f, 80.0f);
+        UIImage *icon = [UIImage imageNamed:@"ListenSpotifyWide"];
+        CGSize iconSize = CGSizeMake(136.f, 50.0f);
         UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
         [icon drawInRect:CGRectMake(0, 0, iconSize.width, iconSize.height)];
         icon = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        UIColor *color = [UIColor blackColor];
-        UIEdgeInsets insets = UIEdgeInsetsMake(12, 5, 12, 5);
+        UIColor *color = [UIColor mySpotifyGreenColor];
+        UIEdgeInsets insets = UIEdgeInsetsMake(15, 0, 15, 0);
         [MGSwipeButton buttonWithTitle:nil icon:icon backgroundColor:color insets:insets];
     });
     [spotifyButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     spotifyButton.contentMode = UIViewContentModeScaleAspectFit;
-    
     return @[spotifyButton];
 }
 
@@ -190,12 +192,6 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     });
     return @[delete];
     
-//    MGSwipeButton *more = ({
-//        NSString *title = @"Details";
-//        UIColor *color = [UIColor lightGrayColor];
-//        [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
-//    });
-//    return @[delete, more];
 }
 
 #pragma mark - Navigation methods

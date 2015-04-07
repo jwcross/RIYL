@@ -6,6 +6,7 @@
 #import "ArtistCell.h"
 #import "UIColor+HexColors.h"
 #import "ArtistCell+Artist.h"
+#import "UIViewController+Integrations.h"
 #import <libextobjc/EXTScope.h>
 
 @interface MyArtistsTableViewController () <MGSwipeTableCellDelegate>
@@ -130,10 +131,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     
     if (direction == MGSwipeDirectionRightToLeft) {
         return [self createRightButtons];
+    } else if ([self userHasSpotifyInstalled]) {
+        Artist *artist = [self artistForCell:cell];
+        return [self createLeftButtons:artist];
     } else {
         return nil;
-//        Artist *artist = [self artistForCell:cell];
-//        return [self createLeftButtons:artist];
     }
 }
 
@@ -142,16 +144,19 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
              direction:(MGSwipeDirection)direction
          fromExpansion:(BOOL)fromExpansion
 {
-    BOOL isLike = direction == MGSwipeDirectionLeftToRight;
-    BOOL isDelete = !isLike && index == 0;
-    BOOL isDetails = !isLike && index == 1;
+    BOOL swipeRight = direction == MGSwipeDirectionLeftToRight;
+    BOOL isSpotify = swipeRight && index == 0;
+    BOOL isMore = swipeRight && index == 1;
+    BOOL isDelete = !swipeRight && index == 0;
     
     if (isDelete) {
         [self deleteArtistForCell:cell];
-    } else if (isLike) {
-        [self updateLikedForArtistAtCell:cell];
-    } else if (isDetails) {
-        [self viewDetailsForArtistAtCell:cell];
+    } else if (isSpotify) {
+        [self launchSpotifyForArtistAtCell:cell];
+    } else if (isMore) {
+        Artist *artist = [self artistForCell:cell];
+        UIAlertController *actionSheet = [self integrationsSheetForArtist:artist];
+        [self presentViewController:actionSheet animated:YES completion:nil];
     }
     
     return YES;
@@ -159,42 +164,34 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (NSArray *)createLeftButtons:(Artist*)artist
 {
-    UIColor *colors[] = {
-        [UIColor myGreenColor],
-        [UIColor myBlueColor],
-        [UIColor myRedColor],
-        [UIColor myBlueColor]
-    };
-    NSString *titles[] = { @"Like", @"Unlike", @"Dislike", @"Undislike" };
-    long position = artist.liked.integerValue % 4;
-    
-    MGSwipeButton *likeUnlikeButton = ({
-        UIColor *color = colors[position];
-        NSString *title = titles[position];
-        NSInteger padding = 15;
-        [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
+    MGSwipeButton *spotifyButton = ({
+        // Create properly sized icon
+        UIImage *icon = [UIImage imageNamed:@"ListenSpotifyWide"];
+        CGSize iconSize = CGSizeMake(136.f, 50.0f);
+        UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+        [icon drawInRect:CGRectMake(0, 0, iconSize.width, iconSize.height)];
+        icon = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        UIColor *color = [UIColor mySpotifyGreenColor];
+        UIEdgeInsets insets = UIEdgeInsetsMake(15, 0, 15, 0);
+        [MGSwipeButton buttonWithTitle:nil icon:icon backgroundColor:color insets:insets];
     });
-    
-    return @[likeUnlikeButton];
+    [spotifyButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    spotifyButton.contentMode = UIViewContentModeScaleAspectFit;
+    return @[spotifyButton];
 }
 
 - (NSArray *)createRightButtons
 {
-    NSInteger padding = 15;
-    
     MGSwipeButton *delete = ({
         NSString *title = @"Delete";
         UIColor *color = [UIColor redColor];
+        NSInteger padding = 15;
         [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
     });
     return @[delete];
     
-//    MGSwipeButton *more = ({
-//        NSString *title = @"Details";
-//        UIColor *color = [UIColor lightGrayColor];
-//        [MGSwipeButton buttonWithTitle:title backgroundColor:color padding:padding];
-//    });
-//    return @[delete, more];
 }
 
 #pragma mark - Navigation methods
@@ -281,6 +278,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
                           withRowAnimation:UITableViewRowAnimationFade];
     [self saveContext];
     return YES;
+}
+
+- (void)launchSpotifyForArtistAtCell:(UITableViewCell *)cell
+{
+    [self spotifyTapped:[self artistForCell:cell]];
 }
 
 - (BOOL)updateLikedForArtistAtCell:(UITableViewCell *)cell

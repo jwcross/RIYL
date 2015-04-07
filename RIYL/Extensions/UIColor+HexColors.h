@@ -9,6 +9,7 @@
 + (UIColor*)myRedColor;
 + (UIColor*)myLightGreenColor;
 + (UIColor*)myGreenColor;
++ (UIColor*)mySpotifyGreenColor;
 + (UIColor*)myDarkGreenColor;
 
 + (UIColor*)myTransparentDarkGrayColor;

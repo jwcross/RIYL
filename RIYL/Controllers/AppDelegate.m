@@ -17,6 +17,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
+    // Increase cache size
+    [[NSURLCache sharedURLCache] setMemoryCapacity:(100*1024*1024)];
+    [[NSURLCache sharedURLCache] setDiskCapacity:(200*1024*1024)];
+    
     [self setupMagicalRecord];
     
     return YES;

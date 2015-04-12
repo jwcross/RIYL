@@ -33,16 +33,23 @@
     return [UIColor colorWithHexString:@"#68a357"];
 }
 
-+ (UIColor*)mySpotifyGreenColor {
-    return [UIColor colorWithHexString:@"#638e00"];
-}
-
 + (UIColor*)myDarkGreenColor {
     return [UIColor colorWithHexString:@"#32965d"];
 }
 
 + (UIColor*)myRedColor {
     return [UIColor colorWithHexString:@"#da4167"];
+}
+
+
+#pragma mark - Branding Colors
+
++ (UIColor*)mySpotifyGreenColor {
+    return [UIColor colorWithHexString:@"#638e00"];
+}
+
++ (UIColor *)myYoutubeRedColor {
+    return [UIColor colorWithHexString:@"#cd201f"];
 }
 
 static const float ALPHA1 = 0.52f;

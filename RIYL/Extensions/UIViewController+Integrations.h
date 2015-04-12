@@ -5,8 +5,11 @@
 @interface UIViewController (Integrations)
 
 - (UIAlertController *)integrationsSheetForArtist:(Artist *)artist;
-- (void)spotifyTapped:(Artist*)artist;
 - (BOOL)userHasSpotifyInstalled;
+- (BOOL)userHasYoutubeInstalled;
+
+- (void)spotifyTapped:(Artist*)artist;
+- (void)youtubeTapped:(Artist*)artist;
 
 @end
 

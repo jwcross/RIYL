@@ -134,9 +134,8 @@ typedef enum {
 
 - (IBAction)readMoreAction:(id)sender
 {
-    NSString *name = [self.artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    UIAlertController *actionSheet = [self readIntegrationsSheetForArtist:self.artist];
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 - (IBAction)openArtistAction:(id)sender
@@ -303,8 +302,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     if (!self.artist.bio) {
         [self.readMoreButton setTitle:@"" forState:UIControlStateNormal];
     } else {
-        BOOL isTruncatedBio = [self.artist.bio containsString:@"Read more about"];
-        NSString *format = isTruncatedBio ? @"Read more about %@ on Last.fm" : @"%@ on Last.fm";
+        NSString *format = @"Read more about %@";
         NSString *readMore = [NSString stringWithFormat:format, self.artist.name];
         [self.readMoreButton setTitle:readMore forState:UIControlStateNormal];
     }

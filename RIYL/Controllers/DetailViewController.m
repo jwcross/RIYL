@@ -287,7 +287,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
     
-    self.readMoreLabel.hidden = NO;
+    self.readMoreButton.hidden = NO;
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images firstObject] text];
@@ -297,26 +297,28 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 
 - (void)refreshReadMoreLabel
 {
-    self.readMoreLabel.hidden = !self.artist.name;
+    self.readMoreButton.hidden = !self.artist.name;
     
     if (!self.artist.bio) {
-        self.readMoreLabel.text = @"";
+        [self.readMoreButton setTitle:@"" forState:UIControlStateNormal];
     } else {
         BOOL isTruncatedBio = [self.artist.bio containsString:@"Read more about"];
         NSString *format = isTruncatedBio ? @"Read more about %@ on Last.fm" : @"%@ on Last.fm";
-        self.readMoreLabel.text = [NSString stringWithFormat:format, self.artist.name];
+        NSString *readMore = [NSString stringWithFormat:format, self.artist.name];
+        [self.readMoreButton setTitle:readMore forState:UIControlStateNormal];
     }
 }
 
 - (void)refreshOpenInLabel
 {
-    self.openInLabel.hidden = !self.artist.name;
+    self.openInButton.hidden = !self.artist.name;
     
     if (!self.artist.bio) {
-        self.openInLabel.text = @"";
+        [self.openInButton setTitle:@"" forState:UIControlStateNormal];
     } else {
         NSString *format = @"Listen to %@";
-        self.openInLabel.text = [NSString stringWithFormat:format, self.artist.name];
+        NSString *title = [NSString stringWithFormat:format, self.artist.name];
+        [self.openInButton setTitle:title forState:UIControlStateNormal];
     }
 }
 
@@ -364,13 +366,12 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.artistDetailsView.editable = NO;
     
     // set detail colors
-    self.readMoreLabel.attributedText = [NSAttributedString stringWithText:self.readMoreLabel.text
-                                                                 textColor:colorArt.primaryColor
-                                                            underlineColor:colorArt.secondaryColor];
-    // colorize openIn
-    self.openInLabel.attributedText = [NSAttributedString stringWithText:self.openInLabel.text
-                                                                 textColor:colorArt.primaryColor
-                                                            underlineColor:colorArt.secondaryColor];
+    [self.readMoreButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
+    [self.openInButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
+    
+    // set color of dividers
+    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.6]];
+    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.6]];
     
     // colorize status bar
     [self refreshNavigationBar];

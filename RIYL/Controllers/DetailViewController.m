@@ -60,6 +60,7 @@ typedef enum {
     self.artistDetailsView.editable = NO;
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
+    [self initShowHideDividersOnButtonEvents];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -128,7 +129,7 @@ typedef enum {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark Actions
 
 - (IBAction)readMoreAction:(id)sender
@@ -369,9 +370,13 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     [self.readMoreButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     [self.openInButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     
+    // set button highlighted colors
+    self.openInButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
+    self.readMoreButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
+    
     // set color of dividers
-    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.6]];
-    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.6]];
+    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
+    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
     
     // colorize status bar
     [self refreshNavigationBar];
@@ -448,6 +453,54 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
         BOOL legible = [lighter isLegibleAgainst:background];
         return legible ? lighter : [UIColor whiteColor];
     }
+}
+
+#pragma mark -
+#pragma mark Dividers
+
+- (void)initShowHideDividersOnButtonEvents
+{
+    // hide dividers when buttons touched
+    [self.readMoreButton addTarget:self
+                            action:@selector(hideDivider1)
+                  forControlEvents:UIControlEventTouchDown];
+    [self.openInButton addTarget:self
+                          action:@selector(hideDivider1)
+                forControlEvents:UIControlEventTouchDown];
+    [self.openInButton addTarget:self
+                          action:@selector(hideDivider2)
+                forControlEvents:UIControlEventTouchDown];
+    
+    // clear highlight when buttons released
+    [self.readMoreButton addTarget:self
+                            action:@selector(showDivider1)
+                  forControlEvents:UIControlEventTouchDragExit|UIControlEventTouchUpInside];
+    [self.openInButton addTarget:self
+                          action:@selector(showDivider1)
+                forControlEvents:UIControlEventTouchDragExit|UIControlEventTouchUpInside];
+    [self.openInButton addTarget:self
+                          action:@selector(showDivider2)
+                forControlEvents:UIControlEventTouchDragExit|UIControlEventTouchUpInside];
+}
+
+- (void)hideDivider1
+{
+    self.divider1.hidden = YES;
+}
+
+- (void)hideDivider2
+{
+    self.divider2.hidden = YES;
+}
+
+- (void)showDivider1
+{
+    self.divider1.hidden = NO;
+}
+
+- (void)showDivider2
+{
+    self.divider2.hidden = NO;
 }
 
 @end

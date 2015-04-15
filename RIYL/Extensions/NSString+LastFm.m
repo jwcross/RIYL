@@ -6,10 +6,10 @@
 - (NSString*)formatBioWithArtist:(NSString *)artistName
 {
     NSString *s = self;
+    s = [s replaceHtmlCodes];
     s = [s stripHtml];
     s = [s stripCreativeCommons];
     s = [s stripLastFmLinks:artistName];
-    s = [s replaceHtmlCodes];
     s = [s stripWhitespace];
     
     return s;
@@ -38,8 +38,23 @@
                              @"&amp;"   : @"&",
                              @"&lt;"    : @"<",
                              @"&gt;"    : @">",
+                             @"&micro;" : @"µ",
                              @"&nbsp;"  : @"\u00a0",
-                             @"&micro;" : @"µ", };
+                             @"&aacute;"  : @"\u00e1",
+                             @"&eacute;"  : @"\u00e9",
+                             @"&iacute;"  : @"\u00ed",
+                             @"&oacute;"  : @"\u00f3",
+                             @"&uacute;"  : @"\u00fa",
+                             @"&Aacute;"  : @"\u00c1",
+                             @"&Eacute;"  : @"\u00c9",
+                             @"&Iacute;"  : @"\u00cd",
+                             @"&Oacute;"  : @"\u00d3",
+                             @"&Uacute;"  : @"\u00da",
+                             @"&rsquo;"  : @"\u2019",
+                             @"&nbsp;"  : @"\u00a0",
+                             @"&Ccedil;" : @"\u00c7",
+                             @"&ccedil;" : @"\u00e7",
+                             };
     
     for (NSString *code in codes.keyEnumerator) {
         s = [s stringByReplacingOccurrencesOfString:code

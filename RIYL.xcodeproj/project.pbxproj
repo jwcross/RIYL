@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B6A441F1ACC898500F2FF59 /* NSString+LastFm.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */; };
 		0B7370051AC5489400828D83 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		0BABF4051ADED6E700EFA04F /* Keys.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF4041ADED6E700EFA04F /* Keys.m */; };
 		0BDC53F61AC65C880099E0E9 /* UIColor+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */; };
 		0D400AC7FF1C4BAF307052BF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D247E16A68BFD1618E6F1842 /* libPods.a */; };
 		306C4417B6177CCEB3EDB06F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57508E0BED9B45A6C8FFF2DF /* Images.xcassets */; };
@@ -52,6 +53,8 @@
 		0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastFm.m"; sourceTree = "<group>"; };
 		0B7370031AC5489400828D83 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		0BABF4041ADED6E700EFA04F /* Keys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Keys.m; sourceTree = "<group>"; };
+		0BABF4061ADED6FD00EFA04F /* Keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
 		0BDC53F41AC65C880099E0E9 /* UIColor+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Util.h"; sourceTree = "<group>"; };
 		0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Util.m"; sourceTree = "<group>"; };
 		0E276E6FEFB336405C7C446D /* RIYL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RIYL.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +198,8 @@
 				ABEF55061AA079380072C37D /* main.m */,
 				D3A4B478D1E3A100F4886E90 /* Info.plist */,
 				ABEF54F71AA0763A0072C37D /* PrefixHeader.pch */,
+				0BABF4061ADED6FD00EFA04F /* Keys.h */,
+				0BABF4041ADED6E700EFA04F /* Keys.m */,
 			);
 			path = "Other-Sources";
 			sourceTree = "<group>";
@@ -534,6 +539,7 @@
 				ABEF54E11AA0748F0072C37D /* ArtistCell.m in Sources */,
 				ABEF54F01AA0751A0072C37D /* Image.m in Sources */,
 				0BDC53F61AC65C880099E0E9 /* UIColor+Util.m in Sources */,
+				0BABF4051ADED6E700EFA04F /* Keys.m in Sources */,
 				D7E51C54D26DFA2B3A899E49 /* LaunchScreen.xib in Sources */,
 				ABEF55051AA076830072C37D /* UIColor+HexColors.m in Sources */,
 				ABEF54E21AA0748F0072C37D /* ArtistCollectionViewCell.m in Sources */,

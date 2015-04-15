@@ -7,6 +7,7 @@
 #import "NSString+LastFm.h"
 #import "UIViewController+Integrations.h"
 #import "NSAttributedString+Underline.h"
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>

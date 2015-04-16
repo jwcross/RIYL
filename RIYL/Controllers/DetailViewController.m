@@ -301,7 +301,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     
     if (!self.artist.bio) {
         [self.readMoreButton setTitle:@"" forState:UIControlStateNormal];
+        self.divider1.hidden = YES;
     } else {
+        self.divider1.hidden = NO;
         NSString *format = @"Read more about %@";
         NSString *readMore = [NSString stringWithFormat:format, self.artist.name];
         [self.readMoreButton setTitle:readMore forState:UIControlStateNormal];
@@ -314,7 +316,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     
     if (!self.artist.bio) {
         [self.openInButton setTitle:@"" forState:UIControlStateNormal];
+        self.divider2.hidden = YES;
     } else {
+        self.divider2.hidden = NO;
         NSString *format = @"Listen to %@";
         NSString *title = [NSString stringWithFormat:format, self.artist.name];
         [self.openInButton setTitle:title forState:UIControlStateNormal];

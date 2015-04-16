@@ -11,6 +11,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UIView *divider1;
 @property (weak, nonatomic) IBOutlet UIView *divider2;
+@property (weak, nonatomic) IBOutlet UIView *divider3;
+@property (weak, nonatomic) IBOutlet HighlightButton *addToMyArtistsButton;
 @property (weak, nonatomic) IBOutlet HighlightButton *readMoreButton;
 @property (weak, nonatomic) IBOutlet HighlightButton *openInButton;
 

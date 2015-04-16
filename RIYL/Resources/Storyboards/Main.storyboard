@@ -82,7 +82,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Cu-87-6Oi" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="494"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="547.5"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9OB-Ht-0CR" userLabel="Artist Image View">
                                                 <rect key="frame" x="8" y="16" width="584" height="200"/>
@@ -98,21 +98,21 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTp-gC-09N" userLabel="Divider">
-                                                <rect key="frame" x="16" y="407.5" width="584" height="1"/>
+                                                <rect key="frame" x="16" y="408" width="584" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="B9g-Ak-FTi"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0c-XW-Vbf" userLabel="Divider">
-                                                <rect key="frame" x="16" y="452.5" width="584" height="1"/>
+                                                <rect key="frame" x="16" y="453" width="584" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="rmm-hI-g1r"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OKJ-eP-Yqm" userLabel="Read More Button" customClass="HighlightButton">
-                                                <rect key="frame" x="0.0" y="362.5" width="600" height="46"/>
+                                                <rect key="frame" x="0.0" y="363" width="600" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="contentEdgeInsets" minX="20" minY="13" maxX="0.0" maxY="13"/>
                                                 <state key="normal" title="Read More About This Artist">
@@ -123,7 +123,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="95e-RX-kon" userLabel="Listen With Button" customClass="HighlightButton">
-                                                <rect key="frame" x="0.0" y="407.5" width="600" height="46"/>
+                                                <rect key="frame" x="0.0" y="408" width="600" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <inset key="contentEdgeInsets" minX="20" minY="13" maxX="0.0" maxY="13"/>
                                                 <state key="normal" title="Listen to This Artist">
@@ -133,17 +133,41 @@
                                                     <action selector="openArtistAction:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="xx8-eh-r6p"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Ue9-Ph-I8z" userLabel="Add Artist Button" customClass="HighlightButton">
+                                                <rect key="frame" x="0.0" y="453.5" width="600" height="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <inset key="contentEdgeInsets" minX="20" minY="13" maxX="0.0" maxY="13"/>
+                                                <state key="normal" title="Add This Artist to My Artists">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="addArtistAction:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="9Q2-L3-Lfc"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1AZ-Qw-2SX" userLabel="Divider">
+                                                <rect key="frame" x="16" y="498.5" width="584" height="1"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="oqe-Ez-6w6"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="1AZ-Qw-2SX" secondAttribute="trailing" id="0af-S7-inm"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ue9-Ph-I8z" secondAttribute="trailing" id="48A-N1-OXA"/>
                                             <constraint firstItem="9OB-Ht-0CR" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="8" id="5Hq-cj-k8Q"/>
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" id="6GA-1R-ZB8"/>
                                             <constraint firstAttribute="trailing" secondItem="OKJ-eP-Yqm" secondAttribute="trailing" id="6Zi-F5-buy"/>
                                             <constraint firstAttribute="trailing" secondItem="cTp-gC-09N" secondAttribute="trailing" id="6xd-0h-uav"/>
                                             <constraint firstItem="xU5-pl-q21" firstAttribute="top" secondItem="9OB-Ht-0CR" secondAttribute="bottom" constant="8" id="7mu-Gp-ek3"/>
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="top" secondItem="xU5-pl-q21" secondAttribute="bottom" constant="6" id="9Kv-3A-2Ap"/>
+                                            <constraint firstItem="Ue9-Ph-I8z" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" id="AzE-lb-Ro5"/>
                                             <constraint firstAttribute="trailing" secondItem="OKJ-eP-Yqm" secondAttribute="trailing" constant="16" id="DIl-d6-62X"/>
+                                            <constraint firstItem="1AZ-Qw-2SX" firstAttribute="top" secondItem="Ue9-Ph-I8z" secondAttribute="bottom" constant="-1" id="DtS-H3-SJ9"/>
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="12" id="Hx4-oa-lKf"/>
+                                            <constraint firstItem="Ue9-Ph-I8z" firstAttribute="top" secondItem="95e-RX-kon" secondAttribute="bottom" constant="-1" id="I6e-MM-Ulj"/>
+                                            <constraint firstAttribute="bottom" secondItem="1AZ-Qw-2SX" secondAttribute="bottom" constant="48" id="MLP-Qb-bus"/>
                                             <constraint firstItem="Y0c-XW-Vbf" firstAttribute="top" secondItem="95e-RX-kon" secondAttribute="bottom" constant="-1" id="N00-i8-7r0"/>
                                             <constraint firstItem="cTp-gC-09N" firstAttribute="top" secondItem="OKJ-eP-Yqm" secondAttribute="bottom" constant="-1" id="Oby-yT-6Lo"/>
                                             <constraint firstItem="xU5-pl-q21" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="16" id="Pdo-ZZ-qe7"/>
@@ -152,6 +176,8 @@
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="top" secondItem="xU5-pl-q21" secondAttribute="bottom" constant="7" id="Xzb-6T-8UI"/>
                                             <constraint firstAttribute="bottom" secondItem="Y0c-XW-Vbf" secondAttribute="bottom" constant="40" id="ahZ-tf-tQJ"/>
                                             <constraint firstItem="9OB-Ht-0CR" firstAttribute="top" secondItem="7Cu-87-6Oi" secondAttribute="top" constant="16" id="bi8-EE-GER"/>
+                                            <constraint firstItem="1AZ-Qw-2SX" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="16" id="by6-nm-I8y"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ue9-Ph-I8z" secondAttribute="bottom" constant="48" id="gsL-pJ-xRB"/>
                                             <constraint firstItem="95e-RX-kon" firstAttribute="top" secondItem="cTp-gC-09N" secondAttribute="bottom" constant="-1" id="htx-u9-UBN"/>
                                             <constraint firstAttribute="bottom" secondItem="cTp-gC-09N" secondAttribute="bottom" constant="63.5" id="jtr-mO-GnF"/>
                                             <constraint firstAttribute="trailing" secondItem="xU5-pl-q21" secondAttribute="trailing" constant="16" id="o30-JX-lL4"/>
@@ -168,6 +194,8 @@
                                                 <exclude reference="W6L-Ij-Yxo"/>
                                                 <exclude reference="Xzb-6T-8UI"/>
                                                 <exclude reference="jtr-mO-GnF"/>
+                                                <exclude reference="ahZ-tf-tQJ"/>
+                                                <exclude reference="gsL-pJ-xRB"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -202,11 +230,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addToMyArtistsButton" destination="Ue9-Ph-I8z" id="UBD-yV-uaP"/>
                         <outlet property="artistDetailsView" destination="xU5-pl-q21" id="QHN-Ag-Zyt"/>
                         <outlet property="artistImage" destination="9OB-Ht-0CR" id="DEr-ZR-Os3"/>
                         <outlet property="backgroundImageView" destination="cON-gu-0dg" id="ZmQ-nw-1g5"/>
                         <outlet property="divider1" destination="cTp-gC-09N" id="slD-Ww-tlh"/>
                         <outlet property="divider2" destination="Y0c-XW-Vbf" id="qK3-u8-yHY"/>
+                        <outlet property="divider3" destination="1AZ-Qw-2SX" id="dHx-sP-HPg"/>
                         <outlet property="openInButton" destination="95e-RX-kon" id="W6o-bj-2cH"/>
                         <outlet property="readMoreButton" destination="OKJ-eP-Yqm" id="UbG-ho-kfN"/>
                     </connections>

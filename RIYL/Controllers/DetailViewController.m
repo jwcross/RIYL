@@ -58,6 +58,7 @@ typedef enum {
         self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
     });
     self.artistDetailsView.editable = NO;
+    [self refreshAddToMyArtistsButton];
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
     [self initShowHideDividersOnButtonEvents];
@@ -126,6 +127,8 @@ typedef enum {
 
 - (void)addNewArtist
 {
+    self.artist.nowListening = @YES;
+    [self saveContext];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -142,6 +145,11 @@ typedef enum {
 {
     UIAlertController *actionSheet = [self integrationsSheetForArtist:self.artist];
     [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
+- (IBAction)addArtistAction:(id)sender
+{
+    [self addNewArtist];
 }
 
 #pragma mark -
@@ -187,14 +195,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.artist.mbid = artistDict[@"mbid"];
     self.artist.bio = artistDict[@"bio"][@"content"];
     
-    // default `now listening` for added artists, except when launched from Similar
-    if (self.mode != ViewSimilar) {
-        self.artist.nowListening = @YES;
-    }
-    if (!self.artist.liked) {
-      self.artist.liked = @NO; // default not-`liked` for added artists
-    }
-  
     // save highest-resolution image
     if ([artistDict[@"image"] count] > 0) {
         Image *image = [Image MR_createEntity];
@@ -286,12 +286,27 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.artistDetailsView.text = [self.artist.bio formatBioWithArtist:self.artist.name];
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
+    [self refreshAddToMyArtistsButton];
     
     self.readMoreButton.hidden = NO;
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images firstObject] text];
         [self configureViewWithImageURL:[NSURL URLWithString:url]];
+    }
+}
+
+- (void)refreshAddToMyArtistsButton
+{
+    BOOL userAlreadyHasArtist = [self.artist.nowListening isEqual:@YES];
+    
+    self.addToMyArtistsButton.hidden = !self.artist.bio || userAlreadyHasArtist;
+    self.divider3.hidden = !self.artist.bio || userAlreadyHasArtist;
+    
+    if (!userAlreadyHasArtist) {
+        NSString *format = @"Add %@ to My Artists";
+        NSString *title = [NSString stringWithFormat:format, self.artist.name];
+        [self.addToMyArtistsButton setTitle:title forState:UIControlStateNormal];
     }
 }
 
@@ -323,6 +338,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         NSString *title = [NSString stringWithFormat:format, self.artist.name];
         [self.openInButton setTitle:title forState:UIControlStateNormal];
     }
+}
+
+- (void)refreshAddArtistButton
+{
 }
 
 # pragma mark - LEColorPicker
@@ -371,14 +390,17 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     // set detail colors
     [self.readMoreButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     [self.openInButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
+    [self.addToMyArtistsButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     
     // set button highlighted colors
     self.openInButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
     self.readMoreButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
+    self.addToMyArtistsButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
     
     // set color of dividers
     [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
     [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
+    [self.divider3 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
     
     // colorize status bar
     [self refreshNavigationBar];
@@ -462,27 +484,42 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
 
 - (void)initShowHideDividersOnButtonEvents
 {
+    UIControlEvents hideEvents = UIControlEventTouchDown;
+    UIControlEvents showEvents = UIControlEventTouchDragExit | UIControlEventTouchUpInside;
+    
     // hide dividers when buttons touched
     [self.readMoreButton addTarget:self
                             action:@selector(hideDivider1)
-                  forControlEvents:UIControlEventTouchDown];
+                  forControlEvents:hideEvents];
     [self.openInButton addTarget:self
                           action:@selector(hideDivider1)
-                forControlEvents:UIControlEventTouchDown];
+                forControlEvents:hideEvents];
     [self.openInButton addTarget:self
                           action:@selector(hideDivider2)
-                forControlEvents:UIControlEventTouchDown];
+                forControlEvents:hideEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(hideDivider2)
+                        forControlEvents:hideEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(hideDivider3)
+                        forControlEvents:hideEvents];
     
     // clear highlight when buttons released
     [self.readMoreButton addTarget:self
                             action:@selector(showDivider1)
-                  forControlEvents:UIControlEventTouchDragExit|UIControlEventTouchUpInside];
+                  forControlEvents:showEvents];
     [self.openInButton addTarget:self
                           action:@selector(showDivider1)
-                forControlEvents:UIControlEventTouchDragExit|UIControlEventTouchUpInside];
+                forControlEvents:showEvents];
     [self.openInButton addTarget:self
                           action:@selector(showDivider2)
-                forControlEvents:UIControlEventTouchDragExit|UIControlEventTouchUpInside];
+                forControlEvents:showEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(showDivider2)
+                        forControlEvents:showEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(showDivider3)
+                        forControlEvents:showEvents];
 }
 
 - (void)hideDivider1
@@ -495,6 +532,11 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.divider2.hidden = YES;
 }
 
+- (void)hideDivider3
+{
+    self.divider3.hidden = YES;
+}
+
 - (void)showDivider1
 {
     self.divider1.hidden = NO;
@@ -503,6 +545,11 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
 - (void)showDivider2
 {
     self.divider2.hidden = NO;
+}
+
+- (void)showDivider3
+{
+    self.divider3.hidden = NO;
 }
 
 @end

@@ -14,13 +14,7 @@
 #import <libextobjc/EXTScope.h>
 #import <ColorArt/UIImage+ColorArt.h>
 
-typedef enum {
-    Normal, AddArtist, ViewSimilar
-} DetailMode;
-
-@interface DetailViewController ()
-<UITextFieldDelegate, UIAlertViewDelegate>
-@property (nonatomic, assign) DetailMode mode;
+@interface DetailViewController () <UIAlertViewDelegate>
 @end
 
 @implementation DetailViewController
@@ -42,7 +36,6 @@ typedef enum {
      
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alert textFieldAtIndex:0].returnKeyType = UIReturnKeyDone;
-        [alert textFieldAtIndex:0].delegate = self;
         [alert show];
     }
     // 2. If we have an artist, but no details, fetch from API
@@ -57,7 +50,6 @@ typedef enum {
         NSString *artist = self.artist.name;
         self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
     });
-    self.artistDetailsView.editable = NO;
     [self refreshAddToMyArtistsButton];
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
@@ -70,10 +62,7 @@ typedef enum {
         [self configureViewWithImageURL:[NSURL URLWithString:imageUrl]];
     }
     
-    // 5. Set delegates
-    self.artistDetailsView.delegate = self;
-    
-    // 6. Refresh status bar
+    // 5. Refresh status bar
     [self refreshStatusBar];
 }
 
@@ -93,7 +82,6 @@ typedef enum {
 
 - (void)prepareForAddArtist
 {
-    self.mode = AddArtist;
     self.navigationItem.leftBarButtonItem = ({
         UIBarButtonItem *cancel = [[UIBarButtonItem alloc] init];
         cancel.title = @"Cancel";
@@ -115,7 +103,6 @@ typedef enum {
 
 - (void)prepareForSimilarArtist
 {
-    self.mode = ViewSimilar;
     self.navigationItem.rightBarButtonItem = nil;
 }
 
@@ -133,7 +120,7 @@ typedef enum {
 }
 
 #pragma mark -
-#pragma mark Actions
+#pragma mark IBActions
 
 - (IBAction)readMoreAction:(id)sender
 {
@@ -143,7 +130,7 @@ typedef enum {
 
 - (IBAction)openArtistAction:(id)sender
 {
-    UIAlertController *actionSheet = [self integrationsSheetForArtist:self.artist];
+    UIAlertController *actionSheet = [self listenIntegrationsSheetForArtist:self.artist];
     [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
@@ -170,14 +157,13 @@ typedef enum {
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // cancel
-    if (buttonIndex == 0) {
-        [[alertView textFieldAtIndex:0] endEditing:YES];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    
+    if (buttonIndex == 0) { // Cancel
+        [textField endEditing:YES];
         [self cancelAdd];
-    // ok
-    } else if (buttonIndex == 1) {
-        NSString *name = [alertView textFieldAtIndex:0].text;
-        [self getArtist:name];
+    } else if (buttonIndex == 1) { // OK
+        [self getArtist:textField.text];
     }
 }
 
@@ -247,25 +233,30 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                   success:^(NSURLSessionDataTask *task, id responseObject) {
                       @strongify(self)
                       NSLog(@"Success -- %@", responseObject);
-                      
-                      // Check if response was successful, but returned error object
-                      if ([self artistNotFound:responseObject]) {
-                          hud.mode = MBProgressHUDModeText;
-                          hud.labelText = NSLocalizedString(@"Artist Not Found", @"Artist Not Found");
-                          return;
-                          
-                      // Otherwise, save artist and update UI
-                      } else {
-                          
-                          [hud hide:YES];
-                          [self saveArtistForResponse:responseObject[@"artist"]];
-                          [self refreshView];
-                      }
+                      [self handleArtistResponse:responseObject];
                       
                   } failure:^(NSURLSessionDataTask *task, NSError *error) {
                       NSLog(@"Failure -- %@", error.description);
                       [hud hide:YES];
                   }];
+}
+
+- (void)handleArtistResponse:(id)responseObject
+{
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+    
+    // Check if response was successful, but returned error object
+    if ([self artistNotFound:responseObject]) {
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = NSLocalizedString(@"Artist Not Found", @"Artist Not Found");
+        return;
+        
+    // Otherwise, save artist and update UI
+    } else {
+        [hud hide:YES];
+        [self saveArtistForResponse:responseObject[@"artist"]];
+        [self refreshView];
+    }
 }
 
 - (BOOL)artistNotFound:(id)responseObject
@@ -340,10 +331,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 }
 
-- (void)refreshAddArtistButton
-{
-}
-
 # pragma mark - LEColorPicker
 
 typedef void (^ImageSuccess)(NSURLRequest*, NSHTTPURLResponse*, UIImage*);
@@ -374,17 +361,16 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     SLColorArt *colorArt = [image colorArt];
     
     // set blurred background image
-    UIColor *tintColor = [colorArt.backgroundColor colorWithAlphaComponent:0.7f];
-    UIImage *blurImage = [image applyBlurWithRadius:15
-                                          tintColor:tintColor
-                              saturationDeltaFactor:1.8f
-                                          maskImage:nil];
-    self.backgroundImageView.image = blurImage;
+    self.backgroundImageView.image = ({
+        [image applyBlurWithRadius:15.f
+                         tintColor:[colorArt.backgroundColor colorWithAlphaComponent:0.7f]
+             saturationDeltaFactor:1.8f
+                         maskImage:nil];
+    });
     
-    // set artist text color: see http://stackoverflow.com/a/19168661
+    // set artist textColor via workaround: http://stackoverflow.com/a/19168661
     self.artistDetailsView.editable = YES;
-    self.artistDetailsView.textColor = [self primaryTextColorForImage:image
-                                                             colorArt:colorArt];
+    self.artistDetailsView.textColor = [self primaryTextColorForImage:image colorArt:colorArt];
     self.artistDetailsView.editable = NO;
     
     // set detail colors
@@ -392,17 +378,16 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     [self.openInButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     [self.addToMyArtistsButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     
-    // set button highlighted colors
-    self.openInButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
-    self.readMoreButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
-    self.addToMyArtistsButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    // set button highlight and dividers
+    UIColor *lightSecondary = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    self.openInButton.highlightColor = lightSecondary;
+    self.readMoreButton.highlightColor = lightSecondary;
+    self.addToMyArtistsButton.highlightColor = lightSecondary;
+    self.divider1.backgroundColor = lightSecondary;
+    self.divider2.backgroundColor = lightSecondary;
+    self.divider3.backgroundColor = lightSecondary;
     
-    // set color of dividers
-    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
-    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
-    [self.divider3 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
-    
-    // colorize status bar
+    // colorize navigation and status bars
     [self refreshNavigationBar];
     [self refreshStatusBar];
 }
@@ -434,15 +419,12 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     if (!self.artistImage.image) {
         return UIStatusBarStyleLightContent;
     }
-    SLColorArt *colorArt = [self.artistImage.image colorArt];
     
+    // Adapted from SLColorArt.m
+    SLColorArt *colorArt = [self.artistImage.image colorArt];
     CGFloat R, G, B, A;
     [colorArt.backgroundColor getRed:&R green:&G blue:&B alpha:&A];
     
-    // http://stackoverflow.com/a/2509596
-    // BOOL darkText = (R*299 + G*587 + B*114) > 500;
-    
-    // Copied from SLColorArt.m
     BOOL darkText = (0.2126*R + 0.7152*G + 0.0722*B) > 0.5;
     return darkText ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
 }
@@ -456,26 +438,23 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     if (!colorArt) {
         colorArt = [artistImage colorArt];
     }
+    NSArray *colorsToTry = @[colorArt.primaryColor,
+                             colorArt.secondaryColor,
+                             colorArt.detailColor,
+                             [colorArt.primaryColor darken],
+                             [colorArt.primaryColor lighten]];
     UIColor *background = colorArt.backgroundColor;
     
-    if ([colorArt.primaryColor isLegibleAgainst:background]) {
-        return colorArt.primaryColor;
-        
-    } else if ([colorArt.secondaryColor isLegibleAgainst:background]) {
-        return colorArt.secondaryColor;
-        
-    } else if ([colorArt.detailColor isLegibleAgainst:background]) {
-        return colorArt.detailColor;
-        
-    } else if ([self preferredStatusBarStyle] == UIStatusBarStyleDefault) {
-        UIColor *darker = [colorArt.primaryColor darken];
-        BOOL legible = [darker isLegibleAgainst:background];
-        return legible ? darker : [UIColor blackColor];
-        
+    for (UIColor *color in colorsToTry) {
+        if ([color isLegibleAgainst:background]) {
+            return color;
+        }
+    }
+    
+    if ([self preferredStatusBarStyle] == UIStatusBarStyleDefault) {
+        return [UIColor blackColor];
     } else {
-        UIColor *lighter = [colorArt.primaryColor lighten];
-        BOOL legible = [lighter isLegibleAgainst:background];
-        return legible ? lighter : [UIColor whiteColor];
+        return [UIColor whiteColor];
     }
 }
 
@@ -487,69 +466,41 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     UIControlEvents hideEvents = UIControlEventTouchDown;
     UIControlEvents showEvents = UIControlEventTouchDragExit | UIControlEventTouchUpInside;
     
-    // hide dividers when buttons touched
-    [self.readMoreButton addTarget:self
-                            action:@selector(hideDivider1)
-                  forControlEvents:hideEvents];
-    [self.openInButton addTarget:self
-                          action:@selector(hideDivider1)
-                forControlEvents:hideEvents];
-    [self.openInButton addTarget:self
-                          action:@selector(hideDivider2)
-                forControlEvents:hideEvents];
-    [self.addToMyArtistsButton addTarget:self
-                                  action:@selector(hideDivider2)
-                        forControlEvents:hideEvents];
-    [self.addToMyArtistsButton addTarget:self
-                                  action:@selector(hideDivider3)
-                        forControlEvents:hideEvents];
+    // show and hide dividers when buttons touched
+    NSArray *buttons = @[self.readMoreButton, self.openInButton, self.addToMyArtistsButton];
     
-    // clear highlight when buttons released
-    [self.readMoreButton addTarget:self
-                            action:@selector(showDivider1)
-                  forControlEvents:showEvents];
-    [self.openInButton addTarget:self
-                          action:@selector(showDivider1)
-                forControlEvents:showEvents];
-    [self.openInButton addTarget:self
-                          action:@selector(showDivider2)
-                forControlEvents:showEvents];
-    [self.addToMyArtistsButton addTarget:self
-                                  action:@selector(showDivider2)
-                        forControlEvents:showEvents];
-    [self.addToMyArtistsButton addTarget:self
-                                  action:@selector(showDivider3)
-                        forControlEvents:showEvents];
+    for (UIButton *button in buttons) {
+        [button addTarget:self action:@selector(hideDividers) forControlEvents:hideEvents];
+        [button addTarget:self action:@selector(showDividers) forControlEvents:showEvents];
+    }
 }
 
-- (void)hideDivider1
+- (void)hideDividers
 {
-    self.divider1.hidden = YES;
+    if (self.readMoreButton.isTouchInside) {
+        self.divider1.hidden = YES;
+    }
+    if (self.openInButton.isTouchInside) {
+        self.divider1.hidden = YES;
+        self.divider2.hidden = YES;
+    }
+    if (self.addToMyArtistsButton.isTouchInside) {
+        self.divider2.hidden = YES;
+        self.divider3.hidden = YES;
+    }
 }
 
-- (void)hideDivider2
+- (void)showDividers
 {
-    self.divider2.hidden = YES;
-}
-
-- (void)hideDivider3
-{
-    self.divider3.hidden = YES;
-}
-
-- (void)showDivider1
-{
-    self.divider1.hidden = NO;
-}
-
-- (void)showDivider2
-{
-    self.divider2.hidden = NO;
-}
-
-- (void)showDivider3
-{
-    self.divider3.hidden = NO;
+    if (!self.readMoreButton.isHidden) {
+        self.divider1.hidden = NO;
+    }
+    if (!self.openInButton.isHidden) {
+        self.divider2.hidden = NO;
+    }
+    if (!self.addToMyArtistsButton.isHidden) {
+        self.divider3.hidden = NO;
+    }
 }
 
 @end

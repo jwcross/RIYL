@@ -5,7 +5,7 @@
 @interface UIViewController (Integrations)
 
 - (UIAlertController *)readIntegrationsSheetForArtist:(Artist *)artist;
-- (UIAlertController *)integrationsSheetForArtist:(Artist *)artist;
+- (UIAlertController *)listenIntegrationsSheetForArtist:(Artist *)artist;
 - (BOOL)userHasSpotifyInstalled;
 - (BOOL)userHasYoutubeInstalled;
 

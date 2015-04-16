@@ -2,13 +2,15 @@
 #import "Artist.h"
 #import "HighlightButton.h"
 
-@interface DetailViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate>
+@interface DetailViewController : UIViewController
 
 @property (strong, nonatomic) Artist *artist;
 
 @property (weak, nonatomic) IBOutlet UITextView *artistDetailsView;
 @property (weak, nonatomic) IBOutlet UIImageView *artistImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+
+// TODO: Replace with UITableView
 @property (weak, nonatomic) IBOutlet UIView *divider1;
 @property (weak, nonatomic) IBOutlet UIView *divider2;
 @property (weak, nonatomic) IBOutlet UIView *divider3;

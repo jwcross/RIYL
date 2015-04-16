@@ -88,7 +88,7 @@
 - (IBAction)lastFmTapped:(Artist *)artist
 {
     NSString *name = [artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
+    NSString *urlString = [NSString stringWithFormat:@"http://m.last.fm/music/%@", name];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
 
@@ -125,6 +125,7 @@
     NSString *urlString = [NSString stringWithFormat:format, name];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 }
+
 
 #pragma mark - iTunes
 

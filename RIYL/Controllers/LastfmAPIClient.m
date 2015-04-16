@@ -1,6 +1,6 @@
 #import "LastfmAPIClient.h"
+#import "Keys.h"
 
-NSString * const kLastfmAPIKey = @"92bfae0198f438e318ef4917ed38bd41";
 NSString * const kLastfmBaseURL = @"http://ws.audioscrobbler.com/2.0/";
 
 @implementation LastfmAPIClient
@@ -33,7 +33,7 @@ NSString * const kLastfmBaseURL = @"http://ws.audioscrobbler.com/2.0/";
     [self GET:kLastfmBaseURL
    parameters:@{ @"method":@"artist.getSimilar",
                  @"format":@"json",
-                 @"api_key":kLastfmAPIKey,
+                 @"api_key":LASTFM_API_KEY,
                  @"artist":artistString,
                  @"autocorrect":(autocorrect? @1 : @0),
                  @"limit":@(limit)}
@@ -56,7 +56,7 @@ NSString * const kLastfmBaseURL = @"http://ws.audioscrobbler.com/2.0/";
     [self GET:kLastfmBaseURL
    parameters:@{ @"method":@"artist.getInfo",
                  @"format":@"json",
-                 @"api_key":kLastfmAPIKey,
+                 @"api_key":LASTFM_API_KEY,
                  @"artist":artistString,
                  @"autocorrect":(autocorrect? @1: @0)}
       success:^(NSURLSessionDataTask *task, id responseObject) {

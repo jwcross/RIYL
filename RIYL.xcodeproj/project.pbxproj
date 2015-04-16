@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		0B6A441F1ACC898500F2FF59 /* NSString+LastFm.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */; };
 		0B7370051AC5489400828D83 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		0BABF4051ADED6E700EFA04F /* Keys.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BABF4041ADED6E700EFA04F /* Keys.m */; };
 		0BDC53F61AC65C880099E0E9 /* UIColor+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */; };
+		0BE7FEA71ADF210C005C5A3D /* HighlightButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7FEA61ADF210C005C5A3D /* HighlightButton.m */; };
+		0BE7FEA91ADF2CE8005C5A3D /* UIViewController+Integrations.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE7FEA81ADF2CE8005C5A3D /* UIViewController+Integrations.m */; };
 		0D400AC7FF1C4BAF307052BF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D247E16A68BFD1618E6F1842 /* libPods.a */; };
 		306C4417B6177CCEB3EDB06F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57508E0BED9B45A6C8FFF2DF /* Images.xcassets */; };
 		A8610880E9841BCF917CA022 /* libPods-unit_tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D13F0625F127F67ABB70085D /* libPods-unit_tests.a */; };
@@ -52,8 +55,13 @@
 		0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastFm.m"; sourceTree = "<group>"; };
 		0B7370031AC5489400828D83 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		0B7370041AC5489400828D83 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		0BABF4041ADED6E700EFA04F /* Keys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Keys.m; sourceTree = "<group>"; };
+		0BABF4061ADED6FD00EFA04F /* Keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
 		0BDC53F41AC65C880099E0E9 /* UIColor+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Util.h"; sourceTree = "<group>"; };
 		0BDC53F51AC65C880099E0E9 /* UIColor+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Util.m"; sourceTree = "<group>"; };
+		0BE7FEA51ADF210C005C5A3D /* HighlightButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighlightButton.h; sourceTree = "<group>"; };
+		0BE7FEA61ADF210C005C5A3D /* HighlightButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighlightButton.m; sourceTree = "<group>"; };
+		0BE7FEA81ADF2CE8005C5A3D /* UIViewController+Integrations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Integrations.m"; sourceTree = "<group>"; };
 		0E276E6FEFB336405C7C446D /* RIYL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RIYL.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF37E53F0A539131FBCB922 /* UnitTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		43DCB5C63D4DAD51978FD1AA /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -195,6 +203,8 @@
 				ABEF55061AA079380072C37D /* main.m */,
 				D3A4B478D1E3A100F4886E90 /* Info.plist */,
 				ABEF54F71AA0763A0072C37D /* PrefixHeader.pch */,
+				0BABF4061ADED6FD00EFA04F /* Keys.h */,
+				0BABF4041ADED6E700EFA04F /* Keys.m */,
 			);
 			path = "Other-Sources";
 			sourceTree = "<group>";
@@ -268,6 +278,7 @@
 				0B6A441D1ACC88E100F2FF59 /* NSString+LastFm.h */,
 				0B6A441E1ACC898500F2FF59 /* NSString+LastFm.m */,
 				0B295A751ACD276200AF1F61 /* UIViewController+Integrations.h */,
+				0BE7FEA81ADF2CE8005C5A3D /* UIViewController+Integrations.m */,
 				0B295A791ACD4FEB00AF1F61 /* NSAttributedString+Underline.h */,
 			);
 			path = Extensions;
@@ -280,6 +291,8 @@
 				ABEF54DE1AA0748F0072C37D /* ArtistCell.m */,
 				ABEF54DF1AA0748F0072C37D /* ArtistCollectionViewCell.h */,
 				ABEF54E01AA0748F0072C37D /* ArtistCollectionViewCell.m */,
+				0BE7FEA51ADF210C005C5A3D /* HighlightButton.h */,
+				0BE7FEA61ADF210C005C5A3D /* HighlightButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -519,6 +532,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BE7FEA71ADF210C005C5A3D /* HighlightButton.m in Sources */,
 				ABEF54F31AA0759F0072C37D /* InitialDataHelper.m in Sources */,
 				ABEF55011AA076730072C37D /* SimilarViewController.m in Sources */,
 				ABEF54F61AA075B00072C37D /* LastfmAPIClient.m in Sources */,
@@ -534,8 +548,10 @@
 				ABEF54E11AA0748F0072C37D /* ArtistCell.m in Sources */,
 				ABEF54F01AA0751A0072C37D /* Image.m in Sources */,
 				0BDC53F61AC65C880099E0E9 /* UIColor+Util.m in Sources */,
+				0BABF4051ADED6E700EFA04F /* Keys.m in Sources */,
 				D7E51C54D26DFA2B3A899E49 /* LaunchScreen.xib in Sources */,
 				ABEF55051AA076830072C37D /* UIColor+HexColors.m in Sources */,
+				0BE7FEA91ADF2CE8005C5A3D /* UIViewController+Integrations.m in Sources */,
 				ABEF54E21AA0748F0072C37D /* ArtistCollectionViewCell.m in Sources */,
 				0B7370051AC5489400828D83 /* UIImage+ImageEffects.m in Sources */,
 			);

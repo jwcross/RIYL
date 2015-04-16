@@ -80,8 +80,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    id actionSheet = [self alertControllerForIndexPath:indexPath];
-    [self presentViewController:actionSheet animated:YES completion:nil];
+    [self viewDetailsForArtistAtIndexPath:indexPath];
 }
 
 - (UIAlertController *)alertControllerForIndexPath:(NSIndexPath *)indexPath
@@ -278,11 +277,16 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     UIAlertActionStyle style = UIAlertActionStyleDefault;
     
     return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-        [self.collectionView selectItemAtIndexPath:indexPath
-                                          animated:NO
-                                    scrollPosition:UICollectionViewScrollPositionNone];
-        [self performSegueWithIdentifier:@"viewDetail" sender:self];
+        [self viewDetailsActionForCellAtIndexPath:indexPath];
     }];
+}
+
+- (void)viewDetailsForArtistAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.collectionView selectItemAtIndexPath:indexPath
+                                      animated:NO
+                                scrollPosition:UICollectionViewScrollPositionNone];
+    [self performSegueWithIdentifier:@"viewDetail" sender:self];
 }
 
 @end

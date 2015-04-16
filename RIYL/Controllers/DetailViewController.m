@@ -7,6 +7,7 @@
 #import "NSString+LastFm.h"
 #import "UIViewController+Integrations.h"
 #import "NSAttributedString+Underline.h"
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import <SpinKit/RTSpinKitView.h>
@@ -57,8 +58,10 @@ typedef enum {
         self.artist.bio ? [self.artist.bio formatBioWithArtist:artist] : @"";
     });
     self.artistDetailsView.editable = NO;
+    [self refreshAddToMyArtistsButton];
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
+    [self initShowHideDividersOnButtonEvents];
     
     // 4. If there is an image url, show it
     NSString *imageUrl = [self.artist.images.firstObject text];
@@ -124,23 +127,29 @@ typedef enum {
 
 - (void)addNewArtist
 {
+    self.artist.nowListening = @YES;
+    [self saveContext];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark Actions
 
 - (IBAction)readMoreAction:(id)sender
 {
-    NSString *name = [self.artist.name stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSString *urlString = [NSString stringWithFormat:@"http://www.last.fm/music/%@", name];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    UIAlertController *actionSheet = [self readIntegrationsSheetForArtist:self.artist];
+    [self presentViewController:actionSheet animated:YES completion:nil];
 }
 
 - (IBAction)openArtistAction:(id)sender
 {
     UIAlertController *actionSheet = [self integrationsSheetForArtist:self.artist];
     [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
+- (IBAction)addArtistAction:(id)sender
+{
+    [self addNewArtist];
 }
 
 #pragma mark -
@@ -186,14 +195,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.artist.mbid = artistDict[@"mbid"];
     self.artist.bio = artistDict[@"bio"][@"content"];
     
-    // default `now listening` for added artists, except when launched from Similar
-    if (self.mode != ViewSimilar) {
-        self.artist.nowListening = @YES;
-    }
-    if (!self.artist.liked) {
-      self.artist.liked = @NO; // default not-`liked` for added artists
-    }
-  
     // save highest-resolution image
     if ([artistDict[@"image"] count] > 0) {
         Image *image = [Image MR_createEntity];
@@ -285,8 +286,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     self.artistDetailsView.text = [self.artist.bio formatBioWithArtist:self.artist.name];
     [self refreshReadMoreLabel];
     [self refreshOpenInLabel];
+    [self refreshAddToMyArtistsButton];
     
-    self.readMoreLabel.hidden = NO;
+    self.readMoreButton.hidden = NO;
     
     if (self.artist.images.count > 0) {
         NSString *url = [[self.artist.images firstObject] text];
@@ -294,29 +296,52 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 }
 
+- (void)refreshAddToMyArtistsButton
+{
+    BOOL userAlreadyHasArtist = [self.artist.nowListening isEqual:@YES];
+    
+    self.addToMyArtistsButton.hidden = !self.artist.bio || userAlreadyHasArtist;
+    self.divider3.hidden = !self.artist.bio || userAlreadyHasArtist;
+    
+    if (!userAlreadyHasArtist) {
+        NSString *format = @"Add %@ to My Artists";
+        NSString *title = [NSString stringWithFormat:format, self.artist.name];
+        [self.addToMyArtistsButton setTitle:title forState:UIControlStateNormal];
+    }
+}
+
 - (void)refreshReadMoreLabel
 {
-    self.readMoreLabel.hidden = !self.artist.name;
+    self.readMoreButton.hidden = !self.artist.name;
     
     if (!self.artist.bio) {
-        self.readMoreLabel.text = @"";
+        [self.readMoreButton setTitle:@"" forState:UIControlStateNormal];
+        self.divider1.hidden = YES;
     } else {
-        BOOL isTruncatedBio = [self.artist.bio containsString:@"Read more about"];
-        NSString *format = isTruncatedBio ? @"Read more about %@ on Last.fm" : @"%@ on Last.fm";
-        self.readMoreLabel.text = [NSString stringWithFormat:format, self.artist.name];
+        self.divider1.hidden = NO;
+        NSString *format = @"Read more about %@";
+        NSString *readMore = [NSString stringWithFormat:format, self.artist.name];
+        [self.readMoreButton setTitle:readMore forState:UIControlStateNormal];
     }
 }
 
 - (void)refreshOpenInLabel
 {
-    self.openInLabel.hidden = !self.artist.name;
+    self.openInButton.hidden = !self.artist.name;
     
     if (!self.artist.bio) {
-        self.openInLabel.text = @"";
+        [self.openInButton setTitle:@"" forState:UIControlStateNormal];
+        self.divider2.hidden = YES;
     } else {
+        self.divider2.hidden = NO;
         NSString *format = @"Listen to %@";
-        self.openInLabel.text = [NSString stringWithFormat:format, self.artist.name];
+        NSString *title = [NSString stringWithFormat:format, self.artist.name];
+        [self.openInButton setTitle:title forState:UIControlStateNormal];
     }
+}
+
+- (void)refreshAddArtistButton
+{
 }
 
 # pragma mark - LEColorPicker
@@ -363,13 +388,19 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     self.artistDetailsView.editable = NO;
     
     // set detail colors
-    self.readMoreLabel.attributedText = [NSAttributedString stringWithText:self.readMoreLabel.text
-                                                                 textColor:colorArt.primaryColor
-                                                            underlineColor:colorArt.secondaryColor];
-    // colorize openIn
-    self.openInLabel.attributedText = [NSAttributedString stringWithText:self.openInLabel.text
-                                                                 textColor:colorArt.primaryColor
-                                                            underlineColor:colorArt.secondaryColor];
+    [self.readMoreButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
+    [self.openInButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
+    [self.addToMyArtistsButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
+    
+    // set button highlighted colors
+    self.openInButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    self.readMoreButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    self.addToMyArtistsButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    
+    // set color of dividers
+    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
+    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
+    [self.divider3 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
     
     // colorize status bar
     [self refreshNavigationBar];
@@ -446,6 +477,79 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
         BOOL legible = [lighter isLegibleAgainst:background];
         return legible ? lighter : [UIColor whiteColor];
     }
+}
+
+#pragma mark -
+#pragma mark Dividers
+
+- (void)initShowHideDividersOnButtonEvents
+{
+    UIControlEvents hideEvents = UIControlEventTouchDown;
+    UIControlEvents showEvents = UIControlEventTouchDragExit | UIControlEventTouchUpInside;
+    
+    // hide dividers when buttons touched
+    [self.readMoreButton addTarget:self
+                            action:@selector(hideDivider1)
+                  forControlEvents:hideEvents];
+    [self.openInButton addTarget:self
+                          action:@selector(hideDivider1)
+                forControlEvents:hideEvents];
+    [self.openInButton addTarget:self
+                          action:@selector(hideDivider2)
+                forControlEvents:hideEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(hideDivider2)
+                        forControlEvents:hideEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(hideDivider3)
+                        forControlEvents:hideEvents];
+    
+    // clear highlight when buttons released
+    [self.readMoreButton addTarget:self
+                            action:@selector(showDivider1)
+                  forControlEvents:showEvents];
+    [self.openInButton addTarget:self
+                          action:@selector(showDivider1)
+                forControlEvents:showEvents];
+    [self.openInButton addTarget:self
+                          action:@selector(showDivider2)
+                forControlEvents:showEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(showDivider2)
+                        forControlEvents:showEvents];
+    [self.addToMyArtistsButton addTarget:self
+                                  action:@selector(showDivider3)
+                        forControlEvents:showEvents];
+}
+
+- (void)hideDivider1
+{
+    self.divider1.hidden = YES;
+}
+
+- (void)hideDivider2
+{
+    self.divider2.hidden = YES;
+}
+
+- (void)hideDivider3
+{
+    self.divider3.hidden = YES;
+}
+
+- (void)showDivider1
+{
+    self.divider1.hidden = NO;
+}
+
+- (void)showDivider2
+{
+    self.divider2.hidden = NO;
+}
+
+- (void)showDivider3
+{
+    self.divider3.hidden = NO;
 }
 
 @end

@@ -30,3 +30,6 @@ Pods
 # AppCode specific files
 .idea/
 *.iml
+
+# API Keys
+*Keys.m

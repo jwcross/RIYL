@@ -131,11 +131,9 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     
     if (direction == MGSwipeDirectionRightToLeft) {
         return [self createRightButtons];
-    } else if ([self userHasSpotifyInstalled]) {
+    } else {
         Artist *artist = [self artistForCell:cell];
         return [self createLeftButtons:artist];
-    } else {
-        return nil;
     }
 }
 
@@ -146,23 +144,32 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BOOL swipeRight = direction == MGSwipeDirectionLeftToRight;
     BOOL isSpotify = swipeRight && index == 0;
-    BOOL isMore = swipeRight && index == 1;
+    BOOL isYoutube = swipeRight && !isSpotify;
     BOOL isDelete = !swipeRight && index == 0;
     
     if (isDelete) {
         [self deleteArtistForCell:cell];
     } else if (isSpotify) {
-        [self launchSpotifyForArtistAtCell:cell];
-    } else if (isMore) {
-        Artist *artist = [self artistForCell:cell];
-        UIAlertController *actionSheet = [self integrationsSheetForArtist:artist];
-        [self presentViewController:actionSheet animated:YES completion:nil];
+        [self spotifyTapped:[self artistForCell:cell]];
+    } else if (isYoutube) {
+        [self youtubeTapped:[self artistForCell:cell]];
     }
     
     return YES;
 }
 
 - (NSArray *)createLeftButtons:(Artist*)artist
+{
+    if ([self userHasSpotifyInstalled]) {
+        return @[[self createSpotifyButton]];
+    } else if ([self userHasYoutubeInstalled]) {
+        return @[[self createYoutubeButton]];
+    } else {
+         return nil;
+    }
+}
+
+- (MGSwipeButton *)createSpotifyButton
 {
     MGSwipeButton *spotifyButton = ({
         // Create properly sized icon
@@ -179,7 +186,27 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     });
     [spotifyButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
     spotifyButton.contentMode = UIViewContentModeScaleAspectFit;
-    return @[spotifyButton];
+    return spotifyButton;
+}
+
+- (MGSwipeButton *)createYoutubeButton
+{
+    MGSwipeButton *youtubeButton = ({
+        // Create properly sized icon
+        UIImage *icon = [UIImage imageNamed:@"ListenYoutube"];
+        CGSize iconSize = CGSizeMake(71.f, 50.f);
+        UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+        [icon drawInRect:CGRectMake(0, 0, iconSize.width, iconSize.height)];
+        icon = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        UIColor *color = [UIColor myYoutubeRedColor];
+        UIEdgeInsets insets = UIEdgeInsetsMake(20, 20, 20, 20);
+        [MGSwipeButton buttonWithTitle:nil icon:icon backgroundColor:color insets:insets];
+    });
+    [youtubeButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+    youtubeButton.contentMode = UIViewContentModeScaleAspectFit;
+    return youtubeButton;
 }
 
 - (NSArray *)createRightButtons
@@ -277,20 +304,6 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     [self.tableView deleteRowsAtIndexPaths:@[indexPath]
                           withRowAnimation:UITableViewRowAnimationFade];
     [self saveContext];
-    return YES;
-}
-
-- (void)launchSpotifyForArtistAtCell:(UITableViewCell *)cell
-{
-    [self spotifyTapped:[self artistForCell:cell]];
-}
-
-- (BOOL)updateLikedForArtistAtCell:(UITableViewCell *)cell
-{
-    Artist *artist = [self artistForCell:cell];
-    artist.liked = @((artist.liked.integerValue + 1) % 4); // meh, liked, meh, disliked
-    [self saveContext];
-    [self.tableView reloadData];
     return YES;
 }
 

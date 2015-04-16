@@ -82,7 +82,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Cu-87-6Oi" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="494"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9OB-Ht-0CR" userLabel="Artist Image View">
                                                 <rect key="frame" x="8" y="16" width="584" height="200"/>
@@ -98,23 +98,23 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTp-gC-09N" userLabel="Divider">
-                                                <rect key="frame" x="16" y="406" width="584" height="1"/>
+                                                <rect key="frame" x="16" y="407.5" width="584" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="B9g-Ak-FTi"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y0c-XW-Vbf" userLabel="Divider">
-                                                <rect key="frame" x="16" y="451" width="584" height="1"/>
+                                                <rect key="frame" x="16" y="452.5" width="584" height="1"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="rmm-hI-g1r"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OKJ-eP-Yqm" userLabel="Read More Button" customClass="HighlightButton">
-                                                <rect key="frame" x="0.0" y="361" width="600" height="46"/>
+                                                <rect key="frame" x="0.0" y="362.5" width="600" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <inset key="contentEdgeInsets" minX="16" minY="13" maxX="0.0" maxY="13"/>
+                                                <inset key="contentEdgeInsets" minX="20" minY="13" maxX="0.0" maxY="13"/>
                                                 <state key="normal" title="Read More About This Artist">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -123,9 +123,9 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="95e-RX-kon" userLabel="Listen With Button" customClass="HighlightButton">
-                                                <rect key="frame" x="0.0" y="406" width="600" height="46"/>
+                                                <rect key="frame" x="0.0" y="407.5" width="600" height="46"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <inset key="contentEdgeInsets" minX="16" minY="13" maxX="0.0" maxY="13"/>
+                                                <inset key="contentEdgeInsets" minX="20" minY="13" maxX="0.0" maxY="13"/>
                                                 <state key="normal" title="Listen to This Artist">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -141,7 +141,7 @@
                                             <constraint firstAttribute="trailing" secondItem="OKJ-eP-Yqm" secondAttribute="trailing" id="6Zi-F5-buy"/>
                                             <constraint firstAttribute="trailing" secondItem="cTp-gC-09N" secondAttribute="trailing" id="6xd-0h-uav"/>
                                             <constraint firstItem="xU5-pl-q21" firstAttribute="top" secondItem="9OB-Ht-0CR" secondAttribute="bottom" constant="8" id="7mu-Gp-ek3"/>
-                                            <constraint firstItem="OKJ-eP-Yqm" firstAttribute="top" secondItem="xU5-pl-q21" secondAttribute="bottom" constant="4" id="9Kv-3A-2Ap"/>
+                                            <constraint firstItem="OKJ-eP-Yqm" firstAttribute="top" secondItem="xU5-pl-q21" secondAttribute="bottom" constant="6" id="9Kv-3A-2Ap"/>
                                             <constraint firstAttribute="trailing" secondItem="OKJ-eP-Yqm" secondAttribute="trailing" constant="16" id="DIl-d6-62X"/>
                                             <constraint firstItem="OKJ-eP-Yqm" firstAttribute="leading" secondItem="7Cu-87-6Oi" secondAttribute="leading" constant="12" id="Hx4-oa-lKf"/>
                                             <constraint firstItem="Y0c-XW-Vbf" firstAttribute="top" secondItem="95e-RX-kon" secondAttribute="bottom" constant="-1" id="N00-i8-7r0"/>

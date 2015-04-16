@@ -4,7 +4,7 @@
 
 - (BOOL)isLegibleAgainst:(UIColor *)backgroundColor
 {
-    CGFloat brightness = ABS([self brightness] - [self brightness]);
+    CGFloat brightness = ABS([self brightness] - [backgroundColor brightness]);
     CGFloat difference = [self difference:backgroundColor];
     return brightness > 125 && difference > 400;
 }

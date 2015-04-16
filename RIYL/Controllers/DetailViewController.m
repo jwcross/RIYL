@@ -393,14 +393,14 @@ typedef void (^ImageError)(NSURLRequest*, NSHTTPURLResponse*, NSError*);
     [self.addToMyArtistsButton setTitleColor:colorArt.primaryColor forState:UIControlStateNormal];
     
     // set button highlighted colors
-    self.openInButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
-    self.readMoreButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
-    self.addToMyArtistsButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3];
+    self.openInButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    self.readMoreButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
+    self.addToMyArtistsButton.highlightColor = [colorArt.secondaryColor colorWithAlphaComponent:0.3f];
     
     // set color of dividers
-    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
-    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
-    [self.divider3 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3]];
+    [self.divider1 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
+    [self.divider2 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
+    [self.divider3 setBackgroundColor:[colorArt.secondaryColor colorWithAlphaComponent:0.3f]];
     
     // colorize status bar
     [self refreshNavigationBar];

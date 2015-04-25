@@ -44,7 +44,6 @@ static const float LABEL_PADDING_Y = 2.0f;
     self.progressView.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     
     self.label.frame = ({
-//        CGSize textSize = self.label.frame.size;
         NSDictionary *attrs = @{ NSFontAttributeName : self.label.font };
         CGSize textSize = [self.label.text sizeWithAttributes:attrs];
         CGFloat x = 0;

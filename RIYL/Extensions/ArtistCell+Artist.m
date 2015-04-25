@@ -9,18 +9,9 @@
 - (void)updateWithArtist:(Artist *)artist
 {
     self.label.text = artist.name;
-    self.label.backgroundColor = [self labelColorForArtist:artist];
+    self.label.backgroundColor = [UIColor myTransparentDarkGrayColor];
     
     [self fetchBackgroundImageForArtist:artist];
-}
-
-- (UIColor *)labelColorForArtist:(Artist *)artist
-{
-    switch (artist.liked.intValue) {
-        case 1:  return [UIColor myTransparentLightGreenColor];  // liked
-        case 3:  return [UIColor myTransparentRedColor];         // disliked
-        default: return [UIColor myTransparentDarkGrayColor];    // no opinion
-    }
 }
 
 typedef void (^ImageSuccess)(NSURLRequest*, NSHTTPURLResponse*, UIImage*);

@@ -24,23 +24,7 @@ static NSString *AddArtistIdentifier = @"addArtist";
     [super viewWillAppear:animated];
     [self fetchAllNowListeningArtists];
     [self.tableView reloadData];
-    
-    // Animate the navigation bar tint color
-    @weakify(self)
-    [self.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        @strongify(self)
-        [self refreshNavigationBarColorScheme];
-    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        if (![context isCancelled]) {
-            [self refreshNavigationBarTintColor];
-            [self refreshStatusBarColorScheme];
-        }
-    }];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    [self animateNavigationBarTintColor];
 }
 
 - (void)viewDidLoad
@@ -55,6 +39,20 @@ static NSString *AddArtistIdentifier = @"addArtist";
            forCellReuseIdentifier:CellIdentifier];
     
     [self setNeedsStatusBarAppearanceUpdate];
+}
+
+- (void)animateNavigationBarTintColor
+{
+    @weakify(self)
+    [self.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        @strongify(self)
+        [self refreshNavigationBarColorScheme];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (![context isCancelled]) {
+            [self refreshNavigationBarTintColor];
+            [self refreshStatusBarColorScheme];
+        }
+    }];
 }
 
 - (void)refreshNavigationBarColorScheme

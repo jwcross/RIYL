@@ -80,35 +80,12 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self viewDetailsForArtistAtIndexPath:indexPath];
-}
-
-- (UIAlertController *)alertControllerForIndexPath:(NSIndexPath *)indexPath
-{
-    Artist *artist = self.artist.similarArtists[indexPath.row];
-    
-    UIAlertController *actionSheet = ({
-        UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
-        [UIAlertController alertControllerWithTitle:nil
-                                            message:nil
-                                     preferredStyle:style];
-    });
-    
-    // Add To My Artists
-    [actionSheet addAction:[self addToMyArtistsActionForArtist:artist]];
-    
-    // View Details
-    [actionSheet addAction:[self viewDetailsActionForCellAtIndexPath:indexPath]];
-    
-    // Open in...
-    [actionSheet addAction:[self openInActionForArtist:artist]];
-    
-    // Cancel action
-    [actionSheet addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                    style:UIAlertActionStyleCancel
-                                                  handler:nil]];
-    
-    return actionSheet;
+    // select cell (in order to find in prepareForSegue)
+    [self.collectionView selectItemAtIndexPath:indexPath
+                                      animated:NO
+                                scrollPosition:UICollectionViewScrollPositionNone];
+    // launch detail view
+    [self performSegueWithIdentifier:@"viewDetail" sender:self];
 }
 
 #pragma mark -
@@ -238,55 +215,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         [similar addImagesObject:image];
     }
     return similar;
-}
-
-- (UIAlertAction *)addToMyArtistsActionForArtist:(Artist *)artist
-{
-    NSString *title = @"Add to My Artists";
-    UIAlertActionStyle style = UIAlertActionStyleDefault;
-    
-    @weakify(self)
-    return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-        @strongify(self)
-        artist.nowListening = @YES;
-        [self saveContext];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }];
-}
-
-- (UIAlertAction *)openInActionForArtist:(Artist *)artist
-{
-    NSString *title = @"Open in...";
-    UIAlertActionStyle style = UIAlertActionStyleDefault;
-    
-    void(^handler)() = ^{
-        id actions = [self integrationsSheetForArtist:artist];
-        [self presentViewController:actions
-                           animated:YES
-                         completion:nil];
-    };
-    
-    return [UIAlertAction actionWithTitle:title
-                                    style:style
-                                  handler:handler];
-}
-
-- (UIAlertAction *)viewDetailsActionForCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *title = @"View Details";
-    UIAlertActionStyle style = UIAlertActionStyleDefault;
-    
-    return [UIAlertAction actionWithTitle:title style:style handler:^(UIAlertAction *action) {
-        [self viewDetailsActionForCellAtIndexPath:indexPath];
-    }];
-}
-
-- (void)viewDetailsForArtistAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.collectionView selectItemAtIndexPath:indexPath
-                                      animated:NO
-                                scrollPosition:UICollectionViewScrollPositionNone];
-    [self performSegueWithIdentifier:@"viewDetail" sender:self];
 }
 
 @end

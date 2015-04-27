@@ -33,7 +33,7 @@
     return actionSheet;
 }
 
-- (UIAlertController *)integrationsSheetForArtist:(Artist *)artist
+- (UIAlertController *)listenIntegrationsSheetForArtist:(Artist *)artist
 {
     UIAlertController *actionSheet = ({
         UIAlertControllerStyle style = UIAlertControllerStyleActionSheet;
